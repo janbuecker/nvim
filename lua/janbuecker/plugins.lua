@@ -99,7 +99,8 @@ require('packer').startup(function(use)
 	use 'nvim-tree/nvim-tree.lua'
 
 	-- auto parenthesis, brackets
-	use 'windwp/nvim-autopairs'
+	-- use 'windwp/nvim-autopairs'
+	use 'm4xshen/autoclose.nvim'
 
 
 	if is_bootstrap then
