@@ -1,5 +1,11 @@
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
-vim.keymap.set({ 'n', 'v' }, 'Q', '<Nop>', { silent = true })
+
+-- Disable Recording & Ex Mode
+vim.keymap.set('', 'q', '<nop>')
+vim.keymap.set('', 'Q', '<nop>')
+
+-- : to ;
+vim.keymap.set("n", ";", ":", { noremap = true })
 
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
@@ -37,3 +43,8 @@ vim.keymap.set("i", "<C-c>", "<Esc>")
 
 -- Force close
 vim.keymap.set("n", "<leader>x", "<cmd>bd!<CR>", { desc = "Close Buffer" })
+
+-- Diagnostic keymaps
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+vim.keymap.set('n', 'gl', vim.diagnostic.open_float)
