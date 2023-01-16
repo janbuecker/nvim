@@ -8,8 +8,8 @@ local M = {
         {'<C-e>', '<cmd>Telescope oldfiles<CR>', { desc = '[?] Find recently opened files' }},
         {'<leader><space>', '<cmd>Telescope buffers<CR>', { desc = '[ ] Find existing buffers' }},
 
-        {'<leader>f', '<cmd>Telescope find_files<CR>', { desc = '[S]earch [F]iles' }},
-        {'<leader>sf', '<cmd>Telescope find_files<CR>', { desc = '[S]earch [F]iles' }},
+        {'<leader>f', '<cmd>Telescope find_files hidden=true<CR>', { desc = '[S]earch [F]iles' }},
+        {'<leader>sf', '<cmd>Telescope find_files hidden=true<CR>', { desc = '[S]earch [F]iles' }},
         {'<leader>sh', '<cmd>Telescope help_tags<CR>', { desc = '[S]earch [H]elp' }},
         {'<leader>sw', '<cmd>Telescope grep_string<CR>', { desc = '[S]earch current [W]ord' }},
         {'<leader>sg', '<cmd>Telescope live_grep<CR>', { desc = '[S]earch by [G]rep' }},

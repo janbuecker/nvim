@@ -1,15 +1,12 @@
 local M = {
     "nvim-lualine/lualine.nvim",
     event = "VeryLazy",
-    config = {
+    opts = {
         options = {
-            icons_enabled = false,
-            theme = 'auto',
+            globalstatus = true,
             component_separators = '|',
-            section_separators = '',
         },
     }
-
 }
 
 return M

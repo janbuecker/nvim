@@ -1,21 +1,40 @@
 local M = {
 	"nvim-treesitter/nvim-treesitter",
 	event = "BufReadPost",
+	build = ":TSUpdate",
 	dependencies = {
 		"nvim-treesitter/nvim-treesitter-context",
 		"nvim-treesitter/nvim-treesitter-textobjects",
 		"JoosepAlviste/nvim-ts-context-commentstring",
 	},
-	build = function()
-		pcall(require('nvim-treesitter.install').update { with_sync = true })
-	end,
 	config = function()
 		require("nvim-treesitter.configs").setup({
 			-- Add languages to be installed here that you want installed for treesitter
-			ensure_installed = { "go", "lua", "python", "rust", "typescript", "help", "hcl" },
+			ensure_installed = {
+				"go",
+				"lua",
+				"python",
+				"rust",
+				"typescript",
+				"help",
+				"hcl",
+				"terraform",
+				"bash",
+				"nix",
+				"php",
+				"toml",
+				"yaml",
+				"json",
+			},
 
 			highlight = { enable = true },
 			indent = { enable = true },
+			context_commentstring = { enable = true, enable_autocmd = false },
+			query_linter = {
+				enable = true,
+				use_virtual_text = true,
+				lint_events = { "BufWrite", "CursorHold" },
+			},
 			incremental_selection = {
 				enable = true,
 				keymaps = {
@@ -68,9 +87,6 @@ local M = {
 						["<leader>A"] = "@parameter.inner",
 					},
 				},
-			},
-			context_commentstring = {
-				enable = true,
 			},
 		})
 
