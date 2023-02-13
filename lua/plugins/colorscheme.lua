@@ -5,22 +5,48 @@ return {
         lazy = false,
         priority = 999,
         config = function()
-            vim.cmd.colorscheme "catppuccin-mocha"
+            require("catppuccin").setup({
+                integrations = {
+                    cmp = true,
+                    nvimtree = true,
+                    indent_blankline = {
+                        enabled = true,
+                        colored_indent_levels = false,
+                    },
+                    native_lsp = {
+                        enabled = true,
+                        virtual_text = {
+                            errors = { "italic" },
+                            hints = { "italic" },
+                            warnings = { "italic" },
+                            information = { "italic" },
+                        },
+                        underlines = {
+                            errors = { "underline" },
+                            hints = { "underline" },
+                            warnings = { "underline" },
+                            information = { "underline" },
+                        },
+                    },
+                },
+            })
+
+            vim.cmd.colorscheme("catppuccin-mocha")
         end,
     },
     {
         "rebelot/kanagawa.nvim",
         lazy = false,
-        enabled = false,
+        enabled = true,
         priority = 999,
         config = function()
-            vim.cmd.colorscheme "kanagawa"
+            vim.cmd.colorscheme("kanagawa")
             -- vim.cmd([[colorscheme kanagawa]])
         end,
     },
     {
         "folke/tokyonight.nvim",
-        enabled = true,
+        enabled = false,
         lazy = false,
         priority = 999,
         config = function()
@@ -81,6 +107,4 @@ return {
             tokyonight.load()
         end,
     },
-
-
 }

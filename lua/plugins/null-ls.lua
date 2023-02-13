@@ -15,9 +15,14 @@ local M = {
 				null_ls.builtins.formatting.sqlfluff,
 				null_ls.builtins.formatting.goimports,
 				null_ls.builtins.formatting.gofumpt,
+				null_ls.builtins.formatting.terraform_fmt,
+				null_ls.builtins.formatting.nixfmt,
+				null_ls.builtins.formatting.stylua,
 
 				null_ls.builtins.code_actions.gomodifytags,
+				null_ls.builtins.code_actions.shellcheck,
 
+				null_ls.builtins.diagnostics.shellcheck,
 				null_ls.builtins.diagnostics.buf,
 				null_ls.builtins.diagnostics.golangci_lint,
 				null_ls.builtins.diagnostics.phpstan,
@@ -32,7 +37,12 @@ local M = {
 						group = augroup,
 						buffer = bufnr,
 						callback = function()
-							vim.lsp.buf.format({ bufnr = bufnr })
+							vim.lsp.buf.format({
+								bufnr = bufnr,
+								filter = function(client)
+									return client.name == "null-ls"
+								end
+							})
 						end,
 					})
 				end

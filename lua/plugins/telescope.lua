@@ -63,6 +63,12 @@ M.config = function()
             scroll_strategy = "cycle",
         },
 
+        pickers = {
+            lsp_document_symbols = {
+                layout_strategy = "cursor",
+            },
+        },
+
         extensions = {
             fzf = {
                 fuzzy = true, -- false will only do exact matching
