@@ -9,24 +9,24 @@ local M = {
 }
 
 M.config = function()
-    require('nvim-web-devicons').setup()
+    require("nvim-web-devicons").setup()
 
     function start_telescope(telescope_mode)
         local node = require("nvim-tree.lib").get_node_at_cursor()
         local abspath = node.link_to or node.absolute_path
         local is_folder = node.open ~= nil
         local basedir = is_folder and abspath or vim.fn.fnamemodify(abspath, ":h")
-        require("telescope.builtin")[telescope_mode] {
+        require("telescope.builtin")[telescope_mode]({
             cwd = basedir,
-        }
+        })
     end
 
     local function telescope_find_files(_)
-        start_telescope "find_files"
+        start_telescope("find_files")
     end
 
     local function telescope_live_grep(_)
-        start_telescope "live_grep"
+        start_telescope("live_grep")
     end
 
     require("nvim-tree").setup({

@@ -1,31 +1,31 @@
-vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
 -- Disable Recording & Ex Mode
-vim.keymap.set('', 'q', '<nop>')
-vim.keymap.set('', 'Q', '<nop>')
+vim.keymap.set("", "q", "<nop>")
+vim.keymap.set("", "Q", "<nop>")
 
 -- : to ;
 vim.keymap.set("n", ";", ":", { noremap = true })
 
 -- Remap for dealing with word wrap
-vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- Format
-vim.keymap.set('n', '<leader>F', function()
-  vim.lsp.buf.format({
-    filter = function(client)
-      return client.name == "null-ls"
-    end
-  })
-end, { desc = '[F]ormat file' })
-vim.keymap.set('n', '<leader>lf', function()
-  vim.lsp.buf.format({
-    filter = function(client)
-      return client.name == "null-ls"
-    end
-  })
-end, { desc = '[LSP] Format file' })
+vim.keymap.set("n", "<leader>F", function()
+    vim.lsp.buf.format({
+        filter = function(client)
+            return client.name == "null-ls"
+        end,
+    })
+end, { desc = "[F]ormat file" })
+vim.keymap.set("n", "<leader>lf", function()
+    vim.lsp.buf.format({
+        filter = function(client)
+            return client.name == "null-ls"
+        end,
+    })
+end, { desc = "[LSP] Format file" })
 
 -- Center page on find/scroll
 vim.keymap.set("n", "n", "nzzzv")
@@ -66,8 +66,8 @@ vim.keymap.set("i", "<C-c>", "<Esc>")
 vim.keymap.set("n", "<leader>x", "<cmd>bd!<CR>", { desc = "Close Buffer" })
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Next diagnostic" })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "Prev diagnostic" })
-vim.keymap.set('n', 'gl', vim.diagnostic.open_float, { desc = "Open diagnostic in float" })
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Next diagnostic" })
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Prev diagnostic" })
+vim.keymap.set("n", "gl", vim.diagnostic.open_float, { desc = "Open diagnostic in float" })
 
-vim.keymap.set('n', '<leader>hk', "<cmd>Telescope keymaps<CR>", { desc = '[Help] Keymaps' })
+vim.keymap.set("n", "<leader>hk", "<cmd>Telescope keymaps<CR>", { desc = "[Help] Keymaps" })

@@ -25,8 +25,7 @@ M.init = function()
 end
 
 M.config = function()
-    require('Coverage').setup()
-
+    require("Coverage").setup()
 end
 
 return M

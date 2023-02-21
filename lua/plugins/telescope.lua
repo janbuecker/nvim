@@ -5,25 +5,25 @@ local M = {
         { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
     },
     keys = {
-        {'<C-e>', '<cmd>Telescope oldfiles<CR>', { desc = '[?] Find recently opened files' }},
-        {'<leader><space>', '<cmd>Telescope buffers<CR>', { desc = '[ ] Find existing buffers' }},
+        { "<C-e>", "<cmd>Telescope oldfiles<CR>", { desc = "[?] Find recently opened files" } },
+        { "<leader><space>", "<cmd>Telescope buffers<CR>", { desc = "[ ] Find existing buffers" } },
 
-        {'<leader>f', '<cmd>Telescope find_files hidden=true<CR>', { desc = '[S]earch [F]iles' }},
-        {'<leader>sf', '<cmd>Telescope find_files hidden=true<CR>', { desc = '[S]earch [F]iles' }},
-        {'<leader>sh', '<cmd>Telescope help_tags<CR>', { desc = '[S]earch [H]elp' }},
-        {'<leader>sw', '<cmd>Telescope grep_string<CR>', { desc = '[S]earch current [W]ord' }},
-        {'<leader>sg', '<cmd>Telescope live_grep<CR>', { desc = '[S]earch by [G]rep' }},
-        {'<leader>sd', '<cmd>Telescope diagnostics<CR>', { desc = '[S]earch [D]iagnostics' }},
+        { "<leader>f", "<cmd>Telescope find_files hidden=true<CR>", { desc = "[S]earch [F]iles" } },
+        { "<leader>sf", "<cmd>Telescope find_files hidden=true<CR>", { desc = "[S]earch [F]iles" } },
+        { "<leader>sh", "<cmd>Telescope help_tags<CR>", { desc = "[S]earch [H]elp" } },
+        { "<leader>sw", "<cmd>Telescope grep_string<CR>", { desc = "[S]earch current [W]ord" } },
+        { "<leader>sg", "<cmd>Telescope live_grep<CR>", { desc = "[S]earch by [G]rep" } },
+        { "<leader>sd", "<cmd>Telescope diagnostics<CR>", { desc = "[S]earch [D]iagnostics" } },
     },
 }
 
 M.config = function()
-    require('telescope').setup({
+    require("telescope").setup({
         defaults = {
             mappings = {
                 i = {
-                    ['<C-u>'] = false,
-                    ['<C-d>'] = false,
+                    ["<C-u>"] = false,
+                    ["<C-d>"] = false,
                 },
             },
             winblend = 0,
@@ -75,12 +75,12 @@ M.config = function()
                 override_generic_sorter = true, -- override the generic sorter
                 override_file_sorter = true, -- override the file sorter
                 case_mode = "smart_case", -- or "ignore_case" or "respect_case"
-            }
-        }
+            },
+        },
     })
 
     -- Enable telescope fzf native, if installed
-    pcall(require('telescope').load_extension, 'fzf')
+    pcall(require("telescope").load_extension, "fzf")
 end
 
 return M

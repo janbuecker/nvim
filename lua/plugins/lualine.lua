@@ -4,9 +4,9 @@ local M = {
     opts = {
         options = {
             globalstatus = true,
-            component_separators = '|',
+            component_separators = "|",
         },
-    }
+    },
 }
 
 return M

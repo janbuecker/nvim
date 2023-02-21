@@ -50,7 +50,7 @@ M.config = function()
         Struct = "",
         Event = "",
         Operator = "",
-        TypeParameter = ""
+        TypeParameter = "",
     }
 
     cmp.setup({
@@ -162,7 +162,6 @@ M.config = function()
             { name = "luasnip" },
         },
     })
-
 end
 
 return M

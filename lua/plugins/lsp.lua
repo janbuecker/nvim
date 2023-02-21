@@ -15,15 +15,15 @@ M.config = function()
     -- Enable the following language servers
     -- Feel free to add/remove any LSPs that you want here. They will automatically be installed
     local servers = {
-        'gopls',
-        'rust_analyzer',
-        'terraformls',
-        'tflint',
-        'sumneko_lua',
-        'yamlls',
-        'jsonls',
-        'bashls',
-        'intelephense',
+        "gopls",
+        "rust_analyzer",
+        "terraformls",
+        "tflint",
+        "lua_ls",
+        "yamlls",
+        "jsonls",
+        "bashls",
+        "intelephense",
     }
 
     -- LSP settings.
@@ -31,71 +31,71 @@ M.config = function()
     local on_attach = function(client, bufnr)
         local nmap = function(keys, func, desc)
             if desc then
-                desc = 'LSP: ' .. desc
+                desc = "LSP: " .. desc
             end
 
-            vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
+            vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
         end
 
-        nmap('<leader>lr', vim.lsp.buf.rename, '[LSP] Rename')
-        nmap('<leader>la', vim.lsp.buf.code_action, '[LSP] Code Action')
+        nmap("<leader>lr", vim.lsp.buf.rename, "[LSP] Rename")
+        nmap("<leader>la", vim.lsp.buf.code_action, "[LSP] Code Action")
 
-        nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-        nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-        nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-        nmap('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
-        nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-        nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+        nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+        nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+        nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
+        nmap("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
+        nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
+        nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
 
         -- See `:help K` for why this keymap
-        nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-        nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+        nmap("K", vim.lsp.buf.hover, "Hover Documentation")
+        nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
 
         -- Lesser used LSP functionality
-        nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+        nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 
         -- Create a command `:Format` local to the LSP buffer
-        vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
+        vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
             vim.lsp.buf.format()
-        end, { desc = 'Format current buffer with LSP' })
+        end, { desc = "Format current buffer with LSP" })
     end
 
     -- Setup mason so it can manage external tooling
-    require('mason').setup()
+    require("mason").setup()
 
     -- Ensure the servers above are installed
-    require('mason-lspconfig').setup {
+    require("mason-lspconfig").setup({
         ensure_installed = servers,
-    }
+    })
 
     -- nvim-cmp supports additional completion capabilities
     local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+    capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
     -- Make runtime files discoverable to the server
     -- doc: https://github.com/glepnir/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua
-    local runtime_path = vim.split(package.path, ';')
-    table.insert(runtime_path, 'lua/?.lua')
-    table.insert(runtime_path, 'lua/?/init.lua')
+    local runtime_path = vim.split(package.path, ";")
+    table.insert(runtime_path, "lua/?.lua")
+    table.insert(runtime_path, "lua/?/init.lua")
 
     local lsp_settings = {
         -- lua
-        sumneko_lua = {
+        lua_ls = {
             settings = {
                 Lua = {
                     workspace = { checkThirdParty = false },
                     telemetry = { enable = false },
                     diagnostics = {
-                        globals = { 'vim' },
+                        globals = { "vim" },
                     },
                 },
-            }
+            },
         },
 
         jsonls = {
             settings = {
                 json = {
-                    schemas = require('schemastore').json.schemas(),
+                    schemas = require("schemastore").json.schemas(),
                     validate = { enable = true },
                 },
             },
@@ -103,7 +103,7 @@ M.config = function()
                 commands = {
                     Format = {
                         function()
-                            vim.lsp.buf.range_formatting({}, { 0, 0 }, { vim.fn.line "$", 0 })
+                            vim.lsp.buf.range_formatting({}, { 0, 0 }, { vim.fn.line("$"), 0 })
                         end,
                     },
                 },
@@ -152,9 +152,9 @@ M.config = function()
                         shadow = true,
                     },
                     semanticTokens = true,
-                }
+                },
             },
-        }
+        },
     }
 
     for _, lsp in ipairs(servers) do
@@ -163,13 +163,12 @@ M.config = function()
             capabilities = capabilities,
         }
         if lsp_settings[lsp] then
-            options = vim.tbl_extend('force', options, lsp_settings[lsp])
+            options = vim.tbl_extend("force", options, lsp_settings[lsp])
         end
-        require('lspconfig')[lsp].setup(options)
+        require("lspconfig")[lsp].setup(options)
     end
 
-    require('fidget').setup()
+    require("fidget").setup()
 end
-
 
 return M

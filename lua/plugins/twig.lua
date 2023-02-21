@@ -1,5 +1,5 @@
 local M = {
-	"nelsyeung/twig.vim",
+    "nelsyeung/twig.vim",
 }
 
 return M
