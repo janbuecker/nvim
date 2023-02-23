@@ -24,6 +24,7 @@ M.config = function()
         "jsonls",
         "bashls",
         "intelephense",
+        "eslint",
     }
 
     -- LSP settings.
@@ -154,6 +155,10 @@ M.config = function()
                     semanticTokens = true,
                 },
             },
+        },
+
+        eslint = {
+            root_dir = require("lspconfig/util").root_pattern("package.json", ".eslintrc", ".git"),
         },
     }
 
