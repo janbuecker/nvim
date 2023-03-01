@@ -43,13 +43,7 @@ vim.keymap.set("i", ",", ",<c-g>u")
 vim.keymap.set("i", ".", ".<c-g>u")
 vim.keymap.set("i", ";", ";<c-g>u")
 
--- Buffer
-vim.keymap.set("n", "]b", ":bnext<CR>", { desc = "Next buffer" })
-vim.keymap.set("n", "[b", ":bprev<CR>", { desc = "Prev buffer" })
-
 -- QuickFix
-vim.keymap.set("n", "]q", ":cnext<CR>", { desc = "Next quickfix" })
-vim.keymap.set("n", "[q", ":cprev<CR>", { desc = "Prev quickfix" })
 vim.keymap.set("n", "<C-q>", ":call QuickFixToggle()<CR>")
 
 -- Better indenting
@@ -66,8 +60,6 @@ vim.keymap.set("i", "<C-c>", "<Esc>")
 vim.keymap.set("n", "<leader>x", "<cmd>bd!<CR>", { desc = "Close Buffer" })
 
 -- Diagnostic keymaps
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Next diagnostic" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Prev diagnostic" })
 vim.keymap.set("n", "gl", vim.diagnostic.open_float, { desc = "Open diagnostic in float" })
 
 vim.keymap.set("n", "<leader>hk", "<cmd>Telescope keymaps<CR>", { desc = "[Help] Keymaps" })
