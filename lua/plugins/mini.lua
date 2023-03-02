@@ -16,12 +16,6 @@ return {
                 animation = require("mini.indentscope").gen_animation.none(),
             },
         })
-        require("mini.comment").setup({
-            mappings = {
-                comment = "<leader>/",
-                comment_line = "<leader>/",
-            },
-        })
 
         require("mini.misc").setup_restore_cursor()
         require("mini.misc").setup_auto_root()
