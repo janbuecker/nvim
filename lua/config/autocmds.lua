@@ -37,6 +37,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
         "startuptime",
         "tsplayground",
         "PlenaryTestPopup",
+        "NvimTree",
     },
     callback = function(event)
         vim.bo[event.buf].buflisted = false

@@ -21,10 +21,13 @@ local M = {
 
                 null_ls.builtins.code_actions.gomodifytags,
                 null_ls.builtins.code_actions.shellcheck,
+                null_ls.builtins.code_actions.gitrebase,
+                null_ls.builtins.code_actions.gitsigns,
 
                 null_ls.builtins.diagnostics.shellcheck,
                 null_ls.builtins.diagnostics.buf,
                 null_ls.builtins.diagnostics.golangci_lint,
+                null_ls.builtins.diagnostics.terraform_validate,
                 null_ls.builtins.diagnostics.phpstan,
                 null_ls.builtins.diagnostics.sqlfluff.with({
                     extra_args = { "--dialect", "postgres", "--exclude-rules", "L016" },

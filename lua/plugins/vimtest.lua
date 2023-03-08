@@ -1,9 +1,10 @@
-local M = {
+return {
     "vim-test/vim-test",
     dependencies = {
         "nvim-lua/plenary.nvim",
-        "andythigpen/nvim-coverage",
+        { "andythigpen/nvim-coverage", config = true },
     },
+    config = true,
     keys = {
         -- Test mappings
         { "<leader>tt", ":TestNearest<CR>", { desc = "[T]est nearest" } },
@@ -17,15 +18,8 @@ local M = {
         { "<leader>tct", ":CoverageToggle<CR>", { desc = "[T]est [C]overage [T]oggle" } },
         { "<leader>tcs", ":CoverageSummary<CR>", { desc = "[T]est [C]overage [S]ummary" } },
     },
+    init = function()
+        vim.g["test#go#gotest#options"] = "-v -coverprofile coverage.out"
+        vim.g["test#strategy"] = "neovim"
+    end,
 }
-
-M.init = function()
-    vim.g["test#go#gotest#options"] = "-v -coverprofile coverage.out"
-    vim.g["test#strategy"] = "neovim"
-end
-
-M.config = function()
-    require("Coverage").setup()
-end
-
-return M

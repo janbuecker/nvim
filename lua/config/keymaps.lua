@@ -63,3 +63,6 @@ vim.keymap.set("n", "<leader>x", "<cmd>bd!<CR>", { desc = "Close Buffer" })
 vim.keymap.set("n", "gl", vim.diagnostic.open_float, { desc = "Open diagnostic in float" })
 
 vim.keymap.set("n", "<leader>hk", "<cmd>Telescope keymaps<CR>", { desc = "[Help] Keymaps" })
+
+-- toggle wrap
+vim.keymap.set("n", "<leader>ww", "<cmd>set wrap!<CR>", { desc = "Toggle wrap" })

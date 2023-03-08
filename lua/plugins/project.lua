@@ -5,6 +5,7 @@ local M = {
         require("project_nvim").setup({
             -- lsp detection will get annoying with multiple langs in one project
             detection_methods = { "pattern" },
+            show_hidden = true,
         })
 
         require("telescope").load_extension("projects")

@@ -1,6 +1,7 @@
 local M = {
     "nvim-tree/nvim-tree.lua",
-    enabled = false,
+    enabled = true,
+    event = "VeryLazy",
     dependencies = {
         "nvim-tree/nvim-web-devicons",
     },
@@ -12,125 +13,79 @@ local M = {
 M.config = function()
     require("nvim-web-devicons").setup()
 
-    function start_telescope(telescope_mode)
-        local node = require("nvim-tree.lib").get_node_at_cursor()
+    function start_telescope(node, telescope_mode)
         local abspath = node.link_to or node.absolute_path
         local is_folder = node.open ~= nil
         local basedir = is_folder and abspath or vim.fn.fnamemodify(abspath, ":h")
         require("telescope.builtin")[telescope_mode]({
             cwd = basedir,
+            hidden = true,
         })
     end
 
-    local function telescope_find_files(_)
-        start_telescope("find_files")
-    end
+    local function on_attach(bufnr)
+        local api = require("nvim-tree.api")
 
-    local function telescope_live_grep(_)
-        start_telescope("live_grep")
+        local function opts(desc)
+            return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+        end
+
+        api.config.mappings.default_on_attach(bufnr)
+
+        vim.keymap.set("n", "<CR>", api.node.open.edit, opts("Open"))
+        vim.keymap.set("n", "h", api.node.navigate.parent_close, opts("Close Directory"))
+        vim.keymap.set("n", "v", api.node.open.vertical, opts("Open: Vertical Split"))
+        vim.keymap.set("n", "gtf", function()
+            local node = api.tree.get_node_under_cursor()
+            start_telescope(node, "find_files")
+        end, opts("telescope_find_files"))
+
+        vim.keymap.set("n", "gtg", function()
+            local node = api.tree.get_node_under_cursor()
+            start_telescope(node, "live_grep")
+        end, opts("telescope_live_grep"))
     end
 
     require("nvim-tree").setup({
+        hijack_cursor = true,
+        prefer_startup_root = true,
+        sync_root_with_cwd = true,
         respect_buf_cwd = true,
-        auto_reload_on_write = false,
-        hijack_directories = {
-            enable = false,
-        },
-        update_cwd = true,
-        diagnostics = {
-            enable = true,
-            show_on_dirs = false,
-        },
         update_focused_file = {
             enable = true,
-            update_cwd = true,
-            ignore_list = {},
+            update_root = true,
         },
-        system_open = {
-            cmd = nil,
-            args = {},
-        },
-        git = {
+        modified = {
             enable = true,
-            ignore = false,
-            timeout = 200,
         },
+        diagnostics = {
+            enable = true,
+            show_on_dirs = true,
+        },
+        select_prompts = true,
+        on_attach = on_attach,
         view = {
-            width = 30,
-            hide_root_folder = false,
-            side = "left",
-            mappings = {
-                custom_only = false,
-                list = {
-                    { key = { "l", "<CR>", "o" }, action = "edit", mode = "n" },
-                    { key = "h", action = "close_node" },
-                    { key = "v", action = "vsplit" },
-                    { key = "C", action = "cd" },
-                    { key = "gtf", action = "telescope_find_files", action_cb = telescope_find_files },
-                    { key = "gtg", action = "telescope_live_grep", action_cb = telescope_live_grep },
-                },
-            },
-            number = false,
-            relativenumber = false,
-            signcolumn = "yes",
+            width = 40,
         },
         renderer = {
-            indent_markers = {
-                enable = false,
-                icons = {
-                    corner = "└",
-                    edge = "│",
-                    item = "│",
-                    none = " ",
-                },
-            },
             highlight_git = true,
-            group_empty = false,
-            root_folder_modifier = ":t",
-        },
-        filters = {
-            dotfiles = false,
-            custom = { "node_modules", "\\.cache" },
-            exclude = {},
-        },
-        trash = {
-            cmd = "trash",
-            require_confirm = true,
-        },
-        log = {
-            enable = false,
-            truncate = false,
-            types = {
-                all = false,
-                config = false,
-                copy_paste = false,
-                diagnostics = false,
-                git = false,
-                profile = false,
+            highlight_modified = "name",
+            icons = {
+                git_placement = "after",
             },
         },
         actions = {
             use_system_clipboard = true,
             change_dir = {
-                enable = true,
-                global = false,
-                restrict_above_cwd = false,
+                restrict_above_cwd = true,
             },
             open_file = {
-                quit_on_open = false,
-                resize_window = false,
                 window_picker = {
-                    enable = true,
-                    chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
-                    exclude = {
-                        filetype = { "notify", "qf", "diff", "fugitive", "fugitiveblame" },
-                        buftype = { "nofile", "terminal", "help" },
-                    },
+                    enable = false,
                 },
             },
         },
     })
 end
--- NvimTree
 
 return M

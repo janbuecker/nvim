@@ -1,6 +1,7 @@
 return {
     "nvim-neo-tree/neo-tree.nvim",
     lazy = false,
+    enabled = false,
     dependencies = {
         "nvim-lua/plenary.nvim",
         "nvim-tree/nvim-web-devicons",
@@ -16,6 +17,7 @@ return {
             follow_current_file = true,
             use_libuv_file_watcher = true,
             filtered_items = {
+                hide_dotfiles = false,
                 hide_gitignored = false,
                 group_empty_dirs = true,
             },
