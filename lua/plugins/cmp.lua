@@ -125,12 +125,10 @@ M.config = function()
             ["<Tab>"] = cmp.mapping(function(fallback)
                 local copilot_keys = vim.fn["copilot#Accept"]()
 
-                if cmp.visible() then
-                    cmp.select_next_item()
-                elseif luasnip.expand_or_jumpable() then
-                    luasnip.expand_or_jump()
-                elseif copilot_keys ~= "" and type(copilot_keys) == "string" then
+                if copilot_keys ~= "" and type(copilot_keys) == "string" then
                     vim.api.nvim_feedkeys(copilot_keys, "i", true)
+                elseif cmp.visible() then
+                    cmp.select_next_item()
                 elseif has_words_before() then
                     cmp.complete()
                 else
@@ -141,8 +139,6 @@ M.config = function()
             ["<S-Tab>"] = cmp.mapping(function(fallback)
                 if cmp.visible() then
                     cmp.select_prev_item()
-                elseif luasnip.jumpable(-1) then
-                    luasnip.jump(-1)
                 else
                     fallback()
                 end

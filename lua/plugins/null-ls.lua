@@ -16,8 +16,9 @@ local M = {
                 null_ls.builtins.formatting.goimports,
                 null_ls.builtins.formatting.gofumpt,
                 null_ls.builtins.formatting.terraform_fmt,
+                null_ls.builtins.formatting.hclfmt,
                 null_ls.builtins.formatting.nixfmt,
-                null_ls.builtins.formatting.stylua,
+                -- null_ls.builtins.formatting.stylua,
 
                 null_ls.builtins.code_actions.gomodifytags,
                 null_ls.builtins.code_actions.shellcheck,
@@ -26,7 +27,7 @@ local M = {
 
                 null_ls.builtins.diagnostics.shellcheck,
                 null_ls.builtins.diagnostics.buf,
-                null_ls.builtins.diagnostics.golangci_lint,
+                -- null_ls.builtins.diagnostics.golangci_lint,
                 null_ls.builtins.diagnostics.terraform_validate,
                 null_ls.builtins.diagnostics.phpstan,
                 null_ls.builtins.diagnostics.sqlfluff.with({
@@ -42,6 +43,7 @@ local M = {
                         callback = function()
                             vim.lsp.buf.format({
                                 bufnr = bufnr,
+                                timeout_ms = 5000,
                                 filter = function(client)
                                     return client.name == "null-ls"
                                 end,

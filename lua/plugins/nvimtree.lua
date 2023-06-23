@@ -1,7 +1,7 @@
 local M = {
     "nvim-tree/nvim-tree.lua",
     enabled = true,
-    event = "VeryLazy",
+    lazy = false,
     dependencies = {
         "nvim-tree/nvim-web-devicons",
     },
@@ -65,9 +65,12 @@ M.config = function()
         select_prompts = true,
         on_attach = on_attach,
         view = {
+            side = "right",
             width = 40,
+            adaptive_size = true,
         },
         renderer = {
+            group_empty = true,
             highlight_git = true,
             highlight_modified = "name",
             icons = {
@@ -77,7 +80,7 @@ M.config = function()
         actions = {
             use_system_clipboard = true,
             change_dir = {
-                restrict_above_cwd = true,
+                global = true,
             },
             open_file = {
                 window_picker = {

@@ -1,5 +1,6 @@
 return {
     "vim-test/vim-test",
+    enabled = false,
     dependencies = {
         "nvim-lua/plenary.nvim",
         { "andythigpen/nvim-coverage", config = true },

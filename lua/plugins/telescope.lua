@@ -24,6 +24,10 @@ M.config = function()
                 i = {
                     ["<C-u>"] = false,
                     ["<C-d>"] = false,
+                    ["<C-q>"] = function(prompt_bufnr)
+                        require("telescope.actions").smart_send_to_qflist(prompt_bufnr)
+                        vim.cmd([[horizontal copen]])
+                    end,
                 },
             },
             winblend = 0,
@@ -65,7 +69,8 @@ M.config = function()
 
         pickers = {
             lsp_document_symbols = {
-                layout_strategy = "cursor",
+                layout_strategy = "horizontal",
+                symbol_width = 50,
             },
         },
 

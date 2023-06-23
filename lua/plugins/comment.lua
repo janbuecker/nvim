@@ -1,6 +1,11 @@
 return {
     "numToStr/Comment.nvim",
-    config = true,
+    config = function()
+        require("Comment").setup()
+
+        local ft = require("Comment.ft")
+        ft.set("hcl", ft.get("terraform"))
+    end,
     keys = {
         {
             "<leader>/",

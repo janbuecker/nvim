@@ -14,6 +14,7 @@ vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 -- Format
 vim.keymap.set("n", "<leader>F", function()
     vim.lsp.buf.format({
+        timeout_ms = 5000,
         filter = function(client)
             return client.name == "null-ls"
         end,
@@ -21,6 +22,7 @@ vim.keymap.set("n", "<leader>F", function()
 end, { desc = "[F]ormat file" })
 vim.keymap.set("n", "<leader>lf", function()
     vim.lsp.buf.format({
+        timeout_ms = 5000,
         filter = function(client)
             return client.name == "null-ls"
         end,
@@ -57,7 +59,7 @@ vim.keymap.set("x", "<leader>p", [["_dP]], { desc = "Paste without copying the s
 vim.keymap.set("i", "<C-c>", "<Esc>")
 
 -- Force close
-vim.keymap.set("n", "<leader>x", "<cmd>bd!<CR>", { desc = "Close Buffer" })
+vim.keymap.set("n", "<leader>x", "<cmd>bp|bd! #<CR>", { desc = "Close Buffer" })
 
 -- Diagnostic keymaps
 vim.keymap.set("n", "gl", vim.diagnostic.open_float, { desc = "Open diagnostic in float" })

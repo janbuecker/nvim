@@ -7,7 +7,6 @@ local M = {
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
         "b0o/schemastore.nvim",
-        "j-hui/fidget.nvim",
     },
 }
 
@@ -172,8 +171,6 @@ M.config = function()
         end
         require("lspconfig")[lsp].setup(options)
     end
-
-    require("fidget").setup()
 end
 
 return M

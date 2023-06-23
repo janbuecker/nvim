@@ -9,7 +9,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 vim.cmd([[
   function! QuickFixToggle()
     if empty(filter(getwininfo(), 'v:val.quickfix'))
-      copen
+      horizontal copen
     else
       cclose
     endif
@@ -38,6 +38,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
         "tsplayground",
         "PlenaryTestPopup",
         "NvimTree",
+        "neotest-output",
     },
     callback = function(event)
         vim.bo[event.buf].buflisted = false

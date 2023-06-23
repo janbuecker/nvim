@@ -1,7 +1,8 @@
 return {
     "echasnovski/mini.nvim",
     version = false,
-    event = "VeryLazy",
+    -- event = "VeryLazy",
+    lazy = false,
     config = function()
         require("mini.move").setup()
         require("mini.bracketed").setup()
