@@ -4,17 +4,6 @@ local M = {
         "nvim-lua/plenary.nvim",
         { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
     },
-    keys = {
-        { "<C-e>", "<cmd>Telescope oldfiles<CR>", { desc = "[?] Find recently opened files" } },
-        { "<leader><space>", "<cmd>Telescope buffers<CR>", { desc = "[ ] Find existing buffers" } },
-
-        { "<leader>f", "<cmd>Telescope find_files hidden=true<CR>", { desc = "[S]earch [F]iles" } },
-        { "<leader>sf", "<cmd>Telescope find_files hidden=true<CR>", { desc = "[S]earch [F]iles" } },
-        { "<leader>sh", "<cmd>Telescope help_tags<CR>", { desc = "[S]earch [H]elp" } },
-        { "<leader>sw", "<cmd>Telescope grep_string<CR>", { desc = "[S]earch current [W]ord" } },
-        { "<leader>sg", "<cmd>Telescope live_grep<CR>", { desc = "[S]earch by [G]rep" } },
-        { "<leader>sd", "<cmd>Telescope diagnostics<CR>", { desc = "[S]earch [D]iagnostics" } },
-    },
 }
 
 M.config = function()
@@ -87,5 +76,35 @@ M.config = function()
     -- Enable telescope fzf native, if installed
     pcall(require("telescope").load_extension, "fzf")
 end
+
+M.find_files_from_project_git_root = function()
+  local function is_git_repo()
+    vim.fn.system("git rev-parse --is-inside-work-tree")
+    return vim.v.shell_error == 0
+  end
+  local function get_git_root()
+    local dot_git_path = vim.fn.finddir(".git", ".;")
+    return vim.fn.fnamemodify(dot_git_path, ":h")
+  end
+  local opts = {}
+  if is_git_repo() then
+    opts = {
+      cwd = get_git_root(),
+    }
+  end
+  require("telescope.builtin").find_files(opts)
+end
+
+M.keys = {
+    { "<C-e>", "<cmd>Telescope oldfiles<CR>", { desc = "[?] Find recently opened files" } },
+    { "<leader><space>", "<cmd>Telescope buffers<CR>", { desc = "[ ] Find existing buffers" } },
+
+    { "<leader>f", M.find_files_from_project_git_root, { desc = "[S]earch [F]iles" } },
+    { "<leader>sf", M.find_files_from_project_git_root, { desc = "[S]earch [F]iles" } },
+    { "<leader>sh", "<cmd>Telescope help_tags<CR>", { desc = "[S]earch [H]elp" } },
+    { "<leader>sw", "<cmd>Telescope grep_string<CR>", { desc = "[S]earch current [W]ord" } },
+    { "<leader>sg", "<cmd>Telescope live_grep<CR>", { desc = "[S]earch by [G]rep" } },
+    { "<leader>sd", "<cmd>Telescope diagnostics<CR>", { desc = "[S]earch [D]iagnostics" } },
+}
 
 return M
