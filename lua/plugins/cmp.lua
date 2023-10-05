@@ -1,11 +1,17 @@
-local M = {
+return {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
     dependencies = {
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-path",
+        "onsails/lspkind.nvim",
         "L3MON4D3/LuaSnip",
         "saadparwaiz1/cmp_luasnip",
+        {
+            "windwp/nvim-autopairs",
+            event = "InsertEnter",
+            opts = {},
+        },
         {
             "rafamadriz/friendly-snippets",
             config = function()
@@ -13,155 +19,150 @@ local M = {
             end,
         },
     },
-}
+    config = function()
+        -- nvim-cmp setup
+        local cmp = require("cmp")
+        local luasnip = require("luasnip")
+        local has_words_before = function()
+            unpack = unpack or table.unpack
+            local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+            return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+        end
 
-M.config = function()
-    -- nvim-cmp setup
-    local cmp = require("cmp")
-    local luasnip = require("luasnip")
-    local has_words_before = function()
-        unpack = unpack or table.unpack
-        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-    end
+        local kind_icons = {
+            Text = "",
+            Method = "",
+            Function = "",
+            Constructor = "",
+            Field = "",
+            Variable = "",
+            Class = "ﴯ",
+            Interface = "",
+            Module = "",
+            Property = "ﰠ",
+            Unit = "",
+            Value = "",
+            Enum = "",
+            Keyword = "",
+            Snippet = "",
+            Color = "",
+            File = "",
+            Reference = "",
+            Folder = "",
+            EnumMember = "",
+            Constant = "",
+            Struct = "",
+            Event = "",
+            Operator = "",
+            TypeParameter = "",
+        }
 
-    local kind_icons = {
-        Text = "",
-        Method = "",
-        Function = "",
-        Constructor = "",
-        Field = "",
-        Variable = "",
-        Class = "ﴯ",
-        Interface = "",
-        Module = "",
-        Property = "ﰠ",
-        Unit = "",
-        Value = "",
-        Enum = "",
-        Keyword = "",
-        Snippet = "",
-        Color = "",
-        File = "",
-        Reference = "",
-        Folder = "",
-        EnumMember = "",
-        Constant = "",
-        Struct = "",
-        Event = "",
-        Operator = "",
-        TypeParameter = "",
-    }
+        local source_names = {
+            nvim_lsp = "(LSP)",
+            emoji = "(Emoji)",
+            path = "(Path)",
+            calc = "(Calc)",
+            vsnip = "(Snippet)",
+            luasnip = "(Snippet)",
+            buffer = "(Buffer)",
+            treesitter = "(TreeSitter)",
+        }
 
-    cmp.setup({
-        completion = {
-            ---@usage The minimum length of a word to complete on.
-            keyword_length = 1,
-        },
-        experimental = {
-            ghost_text = false,
-            native_menu = false,
-        },
-        snippet = {
-            expand = function(args)
-                luasnip.lsp_expand(args.body)
-            end,
-        },
-        formatting = {
-            fields = { "kind", "abbr", "menu" },
-            format = function(entry, item)
-                local source_names = {
-                    nvim_lsp = "(LSP)",
-                    emoji = "(Emoji)",
-                    path = "(Path)",
-                    calc = "(Calc)",
-                    vsnip = "(Snippet)",
-                    luasnip = "(Snippet)",
-                    buffer = "(Buffer)",
-                    treesitter = "(TreeSitter)",
-                }
+        local duplicates = {
+            buffer = 1,
+            path = 1,
+            nvim_lsp = 0,
+            luasnip = 2,
+        }
 
-                local duplicates = {
-                    buffer = 1,
-                    path = 1,
-                    nvim_lsp = 0,
-                    luasnip = 1,
-                }
-
-                item.menu = source_names[entry.source.name]
-                item.dup = duplicates[entry.source.name] or 0
-                item.kind = kind_icons[item.kind]
-
-                return item
-            end,
-        },
-        window = {
-            completion = cmp.config.window.bordered(),
-            documentation = cmp.config.window.bordered(),
-        },
-        mapping = cmp.mapping.preset.insert({
-            ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-            ["<C-f>"] = cmp.mapping.scroll_docs(4),
-            ["<C-Space>"] = cmp.mapping.complete(),
-            ["<CR>"] = cmp.mapping(function(fallback)
-                if cmp.visible() then
-                    local confirm_opts = {
-                        behavior = cmp.ConfirmBehavior.Replace,
-                        select = false,
-                    }
-                    local is_insert_mode = function()
-                        return vim.api.nvim_get_mode().mode:sub(1, 1) == "i"
-                    end
-                    if is_insert_mode() then -- prevent overwriting brackets
-                        confirm_opts.behavior = cmp.ConfirmBehavior.Insert
-                    end
-                    if cmp.confirm(confirm_opts) then
-                        return -- success, exit early
-                    end
-                end
-                fallback() -- if not exited early, always fallback
-            end),
-
-            ["<Tab>"] = cmp.mapping(function(fallback)
-                local copilot_keys = vim.fn["copilot#Accept"]()
-
-                if copilot_keys ~= "" and type(copilot_keys) == "string" then
-                    vim.api.nvim_feedkeys(copilot_keys, "i", true)
-                elseif cmp.visible() then
-                    cmp.select_next_item()
-                elseif has_words_before() then
-                    cmp.complete()
-                else
-                    fallback()
-                end
-            end, { "i", "s" }),
-
-            ["<S-Tab>"] = cmp.mapping(function(fallback)
-                if cmp.visible() then
-                    cmp.select_prev_item()
-                else
-                    fallback()
-                end
-            end, { "i", "s" }),
-        }),
-        sources = {
-            {
-                name = "nvim_lsp",
-                entry_filter = function(entry, ctx)
-                    local kind = require("cmp.types").lsp.CompletionItemKind[entry:get_kind()]
-                    if kind == "Snippet" and ctx.prev_context.filetype == "java" then
-                        return false
-                    end
-                    if kind == "Text" then
-                        return false
-                    end
-                    return true
+        cmp.setup({
+            completion = {
+                keyword_length = 1,
+            },
+            experimental = {
+                ghost_text = false,
+                native_menu = false,
+            },
+            snippet = {
+                expand = function(args)
+                    luasnip.lsp_expand(args.body)
                 end,
             },
-            { name = "path" },
-            { name = "luasnip" },
-        },
-    })
-end
+            formatting = {
+                fields = { "kind", "abbr", "menu" },
+                format = function(entry, item)
+                    item.menu = source_names[entry.source.name]
+                    item.dup = duplicates[entry.source.name] or 0
+                    item.kind = string.format("%s %s", kind_icons[item.kind], item.kind)
 
-return M
+                    return item
+                end,
+            },
+            window = {
+                completion = cmp.config.window.bordered(),
+                documentation = cmp.config.window.bordered(),
+            },
+            mapping = cmp.mapping.preset.insert({
+                ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+                ["<C-f>"] = cmp.mapping.scroll_docs(4),
+                ["<C-Space>"] = cmp.mapping.complete(),
+                ["<CR>"] = cmp.mapping(function(fallback)
+                    if cmp.visible() then
+                        local confirm_opts = {
+                            behavior = cmp.ConfirmBehavior.Replace,
+                            select = false,
+                        }
+                        local is_insert_mode = function()
+                            return vim.api.nvim_get_mode().mode:sub(1, 1) == "i"
+                        end
+                        if is_insert_mode() then -- prevent overwriting brackets
+                            confirm_opts.behavior = cmp.ConfirmBehavior.Insert
+                        end
+                        if cmp.confirm(confirm_opts) then
+                            return -- success, exit early
+                        end
+                    end
+                    fallback() -- if not exited early, always fallback
+                end),
+
+                ["<Tab>"] = cmp.mapping(function(fallback)
+                    local copilot_keys = vim.fn["copilot#Accept"]()
+
+                    if copilot_keys ~= "" and type(copilot_keys) == "string" then
+                        vim.api.nvim_feedkeys(copilot_keys, "i", true)
+                    elseif cmp.visible() then
+                        cmp.select_next_item()
+                    elseif has_words_before() then
+                        cmp.complete()
+                    else
+                        fallback()
+                    end
+                end, { "i", "s" }),
+
+                ["<S-Tab>"] = cmp.mapping(function(fallback)
+                    if cmp.visible() then
+                        cmp.select_prev_item()
+                    else
+                        fallback()
+                    end
+                end, { "i", "s" }),
+            }),
+            sources = {
+                {
+                    name = "nvim_lsp",
+                    entry_filter = function(entry, _)
+                        return require("cmp.types").lsp.CompletionItemKind[entry:get_kind()] ~= "Text"
+                    end,
+                },
+                { name = "path" },
+                { name = "luasnip" },
+            },
+        })
+
+        local presentAutopairs, cmp_autopairs = pcall(require, "nvim-autopairs.completion.cmp")
+        if not presentAutopairs then
+            return
+        end
+        cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+    end,
+}

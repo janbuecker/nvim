@@ -58,9 +58,6 @@ vim.keymap.set("x", "<leader>p", [["_dP]], { desc = "Paste without copying the s
 -- Treat ctrl-c as ESC for visual block mode
 vim.keymap.set("i", "<C-c>", "<Esc>")
 
--- Force close
-vim.keymap.set("n", "<leader>x", "<cmd>bp|bd! #<CR>", { desc = "Close Buffer" })
-
 -- Diagnostic keymaps
 vim.keymap.set("n", "gl", vim.diagnostic.open_float, { desc = "Open diagnostic in float" })
 

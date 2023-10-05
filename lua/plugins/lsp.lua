@@ -1,176 +1,206 @@
-local M = {
-    "neovim/nvim-lspconfig",
-    event = "BufReadPre",
-    dependencies = {
-        "nvim-telescope/telescope.nvim",
-        "hrsh7th/cmp-nvim-lsp",
-        "williamboman/mason.nvim",
-        "williamboman/mason-lspconfig.nvim",
-        "b0o/schemastore.nvim",
-    },
-}
+local Util = require("util")
 
-M.config = function()
-    -- Enable the following language servers
-    -- Feel free to add/remove any LSPs that you want here. They will automatically be installed
-    local servers = {
-        "gopls",
-        "rust_analyzer",
-        "terraformls",
-        "tflint",
-        "lua_ls",
-        "yamlls",
-        "jsonls",
-        "bashls",
-        "intelephense",
-        "eslint",
-    }
+return {
+    {
+        "neovim/nvim-lspconfig",
+        event = { "BufReadPre", "BufNewFile" },
+        dependencies = {
+            "mason.nvim",
+            "williamboman/mason-lspconfig.nvim",
+            "nvim-telescope/telescope.nvim",
+            "hrsh7th/cmp-nvim-lsp",
+            "b0o/schemastore.nvim",
+        },
 
-    -- LSP settings.
-    --  This function gets run when an LSP connects to a particular buffer.
-    local on_attach = function(client, bufnr)
-        local nmap = function(keys, func, desc)
-            if desc then
-                desc = "LSP: " .. desc
+        ---@class PluginLspOpts
+        opts = {
+            -- options for vim.diagnostic.config()
+            diagnostics = {
+                underline = true,
+                update_in_insert = false,
+                virtual_text = {
+                    spacing = 4,
+                    source = "if_many",
+                    prefix = "●",
+                    -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
+                    -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
+                    -- prefix = "icons",
+                },
+                severity_sort = true,
+            },
+            -- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
+            -- Be aware that you also will need to properly configure your LSP server to
+            -- provide the inlay hints.
+            inlay_hints = {
+                enabled = false,
+            },
+            -- add any global capabilities here
+            capabilities = {},
+            -- Automatically format on save
+            autoformat = true,
+            format = {
+                formatting_options = nil,
+                timeout_ms = nil,
+            },
+            servers = {},
+            setup = {},
+        },
+
+        config = function(_, opts)
+            -- LSP settings.
+            --  This function gets run when an LSP connects to a particular buffer.
+            Util.on_attach(function(client, bufnr)
+                require("plugins.lsp.keymaps").on_attach(client, bufnr)
+            end)
+
+            local register_capability = vim.lsp.handlers["client/registerCapability"]
+
+            vim.lsp.handlers["client/registerCapability"] = function(err, res, ctx)
+                local ret = register_capability(err, res, ctx)
+                local client_id = ctx.client_id
+                ---@type lsp.Client
+                local client = vim.lsp.get_client_by_id(client_id)
+                local buffer = vim.api.nvim_get_current_buf()
+                require("plugins.lsp.keymaps").on_attach(client, buffer)
+                return ret
             end
 
-            vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
-        end
+            vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
 
-        nmap("<leader>lr", vim.lsp.buf.rename, "[LSP] Rename")
-        nmap("<leader>la", vim.lsp.buf.code_action, "[LSP] Code Action")
+            local servers = opts.servers
+            local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+            local capabilities = vim.tbl_deep_extend(
+                "force",
+                {},
+                vim.lsp.protocol.make_client_capabilities(),
+                has_cmp and cmp_nvim_lsp.default_capabilities() or {},
+                opts.capabilities or {}
+            )
 
-        nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-        nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-        nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
-        nmap("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
-        nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
-        nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
+            local function setup(server)
+                local server_opts = vim.tbl_deep_extend("force", {
+                    capabilities = vim.deepcopy(capabilities),
+                }, servers[server] or {})
 
-        -- See `:help K` for why this keymap
-        nmap("K", vim.lsp.buf.hover, "Hover Documentation")
-        nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
+                if opts.setup[server] then
+                    if opts.setup[server](server, server_opts) then
+                        return
+                    end
+                end
+                require("lspconfig")[server].setup(server_opts)
+            end
 
-        -- Lesser used LSP functionality
-        nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+            -- get all the servers that are available thourgh mason-lspconfig
+            local have_mason, mlsp = pcall(require, "mason-lspconfig")
+            local all_mslp_servers = {}
+            if have_mason then
+                all_mslp_servers = vim.tbl_keys(require("mason-lspconfig.mappings.server").lspconfig_to_package)
+            end
 
-        -- Create a command `:Format` local to the LSP buffer
-        vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
-            vim.lsp.buf.format()
-        end, { desc = "Format current buffer with LSP" })
-    end
+            local ensure_installed = {} ---@type string[]
+            for server, server_opts in pairs(servers) do
+                if server_opts then
+                    server_opts = server_opts == true and {} or server_opts
+                    -- run manual setup if mason=false or if this is a server that cannot be installed with mason-lspconfig
+                    if server_opts.mason == false or not vim.tbl_contains(all_mslp_servers, server) then
+                        setup(server)
+                    else
+                        ensure_installed[#ensure_installed + 1] = server
+                    end
+                end
+            end
 
-    -- Setup mason so it can manage external tooling
-    require("mason").setup()
+            if have_mason then
+                print("ensure", ensure_installed)
+                mlsp.setup({ ensure_installed = ensure_installed, handlers = { setup } })
+            end
 
-    -- Ensure the servers above are installed
-    require("mason-lspconfig").setup({
-        ensure_installed = servers,
-    })
+            local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
-    -- nvim-cmp supports additional completion capabilities
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-
-    -- Make runtime files discoverable to the server
-    -- doc: https://github.com/glepnir/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua
-    local runtime_path = vim.split(package.path, ";")
-    table.insert(runtime_path, "lua/?.lua")
-    table.insert(runtime_path, "lua/?/init.lua")
-
-    local lsp_settings = {
-        -- lua
-        lua_ls = {
-            settings = {
-                Lua = {
-                    workspace = { checkThirdParty = false },
-                    telemetry = { enable = false },
-                    diagnostics = {
-                        globals = { "vim" },
-                    },
-                },
-            },
-        },
-
-        jsonls = {
-            settings = {
-                json = {
-                    schemas = require("schemastore").json.schemas(),
-                    validate = { enable = true },
-                },
-            },
-            setup = {
-                commands = {
-                    Format = {
-                        function()
-                            vim.lsp.buf.range_formatting({}, { 0, 0 }, { vim.fn.line("$"), 0 })
+            Util.on_attach(function(client, bufnr)
+                if client.supports_method("textDocument/formatting") then
+                    vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+                    vim.api.nvim_create_autocmd("BufWritePre", {
+                        group = augroup,
+                        buffer = bufnr,
+                        callback = function()
+                            vim.lsp.buf.format({
+                                bufnr = bufnr,
+                                timeout_ms = 5000,
+                                filter = function(client)
+                                    return client.name == "null-ls"
+                                end,
+                            })
                         end,
-                    },
-                },
-            },
+                    })
+                end
+            end)
+        end,
+    },
+
+    -- cmdline tools and lsp servers
+    {
+        "williamboman/mason.nvim",
+        cmd = "Mason",
+        keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
+        build = ":MasonUpdate",
+        opts = {
+            ensure_installed = {},
         },
+        ---@param opts MasonSettings | {ensure_installed: string[]}
+        config = function(_, opts)
+            require("mason").setup(opts)
+            local mr = require("mason-registry")
+            local function ensure_installed()
+                for _, tool in ipairs(opts.ensure_installed) do
+                    local p = mr.get_package(tool)
+                    if not p:is_installed() then
+                        p:install()
+                    end
+                end
+            end
+            if mr.refresh then
+                mr.refresh(ensure_installed)
+            else
+                ensure_installed()
+            end
+        end,
+    },
 
-        yamlls = {
-            settings = {
-                yaml = {
-                    hover = true,
-                    completion = true,
-                    validate = true,
-                    schemaStore = {
-                        enable = true,
-                        url = "https://www.schemastore.org/api/json/catalog.json",
-                    },
-                    schemas = {
-                        kubernetes = {
-                            "daemon.{yml,yaml}",
-                            "manager.{yml,yaml}",
-                            "restapi.{yml,yaml}",
-                            "role.{yml,yaml}",
-                            "role_binding.{yml,yaml}",
-                            "*onfigma*.{yml,yaml}",
-                            "*ngres*.{yml,yaml}",
-                            "*ecre*.{yml,yaml}",
-                            "*eployment*.{yml,yaml}",
-                            "*ervic*.{yml,yaml}",
-                            "kubectl-edit*.yaml",
-                        },
-                    },
-                },
-            },
-        },
-
-        gopls = {
-            settings = {
-                gopls = {
-                    experimentalPostfixCompletions = true,
-                    gofumpt = true,
-                    analyses = {
-                        nilness = true,
-                        unusedparams = true,
-                        unusedwrite = true,
-                        useany = true,
-                        shadow = true,
-                    },
-                    semanticTokens = true,
-                },
-            },
-        },
-
-        eslint = {
-            root_dir = require("lspconfig/util").root_pattern("package.json", ".eslintrc", ".git"),
-        },
-    }
-
-    for _, lsp in ipairs(servers) do
-        local options = {
-            on_attach = on_attach,
-            capabilities = capabilities,
-        }
-        if lsp_settings[lsp] then
-            options = vim.tbl_extend("force", options, lsp_settings[lsp])
-        end
-        require("lspconfig")[lsp].setup(options)
-    end
-end
-
-return M
+    -- null-ls for formatting
+    {
+        "jose-elias-alvarez/null-ls.nvim",
+        event = { "BufReadPre", "BufNewFile" },
+        dependencies = { "mason.nvim" },
+        opts = function()
+            return {
+                root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git"),
+                sources = {},
+            }
+        end,
+        -- sources = {
+        --     -- null_ls.builtins.completion.spell,
+        --
+        --     null_ls.builtins.formatting.shfmt,
+        --     null_ls.builtins.formatting.phpcsfixer,
+        --     null_ls.builtins.formatting.buf,
+        --     null_ls.builtins.formatting.sqlfluff,
+        --     null_ls.builtins.formatting.goimports,
+        --     null_ls.builtins.formatting.gofumpt,
+        --     null_ls.builtins.formatting.terraform_fmt,
+        --     null_ls.builtins.formatting.hclfmt,
+        --     null_ls.builtins.formatting.nixfmt,
+        --     null_ls.builtins.formatting.stylua,
+        --
+        --     null_ls.builtins.code_actions.shellcheck,
+        --
+        --     null_ls.builtins.diagnostics.shellcheck,
+        --     null_ls.builtins.diagnostics.buf,
+        --     null_ls.builtins.diagnostics.terraform_validate,
+        --     null_ls.builtins.diagnostics.phpstan,
+        --     null_ls.builtins.diagnostics.sqlfluff.with({
+        --         extra_args = { "--dialect", "postgres", "--exclude-rules", "L016" },
+        --     }),
+        -- },
+    },
+}

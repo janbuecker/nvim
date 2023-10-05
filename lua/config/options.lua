@@ -37,7 +37,5 @@ vim.opt.grepprg = "rg --vimgrep"
 vim.opt.grepformat = "%f:%l:%c:%m"
 vim.opt.list = true
 
-if vim.fn.has("nvim-0.9.0") == 1 then
-    vim.opt.splitkeep = "screen"
-    vim.o.shortmess = "filnxtToOFWIcC"
-end
+vim.opt.splitkeep = "screen"
+vim.o.shortmess = "filnxtToOFWIcC"
