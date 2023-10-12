@@ -40,7 +40,10 @@ return {
         main = "ibl",
         opts = {
             indent = { char = "│" },
-            scope = { exclude = { language = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy" } } },
+            scope = { enabled = false },
+        },
+        exclude = {
+            language = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy" },
         },
     },
     {
