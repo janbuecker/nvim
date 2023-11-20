@@ -1,8 +1,10 @@
 return {
     {
         "nvim-neotest/neotest",
-        event = "VeryLazy",
+        event = "LspAttach",
         dependencies = {
+            { "nvim-treesitter/nvim-treesitter" },
+            { "nvim-lua/plenary.nvim" },
             { "antoinemadec/FixCursorHold.nvim" },
         },
         opts = {

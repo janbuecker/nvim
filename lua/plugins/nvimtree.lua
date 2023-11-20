@@ -1,6 +1,6 @@
-local M = {
+return {
     "nvim-tree/nvim-tree.lua",
-    enabled = true,
+    version = "*",
     lazy = false,
     dependencies = {
         "nvim-tree/nvim-web-devicons",
@@ -8,87 +8,82 @@ local M = {
     keys = {
         { "<leader>e", ":NvimTreeToggle<CR>", { desc = "[E]xplorer" } },
     },
-}
-
-M.config = function()
-    require("nvim-web-devicons").setup()
-
-    function start_telescope(node, telescope_mode)
-        local abspath = node.link_to or node.absolute_path
-        local is_folder = node.open ~= nil
-        local basedir = is_folder and abspath or vim.fn.fnamemodify(abspath, ":h")
-        require("telescope.builtin")[telescope_mode]({
-            cwd = basedir,
-            hidden = true,
-        })
-    end
-
-    local function on_attach(bufnr)
-        local api = require("nvim-tree.api")
-
-        local function opts(desc)
-            return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+    config = function()
+        local function start_telescope(node, telescope_mode)
+            local abspath = node.link_to or node.absolute_path
+            local is_folder = node.open ~= nil
+            local basedir = is_folder and abspath or vim.fn.fnamemodify(abspath, ":h")
+            require("telescope.builtin")[telescope_mode]({
+                cwd = basedir,
+                hidden = true,
+            })
         end
 
-        api.config.mappings.default_on_attach(bufnr)
+        local function on_attach(bufnr)
+            local api = require("nvim-tree.api")
 
-        vim.keymap.set("n", "<CR>", api.node.open.edit, opts("Open"))
-        vim.keymap.set("n", "h", api.node.navigate.parent_close, opts("Close Directory"))
-        vim.keymap.set("n", "v", api.node.open.vertical, opts("Open: Vertical Split"))
-        vim.keymap.set("n", "gtf", function()
-            local node = api.tree.get_node_under_cursor()
-            start_telescope(node, "find_files")
-        end, opts("telescope_find_files"))
+            local function opts(desc)
+                return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+            end
 
-        vim.keymap.set("n", "gtg", function()
-            local node = api.tree.get_node_under_cursor()
-            start_telescope(node, "live_grep")
-        end, opts("telescope_live_grep"))
-    end
+            api.config.mappings.default_on_attach(bufnr)
 
-    require("nvim-tree").setup({
-        hijack_cursor = true,
-        prefer_startup_root = true,
-        sync_root_with_cwd = true,
-        respect_buf_cwd = true,
-        update_focused_file = {
-            enable = true,
-            update_root = true,
-        },
-        modified = {
-            enable = true,
-        },
-        diagnostics = {
-            enable = true,
-            show_on_dirs = true,
-        },
-        select_prompts = true,
-        on_attach = on_attach,
-        view = {
-            side = "right",
-            width = 40,
-            adaptive_size = true,
-        },
-        renderer = {
-            group_empty = true,
-            highlight_git = true,
-            highlight_modified = "name",
-            icons = {
-                git_placement = "after",
+            vim.keymap.set("n", "<CR>", api.node.open.edit, opts("Open"))
+            vim.keymap.set("n", "h", api.node.navigate.parent_close, opts("Close Directory"))
+            vim.keymap.set("n", "v", api.node.open.vertical, opts("Open: Vertical Split"))
+            vim.keymap.set("n", "gtf", function()
+                local node = api.tree.get_node_under_cursor()
+                start_telescope(node, "find_files")
+            end, opts("telescope_find_files"))
+
+            vim.keymap.set("n", "gtg", function()
+                local node = api.tree.get_node_under_cursor()
+                start_telescope(node, "live_grep")
+            end, opts("telescope_live_grep"))
+        end
+
+        require("nvim-tree").setup({
+            hijack_cursor = true,
+            prefer_startup_root = true,
+            sync_root_with_cwd = true,
+            respect_buf_cwd = true,
+            update_focused_file = {
+                enable = true,
+                update_root = true,
             },
-        },
-        actions = {
-            use_system_clipboard = true,
-            change_dir = {
-                global = true,
+            modified = {
+                enable = true,
             },
-            open_file = {
-                window_picker = {
-                    enable = false,
+            diagnostics = {
+                enable = true,
+                show_on_dirs = true,
+            },
+            select_prompts = true,
+            on_attach = on_attach,
+            view = {
+                side = "right",
+                width = 40,
+                adaptive_size = true,
+            },
+            renderer = {
+                group_empty = true,
+                highlight_git = true,
+                highlight_modified = "name",
+                icons = {
+                    git_placement = "after",
                 },
             },
-        },
-    })
-end
-
-return M
+            actions = {
+                use_system_clipboard = true,
+                change_dir = {
+                    global = true,
+                },
+                open_file = {
+                    window_picker = {
+                        enable = false,
+                    },
+                },
+            },
+        })
+    end,
+}

@@ -18,9 +18,12 @@ return {
     {
         "numToStr/Comment.nvim",
         config = function()
-            require("Comment").setup()
-
             local ft = require("Comment.ft")
+            ft.setup({
+                pre_hook = function()
+                    return vim.bo.commentstring
+                end,
+            })
             ft.set("hcl", ft.get("terraform"))
         end,
         keys = {
@@ -68,19 +71,6 @@ return {
                 },
             })
         end,
-    },
-
-    {
-        "windwp/nvim-spectre",
-        keys = {
-            {
-                "<leader>sr",
-                function()
-                    require("spectre").open()
-                end,
-                desc = "Replace in files (Spectre)",
-            },
-        },
     },
 
     {
