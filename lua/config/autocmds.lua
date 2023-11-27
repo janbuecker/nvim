@@ -9,7 +9,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 vim.api.nvim_create_autocmd("BufReadPost", {
     group = vim.api.nvim_create_augroup("user_lastloc", { clear = true }),
     callback = function()
-        print("OPEN")
         local exclude = { "gitcommit" }
         local buf = vim.api.nvim_get_current_buf()
         if vim.tbl_contains(exclude, vim.bo[buf].filetype) then

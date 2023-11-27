@@ -111,7 +111,6 @@ return {
             end
 
             if have_mason then
-                print("ensure", ensure_installed)
                 mlsp.setup({ ensure_installed = ensure_installed, handlers = { setup } })
             end
 
