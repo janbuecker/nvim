@@ -29,50 +29,11 @@ return {
             return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
         end
 
-        local kind_icons = {
-            Text = "",
-            Method = "",
-            Function = "",
-            Constructor = "",
-            Field = "",
-            Variable = "",
-            Class = "ﴯ",
-            Interface = "",
-            Module = "",
-            Property = "ﰠ",
-            Unit = "",
-            Value = "",
-            Enum = "",
-            Keyword = "",
-            Snippet = "",
-            Color = "",
-            File = "",
-            Reference = "",
-            Folder = "",
-            EnumMember = "",
-            Constant = "",
-            Struct = "",
-            Event = "",
-            Operator = "",
-            TypeParameter = "",
-        }
-
-        local source_names = {
-            nvim_lsp = "(LSP)",
-            emoji = "(Emoji)",
-            path = "(Path)",
-            calc = "(Calc)",
-            vsnip = "(Snippet)",
-            luasnip = "(Snippet)",
-            buffer = "(Buffer)",
-            treesitter = "(TreeSitter)",
-        }
-
-        local duplicates = {
-            buffer = 1,
-            path = 1,
-            nvim_lsp = 0,
-            luasnip = 2,
+        local source_hl = {
+            nvim_lua = "@constant.builtin",
+            luasnip = "@comment",
+            buffer = "@string",
+            path = "Directory",
         }
 
         cmp.setup({
@@ -90,10 +51,19 @@ return {
             },
             formatting = {
                 fields = { "kind", "abbr", "menu" },
-                format = function(entry, item)
-                    item.menu = source_names[entry.source.name]
-                    item.dup = duplicates[entry.source.name] or 0
-                    item.kind = string.format("%s %s", kind_icons[item.kind], item.kind)
+                function(entry, item)
+                    local kind = item.kind
+                    local kind_hl_group = ("CmpItemKind%s"):format(kind)
+
+                    item.kind_hl_group = ("%sIcon"):format(kind_hl_group)
+                    item.menu_hl_group = source_hl[entry.source.name] or kind_hl_group
+                    item.menu = kind
+
+                    local half_win_width = math.floor(vim.api.nvim_win_get_width(0) / 2)
+                    if vim.api.nvim_strwidth(item.abbr) > half_win_width then
+                        item.abbr = ("%s…"):format(item.abbr:sub(1, half_win_width))
+                    end
+                    item.abbr = ("%s "):format(item.abbr)
 
                     return item
                 end,

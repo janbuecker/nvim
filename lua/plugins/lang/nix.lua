@@ -3,7 +3,7 @@ return {
         "nvim-treesitter/nvim-treesitter",
         opts = function(_, opts)
             vim.list_extend(opts.ensure_installed, {
-                "bash",
+                "nix",
             })
         end,
     },
@@ -13,7 +13,7 @@ return {
             if type(opts.sources) == "table" then
                 local nls = require("null-ls")
                 vim.list_extend(opts.sources, {
-                    nls.builtins.formatting.shfmt,
+                    nls.builtins.formatting.nixfmt,
                 })
             end
         end,
