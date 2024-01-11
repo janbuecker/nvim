@@ -7,16 +7,22 @@ return {
     },
 
     config = function()
+        local trouble = require("trouble.providers.telescope")
+
         require("telescope").setup({
             defaults = {
                 mappings = {
                     i = {
                         ["<C-u>"] = false,
                         ["<C-d>"] = false,
+                        ["<c-t>"] = trouble.open_with_trouble,
                         ["<C-q>"] = function(prompt_bufnr)
                             require("telescope.actions").smart_send_to_qflist(prompt_bufnr)
-                            vim.cmd([[horizontal copen]])
+                            require("trouble").open("quickfix")
                         end,
+                    },
+                    n = {
+                        ["<c-t>"] = trouble.open_with_trouble,
                     },
                 },
                 winblend = 0,
@@ -83,5 +89,7 @@ return {
         { "<leader>sw", "<cmd>Telescope grep_string<CR>", { desc = "[S]earch current [W]ord" } },
         { "<leader>sg", "<cmd>Telescope live_grep<CR>", { desc = "[S]earch by [G]rep" } },
         { "<leader>sd", "<cmd>Telescope diagnostics<CR>", { desc = "[S]earch [D]iagnostics" } },
+        { "<leader>sl", "<cmd>Telescope resume<CR>", { desc = "[S]earch [L]ast (resume)" } },
+        { "<leader>sr", "<cmd>Telescope resume<CR>", { desc = "[S]earch [R]esume" } },
     },
 }

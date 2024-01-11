@@ -37,5 +37,5 @@ vim.opt.grepprg = "rg --vimgrep"
 vim.opt.grepformat = "%f:%l:%c:%m"
 vim.opt.list = true
 
-vim.opt.splitkeep = "screen"
+vim.opt.splitkeep = "cursor"
 vim.o.shortmess = "filnxtToOFWIcC"
