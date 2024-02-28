@@ -7,7 +7,6 @@ return {
         dependencies = {
             "mason.nvim",
             "williamboman/mason-lspconfig.nvim",
-            "nvim-telescope/telescope.nvim",
             "hrsh7th/cmp-nvim-lsp",
             "b0o/schemastore.nvim",
         },

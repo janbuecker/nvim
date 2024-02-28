@@ -3,17 +3,11 @@ local M = {
     event = "VeryLazy",
     config = function()
         require("project_nvim").setup({
-            -- lsp detection will get annoying with multiple langs in one project
             detection_methods = { "pattern" },
             show_hidden = true,
             manual_mode = true,
         })
-
-        require("telescope").load_extension("projects")
     end,
-    keys = {
-        { "<leader>P", "<cmd>Telescope projects<CR>", { desc = "[P]rojects" } },
-    },
 }
 
 return M

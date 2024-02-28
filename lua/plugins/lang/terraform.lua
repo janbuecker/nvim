@@ -9,6 +9,22 @@ return {
         end,
     },
     {
+        "williamboman/mason.nvim",
+        opts = function(_, opts)
+            vim.list_extend(opts.ensure_installed, {
+                "terraform-ls",
+            })
+        end,
+    },
+    {
+        "neovim/nvim-lspconfig",
+        opts = {
+            servers = {
+                terraformls = {},
+            },
+        },
+    },
+    {
         "nvimtools/none-ls.nvim",
         opts = function(_, opts)
             if type(opts.sources) == "table" then

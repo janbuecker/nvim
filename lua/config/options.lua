@@ -13,6 +13,7 @@ vim.opt.cursorline = true -- Show cursor line
 vim.opt.ignorecase = true -- Case insensitive searching UNLESS /C or capital in search
 vim.opt.smartcase = true -- Smart case
 vim.opt.updatetime = 100 -- Decrease update time
+vim.opt.timeoutlen = 300 -- Decrease update time
 vim.opt.signcolumn = "yes" -- Always display signcolumn
 vim.opt.termguicolors = true -- set term gui colors (most terminals support this)
 vim.opt.completeopt = "menuone,noselect" -- Set completeopt to have a better completion experience

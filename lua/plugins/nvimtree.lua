@@ -9,14 +9,11 @@ return {
         { "<leader>e", ":NvimTreeToggle<CR>", { desc = "[E]xplorer" } },
     },
     config = function()
-        local function start_telescope(node, telescope_mode)
+        local function search(node, mode)
             local abspath = node.link_to or node.absolute_path
             local is_folder = node.open ~= nil
             local basedir = is_folder and abspath or vim.fn.fnamemodify(abspath, ":h")
-            require("telescope.builtin")[telescope_mode]({
-                cwd = basedir,
-                hidden = true,
-            })
+            require("fzf-lua")[mode]({ cwd = basedir })
         end
 
         local function on_attach(bufnr)
@@ -33,13 +30,13 @@ return {
             vim.keymap.set("n", "v", api.node.open.vertical, opts("Open: Vertical Split"))
             vim.keymap.set("n", "gtf", function()
                 local node = api.tree.get_node_under_cursor()
-                start_telescope(node, "find_files")
-            end, opts("telescope_find_files"))
+                search(node, "files")
+            end, opts("files"))
 
             vim.keymap.set("n", "gtg", function()
                 local node = api.tree.get_node_under_cursor()
-                start_telescope(node, "live_grep")
-            end, opts("telescope_live_grep"))
+                search(node, "live_grep")
+            end, opts("live_grep"))
         end
 
         require("nvim-tree").setup({
@@ -79,6 +76,7 @@ return {
                     global = true,
                 },
                 open_file = {
+                    quit_on_open = true,
                     window_picker = {
                         enable = false,
                     },

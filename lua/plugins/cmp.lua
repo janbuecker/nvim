@@ -4,25 +4,18 @@ return {
     dependencies = {
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-path",
+        "hrsh7th/cmp-vsnip",
+        "hrsh7th/vim-vsnip",
         "onsails/lspkind.nvim",
-        "L3MON4D3/LuaSnip",
-        "saadparwaiz1/cmp_luasnip",
         {
             "windwp/nvim-autopairs",
             event = "InsertEnter",
             opts = {},
         },
-        {
-            "rafamadriz/friendly-snippets",
-            config = function()
-                require("luasnip.loaders.from_vscode").lazy_load()
-            end,
-        },
     },
     config = function()
         -- nvim-cmp setup
         local cmp = require("cmp")
-        local luasnip = require("luasnip")
         local has_words_before = function()
             unpack = unpack or table.unpack
             local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -31,7 +24,6 @@ return {
 
         local source_hl = {
             nvim_lua = "@constant.builtin",
-            luasnip = "@comment",
             buffer = "@string",
             path = "Directory",
         }
@@ -46,7 +38,7 @@ return {
             },
             snippet = {
                 expand = function(args)
-                    luasnip.lsp_expand(args.body)
+                    vim.fn["vsnip#anonymous"](args.body)
                 end,
             },
             formatting = {
@@ -125,7 +117,6 @@ return {
                     end,
                 },
                 { name = "path" },
-                { name = "luasnip" },
             },
         })
 

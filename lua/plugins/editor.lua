@@ -17,14 +17,15 @@ return {
     },
     {
         "numToStr/Comment.nvim",
+        lazy = false,
         config = function()
             local ft = require("Comment.ft")
-            ft.setup({
+            ft.set("hcl", ft.get("terraform"))
+            require("Comment").setup({
                 pre_hook = function()
                     return vim.bo.commentstring
                 end,
             })
-            ft.set("hcl", ft.get("terraform"))
         end,
         keys = {
             {
