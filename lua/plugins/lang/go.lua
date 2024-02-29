@@ -88,6 +88,14 @@ return {
         end,
     },
     {
+        "mfussenegger/nvim-lint",
+        opts = function(_, opts)
+            opts.linters_by_ft = vim.tbl_deep_extend("force", opts.linters_by_ft, {
+                go = { "golangcilint" },
+            })
+        end,
+    },
+    {
         "williamboman/mason.nvim",
         opts = function(_, opts)
             vim.list_extend(opts.ensure_installed, {
@@ -95,6 +103,7 @@ return {
                 "gofumpt",
                 "golines",
                 "goimports",
+                "golangci-lint",
             })
         end,
     },
