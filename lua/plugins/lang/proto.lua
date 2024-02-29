@@ -8,14 +8,19 @@ return {
         end,
     },
     {
-        "nvimtools/none-ls.nvim",
+        "williamboman/mason.nvim",
         opts = function(_, opts)
-            if type(opts.sources) == "table" then
-                local nls = require("null-ls")
-                vim.list_extend(opts.sources, {
-                    nls.builtins.formatting.buf,
-
-                    nls.builtins.diagnostics.buf,
+            vim.list_extend(opts.ensure_installed, {
+                "buf",
+            })
+        end,
+    },
+    {
+        "stevearc/conform.nvim",
+        opts = function(_, opts)
+            if type(opts.formatters_by_ft) == "table" then
+                opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft, {
+                    proto = { "buf" },
                 })
             end
         end,

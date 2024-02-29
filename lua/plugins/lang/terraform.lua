@@ -25,15 +25,12 @@ return {
         },
     },
     {
-        "nvimtools/none-ls.nvim",
+        "stevearc/conform.nvim",
         opts = function(_, opts)
-            if type(opts.sources) == "table" then
-                local nls = require("null-ls")
-                vim.list_extend(opts.sources, {
-                    nls.builtins.formatting.hclfmt,
-                    nls.builtins.formatting.terraform_fmt,
-
-                    nls.builtins.diagnostics.terraform_validate,
+            if type(opts.formatters_by_ft) == "table" then
+                opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft, {
+                    terraform = { "terraform_fmt" },
+                    hcl = { "terragrunt_hclfmt" },
                 })
             end
         end,

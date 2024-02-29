@@ -112,27 +112,6 @@ return {
             if have_mason then
                 mlsp.setup({ ensure_installed = ensure_installed, handlers = { setup } })
             end
-
-            local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-
-            Util.on_attach(function(client, bufnr)
-                if client.supports_method("textDocument/formatting") then
-                    vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-                    vim.api.nvim_create_autocmd("BufWritePre", {
-                        group = augroup,
-                        buffer = bufnr,
-                        callback = function()
-                            vim.lsp.buf.format({
-                                bufnr = bufnr,
-                                timeout_ms = 5000,
-                                filter = function(client)
-                                    return client.name == "null-ls"
-                                end,
-                            })
-                        end,
-                    })
-                end
-            end)
         end,
     },
 
@@ -163,42 +142,5 @@ return {
                 ensure_installed()
             end
         end,
-    },
-
-    -- null-ls for formatting
-    {
-        "nvimtools/none-ls.nvim",
-        event = { "BufReadPre", "BufNewFile" },
-        dependencies = { "mason.nvim" },
-        opts = function()
-            return {
-                root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git"),
-                sources = {},
-            }
-        end,
-        -- sources = {
-        --     -- null_ls.builtins.completion.spell,
-        --
-        --     null_ls.builtins.formatting.shfmt,
-        --     null_ls.builtins.formatting.phpcsfixer,
-        --     null_ls.builtins.formatting.buf,
-        --     null_ls.builtins.formatting.sqlfluff,
-        --     null_ls.builtins.formatting.goimports,
-        --     null_ls.builtins.formatting.gofumpt,
-        --     null_ls.builtins.formatting.terraform_fmt,
-        --     null_ls.builtins.formatting.hclfmt,
-        --     null_ls.builtins.formatting.nixfmt,
-        --     null_ls.builtins.formatting.stylua,
-        --
-        --     null_ls.builtins.code_actions.shellcheck,
-        --
-        --     null_ls.builtins.diagnostics.shellcheck,
-        --     null_ls.builtins.diagnostics.buf,
-        --     null_ls.builtins.diagnostics.terraform_validate,
-        --     null_ls.builtins.diagnostics.phpstan,
-        --     null_ls.builtins.diagnostics.sqlfluff.with({
-        --         extra_args = { "--dialect", "postgres", "--exclude-rules", "L016" },
-        --     }),
-        -- },
     },
 }

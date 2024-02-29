@@ -11,24 +11,6 @@ vim.keymap.set("n", ";", ":", { noremap = true })
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
--- Format
-vim.keymap.set("n", "<leader>F", function()
-    vim.lsp.buf.format({
-        timeout_ms = 5000,
-        filter = function(client)
-            return client.name == "null-ls"
-        end,
-    })
-end, { desc = "[F]ormat file" })
-vim.keymap.set("n", "<leader>lf", function()
-    vim.lsp.buf.format({
-        timeout_ms = 5000,
-        filter = function(client)
-            return client.name == "null-ls"
-        end,
-    })
-end, { desc = "[LSP] Format file" })
-
 -- Center page on find/scroll
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")

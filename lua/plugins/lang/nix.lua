@@ -8,12 +8,11 @@ return {
         end,
     },
     {
-        "nvimtools/none-ls.nvim",
+        "stevearc/conform.nvim",
         opts = function(_, opts)
-            if type(opts.sources) == "table" then
-                local nls = require("null-ls")
-                vim.list_extend(opts.sources, {
-                    nls.builtins.formatting.nixfmt,
+            if type(opts.formatters_by_ft) == "table" then
+                opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft, {
+                    nix = { "nixfmt" },
                 })
             end
         end,
