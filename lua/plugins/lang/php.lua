@@ -13,6 +13,8 @@ return {
         opts = function(_, opts)
             vim.list_extend(opts.ensure_installed, {
                 "intelephense",
+                "phpstan",
+                "php-cs-fixer",
             })
         end,
     },
@@ -27,11 +29,9 @@ return {
     {
         "stevearc/conform.nvim",
         opts = function(_, opts)
-            if type(opts.formatters_by_ft) == "table" then
-                opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft, {
-                    php = { "phpcsfixer" },
-                })
-            end
+            opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft, {
+                php = { "phpcsfixer" },
+            })
 
             opts.formatters = vim.tbl_deep_extend("force", opts.formatters, {
                 phpcsfixer = {

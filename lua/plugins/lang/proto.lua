@@ -18,11 +18,9 @@ return {
     {
         "stevearc/conform.nvim",
         opts = function(_, opts)
-            if type(opts.formatters_by_ft) == "table" then
-                opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft, {
-                    proto = { "buf" },
-                })
-            end
+            opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft, {
+                proto = { "buf" },
+            })
         end,
     },
     {

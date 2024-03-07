@@ -3,15 +3,16 @@ return {
         "nvim-treesitter/nvim-treesitter",
         opts = function(_, opts)
             vim.list_extend(opts.ensure_installed, {
-                "nix",
+                "dockerfile",
             })
         end,
     },
     {
-        "stevearc/conform.nvim",
+        "williamboman/mason.nvim",
         opts = function(_, opts)
-            opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft, {
-                nix = { "nixfmt" },
+            vim.list_extend(opts.ensure_installed, {
+                "hadolint",
+                "dockerfile-language-server",
             })
         end,
     },
@@ -19,7 +20,7 @@ return {
         "mfussenegger/nvim-lint",
         opts = function(_, opts)
             opts.linters_by_ft = vim.tbl_deep_extend("force", opts.linters_by_ft, {
-                nix = { "nix" },
+                dockerfile = { "hadolint" },
             })
         end,
     },

@@ -27,19 +27,9 @@ return {
     {
         "stevearc/conform.nvim",
         opts = function(_, opts)
-            if type(opts.formatters_by_ft) == "table" then
-                opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft, {
-                    terraform = { "terraform_fmt" },
-                    hcl = { "terragrunt_hclfmt" },
-                })
-            end
-        end,
-    },
-    {
-        "mfussenegger/nvim-lint",
-        opts = function(_, opts)
-            opts.linters_by_ft = vim.tbl_deep_extend("force", opts.linters_by_ft, {
-                terraform = { "tflint" },
+            opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft, {
+                terraform = { "terraform_fmt" },
+                hcl = { "terragrunt_hclfmt" },
             })
         end,
     },
