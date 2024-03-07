@@ -11,33 +11,17 @@ return {
     {
         "RRethy/vim-illuminate",
         event = "VeryLazy",
-        config = function()
-            require("illuminate").configure()
-        end,
-    },
-    {
-        "numToStr/Comment.nvim",
-        lazy = false,
-        config = function()
-            local ft = require("Comment.ft")
-            ft.set("hcl", ft.get("terraform"))
-            require("Comment").setup({
-                pre_hook = function()
-                    return vim.bo.commentstring
-                end,
-            })
-        end,
-        keys = {
-            {
-                "<leader>/",
-                "<Plug>(comment_toggle_linewise_visual)",
-                mode = "v",
-                { desc = "[/] Comment current selection", mode = "v" },
+        opts = {
+            delay = 200,
+            large_file_cutoff = 2000,
+            large_file_overrides = {
+                providers = { "lsp" },
             },
-            { "<leader>/", "<Plug>(comment_toggle_linewise_current)", { desc = "[/] Comment current line" } },
         },
+        config = function(_, opts)
+            require("illuminate").configure(opts)
+        end,
     },
-
     {
         "lukas-reineke/indent-blankline.nvim",
         event = { "BufReadPost", "BufNewFile" },
@@ -104,12 +88,6 @@ return {
         "tpope/vim-abolish",
         lazy = false,
     },
-
-    -- {
-    --     "tpope/vim-sleuth",
-    --     event = "VeryLazy",
-    -- },
-    --
     {
         "mbbill/undotree",
         event = "VeryLazy",
@@ -119,6 +97,19 @@ return {
                 "<cmd>UndotreeToggle<cr>",
                 desc = "Toggle undo tree",
             },
+        },
+    },
+    {
+        "folke/todo-comments.nvim",
+        cmd = { "TodoTrouble" },
+        event = "VeryLazy",
+        config = true,
+        -- stylua: ignore
+        keys = {
+          { "]t", function() require("todo-comments").jump_next() end, desc = "Next todo comment" },
+          { "[t", function() require("todo-comments").jump_prev() end, desc = "Previous todo comment" },
+          { "<leader>xt", "<cmd>TodoTrouble<cr>", desc = "Todo (Trouble)" },
+          { "<leader>xT", "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme (Trouble)" },
         },
     },
 }
