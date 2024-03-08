@@ -15,6 +15,7 @@ return {
                 "intelephense",
                 "phpstan",
                 "php-cs-fixer",
+                "easy-coding-standard",
             })
         end,
     },
@@ -30,15 +31,7 @@ return {
         "stevearc/conform.nvim",
         opts = function(_, opts)
             opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft, {
-                php = { "phpcsfixer" },
-            })
-
-            opts.formatters = vim.tbl_deep_extend("force", opts.formatters, {
-                phpcsfixer = {
-                    command = "php-cs-fixer",
-                    args = { "fix", "$FILENAME" },
-                    stdin = false,
-                },
+                php = { "easy-coding-standard" },
             })
         end,
     },
