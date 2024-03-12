@@ -16,7 +16,7 @@ require("lazy").setup({
         { import = "plugins" },
         { import = "plugins/lang" },
     },
-    defaults = { lazy = false },
+    defaults = { lazy = true },
     install = { colorscheme = { "kanagawa", "tokyonight" } },
     performance = {
         cache = {
