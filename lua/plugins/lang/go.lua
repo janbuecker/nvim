@@ -92,6 +92,16 @@ return {
             opts.linters_by_ft = vim.tbl_deep_extend("force", opts.linters_by_ft, {
                 go = { "golangcilint" },
             })
+
+            require("lint").linters.golangcilint.args = {
+                "run",
+                "--show-stats=false",
+                "--out-format",
+                "json",
+                function()
+                    return vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":h")
+                end,
+            }
         end,
     },
     {
