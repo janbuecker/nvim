@@ -77,17 +77,17 @@ return {
             { "<leader>to", function() require("neotest").output.open({ enter = true, auto_close = true }) end, desc = "Show Output", },
             { "<leader>tO", function() require("neotest").output_panel.toggle() end, desc = "Toggle Output Panel", },
             { "<leader>tS", function() require("neotest").run.stop() end, desc = "Stop", },
-
-            -- Test coverage mappings
-            { "<leader>tcl", ":Coverage<CR>", { desc = "[T]est [C]overage [L]oad" } },
-            { "<leader>tcc", ":CoverageClear<CR>", { desc = "[T]est [C]overage [C]lear" } },
-            { "<leader>tct", ":CoverageToggle<CR>", { desc = "[T]est [C]overage [T]oggle" } },
-            { "<leader>tcs", ":CoverageSummary<CR>", { desc = "[T]est [C]overage [S]ummary" } },
         },
     },
     {
         "andythigpen/nvim-coverage",
         config = true,
-        event = "VeryLazy",
+        keys = {
+            -- stylua: ignore
+            { "<leader>tcl", ":Coverage<CR>", { desc = "[T]est [C]overage [L]oad" } },
+            { "<leader>tcc", ":CoverageClear<CR>", { desc = "[T]est [C]overage [C]lear" } },
+            { "<leader>tct", ":CoverageToggle<CR>", { desc = "[T]est [C]overage [T]oggle" } },
+            { "<leader>tcs", ":CoverageSummary<CR>", { desc = "[T]est [C]overage [S]ummary" } },
+        },
     },
 }
