@@ -82,7 +82,7 @@ return {
         "stevearc/conform.nvim",
         opts = function(_, opts)
             opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft, {
-                go = { "gofumpt", "goimports", "golines" },
+                go = { "goimports", "golines" },
             })
         end,
     },
@@ -121,7 +121,7 @@ return {
         "nvim-neotest/neotest",
         optional = true,
         dependencies = {
-            { "nvim-neotest/neotest-go", commit = "05535cb2cfe3ce5c960f65784896d40109572f89" },
+            { "nvim-neotest/neotest-go" },
         },
         opts = {
             adapters = {

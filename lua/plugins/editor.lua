@@ -74,4 +74,9 @@ return {
         "sindrets/diffview.nvim",
         cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggle", "DiffviewFileHistory" },
     },
+    {
+        "mcauley-penney/visual-whitespace.nvim",
+        config = true,
+        event = "BufReadPost",
+    },
 }
