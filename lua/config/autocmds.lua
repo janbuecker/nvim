@@ -22,6 +22,17 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     end,
 })
 
+-- Toggle func for quickfix
+vim.cmd([[
+  function! QuickFixToggle()
+    if empty(filter(getwininfo(), 'v:val.quickfix'))
+      horizontal copen
+    else
+      cclose
+    endif
+  endfunction
+]])
+
 -- Don't auto commenting new lines
 vim.api.nvim_create_autocmd("BufEnter", {
     pattern = "*",
