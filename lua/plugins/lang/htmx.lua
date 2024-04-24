@@ -12,6 +12,7 @@ return {
         opts = function(_, opts)
             vim.list_extend(opts.ensure_installed, {
                 "htmx-lsp",
+                "html-lsp",
             })
         end,
     },
@@ -19,7 +20,10 @@ return {
         "neovim/nvim-lspconfig",
         opts = {
             servers = {
-                htmx = {},
+                htmx = {
+                    filetypes = { "html", "templ" },
+                },
+                html = {},
             },
         },
     },

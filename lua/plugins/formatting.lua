@@ -25,12 +25,12 @@ return {
         },
         opts = {
             format = {
-                timeout_ms = 3000,
+                timeout_ms = 5000,
                 async = false,
                 quiet = false,
             },
             formatters_by_ft = {},
-            format_on_save = { timeout_ms = 3000, lsp_fallback = true },
+            format_on_save = { timeout_ms = 5000, lsp_fallback = true },
             formatters = {
                 shfmt = {
                     prepend_args = { "-i", "2" },

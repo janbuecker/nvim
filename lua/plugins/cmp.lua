@@ -12,6 +12,35 @@ return {
             event = "InsertEnter",
             opts = {},
         },
+        {
+            "windwp/nvim-ts-autotag",
+            event = "InsertEnter",
+            opts = {
+                autotag = {
+                    filetypes = {
+                        "html",
+                        "javascript",
+                        "typescript",
+                        "javascriptreact",
+                        "typescriptreact",
+                        "svelte",
+                        "vue",
+                        "tsx",
+                        "jsx",
+                        "rescript",
+                        "xml",
+                        "php",
+                        "markdown",
+                        "astro",
+                        "glimmer",
+                        "handlebars",
+                        "hbs",
+                        "templ",
+                        "gotmpl",
+                    },
+                },
+            },
+        },
     },
     config = function()
         -- nvim-cmp setup

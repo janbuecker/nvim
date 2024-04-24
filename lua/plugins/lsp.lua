@@ -27,13 +27,14 @@ return {
                 virtual_text = {
                     spacing = 4,
                     source = "if_many",
-                    prefix = function(diagnostic)
-                        for d, icon in pairs(icons) do
-                            if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
-                                return icon
-                            end
-                        end
-                    end,
+                    prefix = "●",
+                    -- prefix = function(diagnostic)
+                    --     for d, icon in pairs(icons) do
+                    --         if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
+                    --             return icon
+                    --         end
+                    --     end
+                    -- end,
                 },
                 severity_sort = true,
                 signs = {

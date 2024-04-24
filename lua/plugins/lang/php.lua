@@ -12,10 +12,12 @@ return {
         "williamboman/mason.nvim",
         opts = function(_, opts)
             vim.list_extend(opts.ensure_installed, {
-                "intelephense",
+                -- "intelephense",
+                "phpactor",
                 "phpstan",
                 "php-cs-fixer",
                 "easy-coding-standard",
+                "twiggy-language-server",
             })
         end,
     },
@@ -23,7 +25,9 @@ return {
         "neovim/nvim-lspconfig",
         opts = {
             servers = {
-                intelephense = {},
+                -- intelephense = {},
+                phpactor = {},
+                twiggy_language_server = {},
             },
         },
     },
@@ -42,8 +46,5 @@ return {
                 php = { "php", "phpstan" },
             })
         end,
-    },
-    {
-        "nelsyeung/twig.vim",
     },
 }

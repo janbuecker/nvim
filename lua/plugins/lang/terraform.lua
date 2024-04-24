@@ -29,7 +29,9 @@ return {
         opts = function(_, opts)
             opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft, {
                 terraform = { "terraform_fmt" },
+                tf = { "terraform_fmt" },
                 hcl = { "terragrunt_hclfmt" },
+                ["terraform-vars"] = { "terraform_fmt" },
             })
         end,
     },
