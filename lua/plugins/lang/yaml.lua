@@ -1,3 +1,5 @@
+local Util = require("util")
+
 return {
     {
         "nvim-treesitter/nvim-treesitter",
@@ -26,6 +28,9 @@ return {
             servers = {
                 yamlls = {
                     capabilities = {
+                        server_compatibilities = {
+                            documentFormattingProvider = true,
+                        },
                         textDocument = {
                             foldingRange = {
                                 dynamicRegistration = false,
@@ -52,6 +57,15 @@ return {
                         },
                     },
                 },
+            },
+            setup = {
+                yamlls = function()
+                    Util.on_attach(function(client, _)
+                        if client.name == "yamlls" then
+                            client.server_capabilities.documentFormattingProvider = true
+                        end
+                    end)
+                end,
             },
         },
     },
