@@ -23,7 +23,9 @@ return {
                 htmx = {
                     filetypes = { "html", "templ" },
                 },
-                html = {},
+                html = {
+                    filetypes = { "html", "templ" },
+                },
             },
         },
     },

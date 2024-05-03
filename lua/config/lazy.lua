@@ -17,7 +17,7 @@ require("lazy").setup({
         { import = "plugins/lang" },
     },
     defaults = { lazy = true },
-    install = { colorscheme = { "kanagawa", "tokyonight" } },
+    install = { colorscheme = { "nightfox" } },
     performance = {
         cache = {
             enabled = true,
