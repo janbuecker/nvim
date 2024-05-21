@@ -4,42 +4,39 @@ return {
     dependencies = {
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-path",
+        "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-vsnip",
         "hrsh7th/vim-vsnip",
         "onsails/lspkind.nvim",
         {
-            "windwp/nvim-autopairs",
-            event = "InsertEnter",
-            opts = {},
-        },
-        {
-            "windwp/nvim-ts-autotag",
-            event = "InsertEnter",
-            opts = {
-                autotag = {
-                    filetypes = {
-                        "html",
-                        "javascript",
-                        "typescript",
-                        "javascriptreact",
-                        "typescriptreact",
-                        "svelte",
-                        "vue",
-                        "tsx",
-                        "jsx",
-                        "rescript",
-                        "xml",
-                        "php",
-                        "markdown",
-                        "astro",
-                        "glimmer",
-                        "handlebars",
-                        "hbs",
-                        "templ",
-                        "gotmpl",
+            "hrsh7th/cmp-cmdline",
+            event = "VeryLazy",
+            config = function()
+                local cmp = require("cmp")
+
+                -- `/` cmdline setup.
+                cmp.setup.cmdline("/", {
+                    mapping = cmp.mapping.preset.cmdline(),
+                    sources = {
+                        { name = "buffer" },
                     },
-                },
-            },
+                })
+
+                -- `:` cmdline setup.
+                cmp.setup.cmdline(":", {
+                    mapping = cmp.mapping.preset.cmdline(),
+                    sources = cmp.config.sources({
+                        { name = "path" },
+                    }, {
+                        {
+                            name = "cmdline",
+                            option = {
+                                ignore_cmds = { "Man", "!" },
+                            },
+                        },
+                    }),
+                })
+            end,
         },
     },
     config = function()
@@ -150,9 +147,8 @@ return {
         })
 
         local presentAutopairs, cmp_autopairs = pcall(require, "nvim-autopairs.completion.cmp")
-        if not presentAutopairs then
-            return
+        if presentAutopairs then
+            cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
         end
-        cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
     end,
 }
