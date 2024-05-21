@@ -142,14 +142,21 @@ return {
     -- Testing
     {
         "nvim-neotest/neotest",
-        optional = true,
         dependencies = {
-            { "nvim-neotest/neotest-go" },
+            "nvim-lua/plenary.nvim",
+            "nvim-treesitter/nvim-treesitter",
+            "antoinemadec/FixCursorHold.nvim",
+            "fredrikaverpil/neotest-golang",
         },
         opts = {
             adapters = {
-                ["neotest-go"] = {
-                    args = { "-coverprofile=" .. vim.fn.getcwd() .. "/coverage.out" },
+                ["neotest-golang"] = {
+                    go_test_args = {
+                        "-v",
+                        "-count=1",
+                        "-timeout=60s",
+                        "-coverprofile=" .. vim.fn.getcwd() .. "/coverage.out",
+                    },
                 },
             },
         },
