@@ -20,45 +20,6 @@ return {
             language = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy" },
         },
     },
-    -- {
-    --     "lukas-reineke/indent-blankline.nvim",
-    --     event = { "BufReadPost", "BufNewFile" },
-    --     main = "ibl",
-    --     opts = {
-    --         indent = { char = "│" },
-    --         scope = { enabled = false },
-    --     },
-    --     exclude = {
-    --         language = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy" },
-    --     },
-    -- },
-    --
-    -- {
-    --     "folke/trouble.nvim",
-    --     dependencies = { "nvim-tree/nvim-web-devicons" },
-    --     event = "VeryLazy",
-    --     opts = {},
-    --     keys = {
-    --         -- stylua: ignore start
-    --         -- { "<leader>x", function() require("trouble").toggle(); end, desc = "Toggle trouble", },
-    --         -- { "<C-x>", function() require("trouble").toggle(); end, desc = "Toggle trouble", },
-    --         -- { "<leader>xw", function() require("trouble").toggle("workspace_diagnostics"); end, desc = "Toggle trouble with workspace diagnostics", },
-    --         -- { "<leader>xd", function() require("trouble").toggle("document_diagnostics"); end, desc = "Toggle trouble with document diagnostics", },
-    --         -- { "<leader>xq", function() require("trouble").toggle("quickfix"); end, desc = "Toggle trouble with quickfix list", },
-    --         -- { "<leader>xl", function() require("trouble").toggle("loclist"); end, desc = "Toggle trouble with LSP references", },
-    --         { "gR", function() require("trouble").toggle("lsp_references"); end, desc = "Toggle trouble with loclist", },
-    --         -- { "]x", function() require("trouble").next({skip_groups = true, jump = true}); end, desc = "Jump to next trouble item", },
-    --         -- { "[x", function() require("trouble").previous({skip_groups = true, jump = true}); end, desc = "Jump to previous trouble item", },
-    --         { "<C-q>", function() require("trouble").toggle("quickfix"); end, desc = "Toggle trouble with quickfix", },
-    --         -- stylua: ignore end
-    --     },
-    -- },
-
-    -- {
-    --     "f-person/git-blame.nvim",
-    --     event = "BufReadPost",
-    -- },
-
     {
         "tpope/vim-abolish",
         event = "BufReadPost",
@@ -84,5 +45,56 @@ return {
         dependencies = { "nvim-lua/plenary.nvim" },
         event = "VeryLazy",
         config = true,
+    },
+    {
+        "windwp/nvim-autopairs",
+        event = "InsertEnter",
+        opts = {},
+    },
+    {
+        "windwp/nvim-ts-autotag",
+        event = "InsertEnter",
+        opts = {
+            autotag = {
+                filetypes = {
+                    "html",
+                    "javascript",
+                    "typescript",
+                    "javascriptreact",
+                    "typescriptreact",
+                    "svelte",
+                    "vue",
+                    "tsx",
+                    "jsx",
+                    "rescript",
+                    "xml",
+                    "php",
+                    "markdown",
+                    "astro",
+                    "glimmer",
+                    "handlebars",
+                    "hbs",
+                    "templ",
+                    "gotmpl",
+                },
+            },
+        },
+    },
+    {
+        "ThePrimeagen/harpoon",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+        },
+        event = "VeryLazy",
+        -- stylua: ignore
+        keys = {
+            { "<leader>g",  function() require("harpoon.ui").toggle_quick_menu() end, desc = "Toggle harpoon menu" },
+            { "<leader>gf", function() require("harpoon.mark").add_file() end, desc = "[Harpoon] Add file" },
+            { "<leader>1",  function() require("harpoon.ui").nav_file(1) end, desc = "[Harpoon] Navigate to file 1" },
+            { "<leader>2",  function() require("harpoon.ui").nav_file(2) end, desc = "[Harpoon] Navigate to file 2" },
+            { "<leader>3",  function() require("harpoon.ui").nav_file(3) end, desc = "[Harpoon] Navigate to file 3" },
+            { "<leader>4",  function() require("harpoon.ui").nav_file(4) end, desc = "[Harpoon] Navigate to file 4" },
+            { "<leader>5",  function() require("harpoon.ui").nav_file(5) end, desc = "[Harpoon] Navigate to file 5" },
+        },
     },
 }
