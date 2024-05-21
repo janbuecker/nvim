@@ -18,6 +18,9 @@ require("lazy").setup({
     },
     defaults = { lazy = true },
     install = { colorscheme = { "nightfox" } },
+    change_detection = {
+        notify = false,
+    },
     performance = {
         cache = {
             enabled = true,
