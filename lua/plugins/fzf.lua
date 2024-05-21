@@ -7,14 +7,14 @@ return {
                 fzf_opts = {
                     ["--history"] = vim.fn.stdpath("data") .. "/fzf-lua-history",
                 },
-                defaults = {
-                    copen = function()
-                        require("trouble").open("quickfix")
-                    end,
-                },
                 keymap = {
                     fzf = {
                         ["ctrl-q"] = "select-all+accept",
+                    },
+                },
+                winopts = {
+                    preview = {
+                        layout = "vertical",
                     },
                 },
             })
