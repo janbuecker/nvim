@@ -1,9 +1,5 @@
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
--- Disable Recording & Ex Mode
-vim.keymap.set("", "q", "<nop>")
-vim.keymap.set("", "Q", "<nop>")
-
 -- : to ;
 vim.keymap.set("n", ";", ":", { noremap = true })
 
