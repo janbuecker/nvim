@@ -9,18 +9,6 @@ return {
         end,
     },
     {
-        "lukas-reineke/indent-blankline.nvim",
-        event = { "BufReadPost", "BufNewFile" },
-        main = "ibl",
-        opts = {
-            indent = { char = "│" },
-            scope = { enabled = false },
-        },
-        exclude = {
-            language = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy" },
-        },
-    },
-    {
         "tpope/vim-abolish",
         event = "BufReadPost",
     },
@@ -53,7 +41,7 @@ return {
     },
     {
         "windwp/nvim-ts-autotag",
-        event = "InsertEnter",
+        event = { "BufReadPre", "BufNewFile" },
         opts = {
             autotag = {
                 filetypes = {
