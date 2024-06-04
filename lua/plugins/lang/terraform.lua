@@ -2,6 +2,8 @@ return {
     {
         "nvim-treesitter/nvim-treesitter",
         opts = function(_, opts)
+            vim.filetype.add({ extension = { tf = "terraform" } })
+
             vim.list_extend(opts.ensure_installed, {
                 "hcl",
                 "terraform",
