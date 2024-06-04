@@ -1,5 +1,9 @@
 return {
     {
+        "varnishcache-friends/vim-varnish",
+        event = "VeryLazy",
+    },
+    {
         "stevearc/conform.nvim",
         event = { "BufWritePre" },
         cmd = { "ConformInfo" },
