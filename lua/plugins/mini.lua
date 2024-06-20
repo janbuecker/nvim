@@ -22,11 +22,20 @@ return {
         require("mini.trailspace").setup()
         require("mini.bufremove").setup()
         require("mini.cursorword").setup()
-        require("mini.statusline").setup()
         require("mini.notify").setup()
+        vim.notify = require("mini.notify").make_notify()
+        require("mini.tabline").setup()
         require("mini.splitjoin").setup()
         require("mini.misc").setup({ make_global = { "setup_auto_root" } })
         require("mini.misc").setup_auto_root()
+        require("mini.git").setup()
+        require('mini.diff').setup({
+            view = {
+                style = 'sign',
+            },
+        })
+
+        require("mini.statusline").setup()
 
         require("mini.files").setup({
             mappings = {
@@ -104,10 +113,15 @@ return {
     end,
     -- stylua: ignore
     keys = {
-        { "<leader>X", function() require("mini.bufremove").delete(0, false) end, desc = "Delete Buffer", },
-        { "<leader>e", function()
-            local MiniFiles = require("mini.files")
-            if not MiniFiles.close() then MiniFiles.open(vim.api.nvim_buf_get_name(0)) end
-        end, desc = "Open file explorer"}
+        { "<leader>gO", function() require("mini.diff").toggle_overlay() end,      desc = "Show git diff overlay", },
+        { "<leader>X",  function() require("mini.bufremove").delete(0, false) end, desc = "Delete Buffer", },
+        {
+            "<leader>e",
+            function()
+                local MiniFiles = require("mini.files")
+                if not MiniFiles.close() then MiniFiles.open(vim.api.nvim_buf_get_name(0)) end
+            end,
+            desc = "Open file explorer"
+        }
     },
 }
