@@ -68,21 +68,4 @@ return {
             },
         },
     },
-    {
-        "ThePrimeagen/harpoon",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-        },
-        event = "VeryLazy",
-        -- stylua: ignore
-        keys = {
-            { "<leader>g",  function() require("harpoon.ui").toggle_quick_menu() end, desc = "Toggle harpoon menu" },
-            { "<leader>gf", function() require("harpoon.mark").add_file() end, desc = "[Harpoon] Add file" },
-            { "<leader>1",  function() require("harpoon.ui").nav_file(1) end, desc = "[Harpoon] Navigate to file 1" },
-            { "<leader>2",  function() require("harpoon.ui").nav_file(2) end, desc = "[Harpoon] Navigate to file 2" },
-            { "<leader>3",  function() require("harpoon.ui").nav_file(3) end, desc = "[Harpoon] Navigate to file 3" },
-            { "<leader>4",  function() require("harpoon.ui").nav_file(4) end, desc = "[Harpoon] Navigate to file 4" },
-            { "<leader>5",  function() require("harpoon.ui").nav_file(5) end, desc = "[Harpoon] Navigate to file 5" },
-        },
-    },
 }
