@@ -5,7 +5,6 @@ local M = {
     build = ":TSUpdate",
     cmd = { "TSUpdateSync" },
     dependencies = {
-        "nvim-treesitter/nvim-treesitter-context",
         "nvim-treesitter/nvim-treesitter-textobjects",
         "JoosepAlviste/nvim-ts-context-commentstring",
     },
@@ -86,7 +85,6 @@ local M = {
         end
 
         require("nvim-treesitter.configs").setup(opts)
-        require("treesitter-context").setup({})
     end,
 }
 
