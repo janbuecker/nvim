@@ -88,10 +88,10 @@ return {
         cmd = { "Coverage", "CoverageClear", "CoverageToggle", "CoverageSummary" },
         keys = {
             -- stylua: ignore
-            { "<leader>tcl", ":Coverage<CR>", { desc = "[T]est [C]overage [L]oad" } },
-            { "<leader>tcc", ":CoverageClear<CR>", { desc = "[T]est [C]overage [C]lear" } },
-            { "<leader>tct", ":CoverageToggle<CR>", { desc = "[T]est [C]overage [T]oggle" } },
-            { "<leader>tcs", ":CoverageSummary<CR>", { desc = "[T]est [C]overage [S]ummary" } },
+            { "<leader>tcl", ":Coverage<CR>", desc = "[T]est [C]overage [L]oad" },
+            { "<leader>tcc", ":CoverageClear<CR>", desc = "[T]est [C]overage [C]lear" },
+            { "<leader>tct", ":CoverageToggle<CR>", desc = "[T]est [C]overage [T]oggle" },
+            { "<leader>tcs", ":CoverageSummary<CR>", desc = "[T]est [C]overage [S]ummary" },
         },
         opts = {
             auto_reload = true,

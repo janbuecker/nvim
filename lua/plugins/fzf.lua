@@ -1,7 +1,6 @@
 return {
     {
         "ibhagwan/fzf-lua",
-        dependencies = { "nvim-tree/nvim-web-devicons" },
         config = function()
             require("fzf-lua").setup({
                 fzf_opts = {
@@ -20,17 +19,17 @@ return {
             })
         end,
         keys = {
-            { "<C-e>", "<cmd>FzfLua oldfiles<CR>", { desc = "[?] Find recently opened files" } },
-            { "<leader><space>", "<cmd>FzfLua buffers<CR>", { desc = "[ ] Find existing buffers" } },
+            { "<C-e>", "<cmd>FzfLua oldfiles<CR>", desc = "[?] Find recently opened files" },
+            { "<leader><space>", "<cmd>FzfLua buffers<CR>", desc = "[ ] Find existing buffers" },
 
-            { "<leader>hk", "<cmd>FzfLua keymaps<CR>", { desc = "[S]earch [F]iles" } },
-            { "<leader>f", "<cmd>FzfLua files<CR>", { desc = "[S]earch [F]iles" } },
-            { "<leader>sf", "<cmd>FzfLua files<CR>", { desc = "[S]earch [F]iles" } },
-            { "<leader>sh", "<cmd>FzfLua help_tags<CR>", { desc = "[S]earch [H]elp" } },
-            { "<leader>sg", "<cmd>FzfLua live_grep<CR>", { desc = "[S]earch by [G]rep" } },
-            { "<leader>sd", "<cmd>FzfLua diagnostics_document<CR>", { desc = "[S]earch [D]iagnostics" } },
-            { "<leader>sl", "<cmd>FzfLua resume<CR>", { desc = "[S]earch [L]ast (resume)" } },
-            { "<leader>sr", "<cmd>FzfLua resume<CR>", { desc = "[S]earch [R]esume" } },
+            { "<leader>hk", "<cmd>FzfLua keymaps<CR>", desc = "[S]earch [F]iles" },
+            { "<leader>f", "<cmd>FzfLua files<CR>", desc = "[S]earch [F]iles" },
+            { "<leader>sf", "<cmd>FzfLua files<CR>", desc = "[S]earch [F]iles" },
+            { "<leader>sh", "<cmd>FzfLua help_tags<CR>", desc = "[S]earch [H]elp" },
+            { "<leader>sg", "<cmd>FzfLua live_grep<CR>", desc = "[S]earch by [G]rep" },
+            { "<leader>sd", "<cmd>FzfLua diagnostics_document<CR>", desc = "[S]earch [D]iagnostics" },
+            { "<leader>sl", "<cmd>FzfLua resume<CR>", desc = "[S]earch [L]ast (resume)" },
+            { "<leader>sr", "<cmd>FzfLua resume<CR>", desc = "[S]earch [R]esume" },
             {
                 "<leader>P",
                 function()
@@ -49,7 +48,7 @@ return {
                         },
                     })
                 end,
-                { desc = "[S]earch [P]rojects" },
+                desc = "[S]earch [P]rojects",
             },
         },
     },
