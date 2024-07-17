@@ -3,8 +3,8 @@ return {
     event = "InsertEnter",
     dependencies = {
         "hrsh7th/cmp-nvim-lsp",
-        "hrsh7th/cmp-path",
         "hrsh7th/cmp-buffer",
+        "https://codeberg.org/FelipeLema/cmp-async-path",
         {
             "hrsh7th/cmp-cmdline",
             keys = { ":" },
@@ -15,7 +15,7 @@ return {
                 cmp.setup.cmdline(":", {
                     mapping = cmp.mapping.preset.cmdline(),
                     sources = cmp.config.sources({
-                        { name = "path" },
+                        { name = "async_path" },
                     }, {
                         {
                             name = "cmdline",
@@ -126,7 +126,7 @@ return {
                         return require("cmp.types").lsp.CompletionItemKind[entry:get_kind()] ~= "Text"
                     end,
                 },
-                { name = "path" },
+                { name = "async_path" },
             },
         })
 
