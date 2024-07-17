@@ -1,7 +1,7 @@
 return {
     {
         "varnishcache-friends/vim-varnish",
-        event = "VeryLazy",
+        ft = "vcl",
     },
     {
         "stevearc/conform.nvim",
@@ -34,7 +34,7 @@ return {
                 quiet = false,
             },
             formatters_by_ft = {},
-            format_on_save = { timeout_ms = 5000, lsp_format = "prefer" },
+            format_on_save = { timeout_ms = 3000, lsp_format = "fallback" },
             formatters = {
                 shfmt = {
                     prepend_args = { "-i", "2" },
