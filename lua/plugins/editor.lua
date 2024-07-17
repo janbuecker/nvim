@@ -40,32 +40,19 @@ return {
         opts = {},
     },
     {
-        "windwp/nvim-ts-autotag",
-        event = { "BufReadPre", "BufNewFile" },
-        opts = {
-            autotag = {
-                filetypes = {
-                    "html",
-                    "javascript",
-                    "typescript",
-                    "javascriptreact",
-                    "typescriptreact",
-                    "svelte",
-                    "vue",
-                    "tsx",
-                    "jsx",
-                    "rescript",
-                    "xml",
-                    "php",
-                    "markdown",
-                    "astro",
-                    "glimmer",
-                    "handlebars",
-                    "hbs",
-                    "templ",
-                    "gotmpl",
-                },
-            },
-        },
+        "stevearc/dressing.nvim",
+        lazy = true,
+        init = function()
+            ---@diagnostic disable-next-line: duplicate-set-field
+            vim.ui.select = function(...)
+                require("lazy").load({ plugins = { "dressing.nvim" } })
+                return vim.ui.select(...)
+            end
+            ---@diagnostic disable-next-line: duplicate-set-field
+            vim.ui.input = function(...)
+                require("lazy").load({ plugins = { "dressing.nvim" } })
+                return vim.ui.input(...)
+            end
+        end,
     },
 }

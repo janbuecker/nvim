@@ -5,12 +5,9 @@ return {
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-path",
         "hrsh7th/cmp-buffer",
-        "hrsh7th/cmp-vsnip",
-        "hrsh7th/vim-vsnip",
-        "onsails/lspkind.nvim",
         {
             "hrsh7th/cmp-cmdline",
-            event = "VeryLazy",
+            keys = { ":" },
             config = function()
                 local cmp = require("cmp")
 
@@ -53,11 +50,6 @@ return {
             experimental = {
                 ghost_text = false,
                 native_menu = false,
-            },
-            snippet = {
-                expand = function(args)
-                    vim.fn["vsnip#anonymous"](args.body)
-                end,
             },
             formatting = {
                 fields = { "kind", "abbr", "menu" },
