@@ -11,27 +11,31 @@ return {
         })
     end,
 
-    dependencies = {
-        "nvim-tree/nvim-web-devicons",
-    },
-
     config = function()
+        require("mini.icons").setup()
+        require("mini.icons").mock_nvim_web_devicons()
+
+        local win_config = function()
+            local row = vim.o.lines - vim.o.cmdheight - (vim.o.laststatus >= 2 and 1 or 0)
+            return { border = "solid", anchor = "SE", row = row }
+        end
+        require("mini.notify").setup({ window = { config = win_config } })
+        vim.notify = require("mini.notify").make_notify()
+
         require("mini.move").setup()
         require("mini.bracketed").setup()
         require("mini.surround").setup()
         require("mini.trailspace").setup()
         require("mini.bufremove").setup()
         require("mini.cursorword").setup()
-        require("mini.notify").setup()
-        vim.notify = require("mini.notify").make_notify()
         require("mini.tabline").setup()
         require("mini.splitjoin").setup()
         require("mini.misc").setup({ make_global = { "setup_auto_root" } })
         require("mini.misc").setup_auto_root()
         require("mini.git").setup()
-        require('mini.diff').setup({
+        require("mini.diff").setup({
             view = {
-                style = 'sign',
+                style = "sign",
             },
         })
 
