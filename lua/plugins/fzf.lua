@@ -30,7 +30,6 @@ return {
             { "<leader>sg", "<cmd>FzfLua live_grep<CR>", desc = "[S]earch by [G]rep" },
             { "<leader>sd", "<cmd>FzfLua diagnostics_document<CR>", desc = "[S]earch [D]iagnostics" },
             { "<leader>sl", "<cmd>FzfLua resume<CR>", desc = "[S]earch [L]ast (resume)" },
-            { "<leader>sr", "<cmd>FzfLua resume<CR>", desc = "[S]earch [R]esume" },
             {
                 "<leader>P",
                 function()
