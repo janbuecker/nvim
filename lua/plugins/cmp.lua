@@ -53,20 +53,10 @@ return {
             },
             formatting = {
                 fields = { "kind", "abbr", "menu" },
-                function(entry, item)
-                    local kind = item.kind
-                    local kind_hl_group = ("CmpItemKind%s"):format(kind)
-
-                    item.kind_hl_group = ("%sIcon"):format(kind_hl_group)
-                    item.menu_hl_group = source_hl[entry.source.name] or kind_hl_group
-                    item.menu = kind
-
-                    local half_win_width = math.floor(vim.api.nvim_win_get_width(0) / 2)
-                    if vim.api.nvim_strwidth(item.abbr) > half_win_width then
-                        item.abbr = ("%s…"):format(item.abbr:sub(1, half_win_width))
-                    end
-                    item.abbr = ("%s "):format(item.abbr)
-
+                format = function(_, item)
+                    local icon, hl = require("mini.icons").get("lsp", item.kind)
+                    item.kind = icon .. " " .. item.kind
+                    item.kind_hl_group = hl
                     return item
                 end,
             },

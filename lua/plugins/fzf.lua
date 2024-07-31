@@ -16,6 +16,7 @@ return {
                         layout = "vertical",
                     },
                 },
+                defaults = { file_icons = "mini" },
             })
         end,
         keys = {
