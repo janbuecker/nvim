@@ -11,20 +11,21 @@ return {
         opts = {
             status = { virtual_text = true },
             output = { open_on_run = true },
-            quickfix = { enabled = false },
+            quickfix = { enabled = true },
             adapters = {},
-            icons = {
-                expanded = "",
-                child_prefix = "",
-                child_indent = "",
-                final_child_prefix = "",
-                non_collapsible = "",
-                collapsed = "",
-
-                passed = "",
-                running = "",
-                failed = "",
-                unknown = "",
+            discovery = {
+                -- Number of workers to parse files concurrently.
+                -- A value of 0 automatically assigns number based on CPU.
+                -- Set to 1 if experiencing lag.
+                concurrent = 1,
+            },
+            running = {
+                -- Run tests concurrently when an adapter provides multiple commands to run.
+                concurrent = false,
+            },
+            summary = {
+                -- Enable/disable animation of icons.
+                animated = false,
             },
         },
         config = function(_, opts)
@@ -68,31 +69,12 @@ return {
 
             require("neotest").setup(opts)
         end,
-        -- stylua: ignore
-        keys = {
-          { "<leader>ta", function() require("neotest").run.attach() end, desc = "[t]est [a]ttach" },
-          { "<leader>tf", function() require("neotest").run.run(vim.fn.expand("%")) end, desc = "[t]est run [f]ile" },
-          { "<leader>tA", function() require("neotest").run.run(vim.uv.cwd()) end, desc = "[t]est [A]ll files" },
-          { "<leader>tS", function() require("neotest").run.run({ suite = true }) end, desc = "[t]est [S]uite" },
-          { "<leader>tn", function() require("neotest").run.run() end, desc = "[t]est [n]earest" },
-          { "<leader>tl", function() require("neotest").run.run_last() end, desc = "[t]est [l]ast" },
-          { "<leader>ts", function() require("neotest").summary.toggle() end, desc = "[t]est [s]ummary" },
-          { "<leader>to", function() require("neotest").output.open({ enter = true, auto_close = true }) end, desc = "[t]est [o]utput" },
-          { "<leader>tO", function() require("neotest").output_panel.toggle() end, desc = "[t]est [O]utput panel" },
-          { "<leader>tt", function() require("neotest").run.stop() end, desc = "[t]est [t]erminate" },
-          { "<leader>td", function() require("neotest").run.run({ suite = false, strategy = "dap" }) end, desc = "Debug nearest test" },
-        },
+        keys = require("config.keymaps").neotest(),
     },
     {
         "andythigpen/nvim-coverage",
         cmd = { "Coverage", "CoverageClear", "CoverageToggle", "CoverageSummary" },
-        keys = {
-            -- stylua: ignore
-            { "<leader>tcl", ":Coverage<CR>", desc = "[T]est [C]overage [L]oad" },
-            { "<leader>tcc", ":CoverageClear<CR>", desc = "[T]est [C]overage [C]lear" },
-            { "<leader>tct", ":CoverageToggle<CR>", desc = "[T]est [C]overage [T]oggle" },
-            { "<leader>tcs", ":CoverageSummary<CR>", desc = "[T]est [C]overage [S]ummary" },
-        },
+        keys = require("config.keymaps").coverage(),
         opts = {
             auto_reload = true,
             lang = {

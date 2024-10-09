@@ -37,12 +37,6 @@ return {
             return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
         end
 
-        local source_hl = {
-            nvim_lua = "@constant.builtin",
-            buffer = "@string",
-            path = "Directory",
-        }
-
         cmp.setup({
             completion = {
                 keyword_length = 1,
@@ -120,9 +114,9 @@ return {
             },
         })
 
-        local presentAutopairs, cmp_autopairs = pcall(require, "nvim-autopairs.completion.cmp")
-        if presentAutopairs then
-            cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
-        end
+        -- local presentAutopairs, cmp_autopairs = pcall(require, "nvim-autopairs.completion.cmp")
+        -- if presentAutopairs then
+        --     cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+        -- end
     end,
 }

@@ -21,8 +21,8 @@ return {
         dependencies = {
             "b0o/schemastore.nvim",
         },
-        opts = {
-            servers = {
+        opts = function(_, opts)
+            opts.servers = vim.tbl_deep_extend("force", opts.servers, {
                 jsonls = {
                     settings = {
                         json = {
@@ -40,8 +40,8 @@ return {
                         },
                     },
                 },
-            },
-        },
+            })
+        end,
     },
     {
         "stevearc/conform.nvim",

@@ -1,14 +1,29 @@
 return {
     {
         "ibhagwan/fzf-lua",
+        enabled = false,
+        event = "VeryLazy",
         config = function()
+            local actions = require("fzf-lua.actions")
+            local path = require("fzf-lua.path")
+            local utils = require("fzf-lua.utils")
+
             require("fzf-lua").setup({
                 fzf_opts = {
                     ["--history"] = vim.fn.stdpath("data") .. "/fzf-lua-history",
                 },
                 keymap = {
                     fzf = {
+                        true,
                         ["ctrl-q"] = "select-all+accept",
+                    },
+                },
+                actions = {
+                    files = {
+                        true,
+                        ["ctrl-d"] = function(selected, opts)
+                            actions.vimcmd_entry("vertical diffsplit", selected, opts)
+                        end,
                     },
                 },
                 winopts = {
@@ -17,39 +32,20 @@ return {
                     },
                 },
                 defaults = { file_icons = "mini" },
-            })
-        end,
-        keys = {
-            { "<C-e>", "<cmd>FzfLua oldfiles<CR>", desc = "[?] Find recently opened files" },
-            { "<leader><space>", "<cmd>FzfLua buffers<CR>", desc = "[ ] Find existing buffers" },
-
-            { "<leader>hk", "<cmd>FzfLua keymaps<CR>", desc = "[S]earch [F]iles" },
-            { "<leader>f", "<cmd>FzfLua files<CR>", desc = "[S]earch [F]iles" },
-            { "<leader>sf", "<cmd>FzfLua files<CR>", desc = "[S]earch [F]iles" },
-            { "<leader>sh", "<cmd>FzfLua help_tags<CR>", desc = "[S]earch [H]elp" },
-            { "<leader>sg", "<cmd>FzfLua live_grep<CR>", desc = "[S]earch by [G]rep" },
-            { "<leader>sd", "<cmd>FzfLua diagnostics_document<CR>", desc = "[S]earch [D]iagnostics" },
-            { "<leader>sl", "<cmd>FzfLua resume<CR>", desc = "[S]earch [L]ast (resume)" },
-            {
-                "<leader>P",
-                function()
-                    local fzf_lua = require("fzf-lua")
-
-                    fzf_lua.fzf_exec(require("project_nvim").get_recent_projects(), {
-                        prompt = "Projects> ",
-                        exec_empty_query = true,
-                        fn_transform = function(x)
-                            return fzf_lua.utils.ansi_codes.magenta(x)
-                        end,
+                git = {
+                    bcommits = {
                         actions = {
-                            ["default"] = function(selected)
-                                fzf_lua.files({ cwd = selected[1] })
+                            ["ctrl-d"] = function(selected, opts)
+                                local git_root = path.git_root(opts, true)
+                                local file = path.relative_to(path.normalize(vim.fn.expand("%:p")), git_root)
+                                actions.git_buf_edit(selected, opts)
+                                vim.cmd("vertical diffsplit " .. file)
                             end,
                         },
-                    })
-                end,
-                desc = "[S]earch [P]rojects",
-            },
-        },
+                    },
+                },
+            })
+        end,
+        keys = require("config.keymaps").fzf(),
     },
 }

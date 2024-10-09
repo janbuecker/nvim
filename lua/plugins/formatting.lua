@@ -7,26 +7,7 @@ return {
         "stevearc/conform.nvim",
         event = { "BufWritePre" },
         cmd = { "ConformInfo" },
-        keys = {
-            {
-                -- Customize or remove this keymap to your liking
-                "<leader>F",
-                function()
-                    require("conform").format()
-                end,
-                mode = { "n", "v" },
-                desc = "Format buffer",
-            },
-            {
-                -- Customize or remove this keymap to your liking
-                "<leader>lF",
-                function()
-                    require("conform").format()
-                end,
-                mode = { "n", "v" },
-                desc = "Format buffer",
-            },
-        },
+        keys = require("config.keymaps").conform(),
         opts = {
             format = {
                 timeout_ms = 5000,

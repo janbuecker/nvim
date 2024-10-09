@@ -15,7 +15,7 @@ return {
             "mason.nvim",
             "williamboman/mason-lspconfig.nvim",
             "hrsh7th/cmp-nvim-lsp",
-            "b0o/schemastore.nvim",
+            { "j-hui/fidget.nvim", opts = {} },
         },
 
         ---@class PluginLspOpts
@@ -54,7 +54,7 @@ return {
             vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
 
             Util.on_attach(function(client, bufnr)
-                require("plugins.lsp.keymaps").on_attach(client, bufnr)
+                require("config.keymaps").lsp_attach(client, bufnr)
             end)
 
             local capabilities = vim.tbl_deep_extend(
@@ -100,12 +100,11 @@ return {
     {
         "williamboman/mason.nvim",
         cmd = "Mason",
-        keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
+        keys = require("config.keymaps").mason(),
         build = ":MasonUpdate",
         opts = {
             ensure_installed = {},
         },
-        ---@param opts MasonSettings | {ensure_installed: string[]}
         config = function(_, opts)
             require("mason").setup(opts)
             local mr = require("mason-registry")

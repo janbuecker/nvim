@@ -86,7 +86,37 @@ return {
         "stevearc/conform.nvim",
         opts = function(_, opts)
             opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft, {
-                go = { "golines" },
+                go = { "gofumpt", "goimports", "gci", "golines" },
+            })
+
+            opts.formatters = vim.tbl_deep_extend("force", opts.formatters, {
+                gci = {
+                    args = {
+                        "write",
+                        "--skip-generated",
+                        "-s",
+                        "Standard",
+                        "-s",
+                        "Default",
+                        "-s",
+                        "Prefix(gitlab.shopware.com)",
+                        "--skip-vendor",
+                        "$FILENAME",
+                    },
+                },
+                goimports = {
+                    args = { "-srcdir", "$FILENAME" },
+                },
+                golines = {
+                    -- golines will use goimports as base formatter by default which is slow.
+                    -- see https://github.com/segmentio/golines/issues/33
+                    prepend_args = {
+                        "--base-formatter=gofumpt",
+                        "--ignore-generated",
+                        -- "--tab-len=1",
+                        -- "--max-len=120",
+                    },
+                },
             })
 
             -- let gopls run goimports
@@ -115,16 +145,6 @@ return {
             opts.linters_by_ft = vim.tbl_deep_extend("force", opts.linters_by_ft, {
                 go = { "golangcilint" },
             })
-
-            require("lint").linters.golangcilint.args = {
-                "run",
-                "--show-stats=false",
-                "--out-format",
-                "json",
-                function()
-                    return vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":h")
-                end,
-            }
         end,
     },
     {
@@ -132,6 +152,7 @@ return {
         opts = function(_, opts)
             vim.list_extend(opts.ensure_installed, {
                 "gopls",
+                "gci",
                 "gofumpt",
                 "golines",
                 "goimports",
@@ -153,9 +174,12 @@ return {
                 ["neotest-golang"] = {
                     go_test_args = {
                         "-v",
-                        "-count=1",
+                        -- "-count=1",
                         "-timeout=60s",
-                        "-coverprofile=" .. vim.fn.getcwd() .. "/coverage.out",
+                        -- "-parallel=1",
+                        "-coverprofile="
+                            .. vim.fn.getcwd()
+                            .. "/coverage.out",
                     },
                 },
             },

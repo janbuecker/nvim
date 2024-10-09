@@ -14,14 +14,19 @@ return {
     },
     {
         "mbbill/undotree",
-        cmd = { "UndotreeToggle" },
-        keys = {
-            { "<leader>u", "<cmd>UndotreeToggle<cr>", desc = "Toggle undo tree" },
+        cmd = {
+            "UndotreeToggle",
         },
+        keys = require("config.keymaps").undotree(),
     },
     {
         "sindrets/diffview.nvim",
-        cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggle", "DiffviewFileHistory" },
+        cmd = {
+            "DiffviewOpen",
+            "DiffviewClose",
+            "DiffviewToggle",
+            "DiffviewFileHistory",
+        },
     },
     {
         "mcauley-penney/visual-whitespace.nvim",
@@ -35,38 +40,27 @@ return {
         config = true,
     },
     {
-        "windwp/nvim-autopairs",
-        event = "InsertEnter",
-        opts = {},
-    },
-    {
-        "stevearc/dressing.nvim",
-        lazy = true,
-        init = function()
-            ---@diagnostic disable-next-line: duplicate-set-field
-            vim.ui.select = function(...)
-                require("lazy").load({ plugins = { "dressing.nvim" } })
-                return vim.ui.select(...)
-            end
-            ---@diagnostic disable-next-line: duplicate-set-field
-            vim.ui.input = function(...)
-                require("lazy").load({ plugins = { "dressing.nvim" } })
-                return vim.ui.input(...)
-            end
-        end,
-    },
-    {
         "chrisgrieser/nvim-rip-substitute",
         cmd = "RipSubstitute",
-        keys = {
-            {
-                "<leader>sr",
-                function()
-                    require("rip-substitute").sub()
-                end,
-                mode = { "n", "x" },
-                desc = " rip substitute",
+        keys = require("config.keymaps").ripsubstitue(),
+    },
+    {
+        "romgrk/barbar.nvim",
+        enabled = false,
+        init = function()
+            vim.g.barbar_auto_setup = false
+        end,
+        opts = {
+            icons = {
+                filetype = {
+                    enabled = false,
+                },
             },
         },
+        version = "^1.0.0",
+    },
+    {
+        "kevinhwang91/nvim-bqf",
+        ft = "qf",
     },
 }

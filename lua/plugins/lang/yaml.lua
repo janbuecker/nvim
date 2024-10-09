@@ -24,8 +24,8 @@ return {
         dependencies = {
             "b0o/schemastore.nvim",
         },
-        opts = {
-            servers = {
+        opts = function(_, opts)
+            opts.servers = vim.tbl_deep_extend("force", opts.servers, {
                 yamlls = {
                     capabilities = {
                         server_compatibilities = {
@@ -57,8 +57,9 @@ return {
                         },
                     },
                 },
-            },
-            setup = {
+            })
+
+            opts.setup = vim.tbl_deep_extend("force", opts.setup, {
                 yamlls = function()
                     Util.on_attach(function(client, _)
                         if client.name == "yamlls" then
@@ -66,7 +67,7 @@ return {
                         end
                     end)
                 end,
-            },
-        },
+            })
+        end,
     },
 }
