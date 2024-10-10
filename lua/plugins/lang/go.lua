@@ -164,25 +164,21 @@ return {
     {
         "nvim-neotest/neotest",
         dependencies = {
-            "nvim-lua/plenary.nvim",
-            "nvim-treesitter/nvim-treesitter",
-            "antoinemadec/FixCursorHold.nvim",
-            "fredrikaverpil/neotest-golang",
+            "nvim-neotest/neotest-go",
         },
-        opts = {
-            adapters = {
-                ["neotest-golang"] = {
-                    go_test_args = {
-                        "-v",
-                        -- "-count=1",
-                        "-timeout=60s",
-                        -- "-parallel=1",
-                        "-coverprofile="
-                            .. vim.fn.getcwd()
-                            .. "/coverage.out",
+        opts = function(_, opts)
+            opts.adapters = vim.tbl_deep_extend("force", opts.adapters, {
+                require("neotest-go")({
+                    experimental = {
+                        test_table = true,
                     },
-                },
-            },
-        },
+                    args = {
+                        "-count=1",
+                        "-timeout=60s",
+                        "-coverprofile=" .. vim.fn.getcwd() .. "/coverage.out",
+                    },
+                }),
+            })
+        end,
     },
 }

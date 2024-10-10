@@ -3,30 +3,16 @@ return {
         "nvim-neotest/neotest",
         event = "LspAttach",
         dependencies = {
-            { "nvim-treesitter/nvim-treesitter" },
-            { "nvim-lua/plenary.nvim" },
-            { "nvim-neotest/nvim-nio" },
-            { "antoinemadec/FixCursorHold.nvim" },
+            "nvim-neotest/nvim-nio",
+            "nvim-lua/plenary.nvim",
+            "nvim-treesitter/nvim-treesitter",
+            "antoinemadec/FixCursorHold.nvim",
         },
         opts = {
             status = { virtual_text = true },
             output = { open_on_run = true },
             quickfix = { enabled = true },
             adapters = {},
-            discovery = {
-                -- Number of workers to parse files concurrently.
-                -- A value of 0 automatically assigns number based on CPU.
-                -- Set to 1 if experiencing lag.
-                concurrent = 1,
-            },
-            running = {
-                -- Run tests concurrently when an adapter provides multiple commands to run.
-                concurrent = false,
-            },
-            summary = {
-                -- Enable/disable animation of icons.
-                animated = false,
-            },
         },
         config = function(_, opts)
             local neotest_ns = vim.api.nvim_create_namespace("neotest")
@@ -73,7 +59,12 @@ return {
     },
     {
         "andythigpen/nvim-coverage",
-        cmd = { "Coverage", "CoverageClear", "CoverageToggle", "CoverageSummary" },
+        cmd = {
+            "Coverage",
+            "CoverageClear",
+            "CoverageToggle",
+            "CoverageSummary",
+        },
         keys = require("config.keymaps").coverage(),
         opts = {
             auto_reload = true,
