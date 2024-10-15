@@ -1,7 +1,7 @@
 return {
     {
         "nvim-neotest/neotest",
-        event = "LspAttach",
+        lazy = true,
         dependencies = {
             "nvim-neotest/nvim-nio",
             "nvim-lua/plenary.nvim",
