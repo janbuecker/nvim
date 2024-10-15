@@ -128,7 +128,7 @@ M.lsp_attach = function(_, bufnr)
     nmap("<leader>lr", vim.lsp.buf.rename, "[LSP] Rename")
     nmap("<leader>la", vim.lsp.buf.code_action, "[LSP] Code Action")
 
-    nmap("gd", "<cmd>FzfLua lsp_defintions jump_to_single_result=true<CR>", "[G]oto [D]efinition")
+    nmap("gd", "<cmd>FzfLua lsp_definitions jump_to_single_result=true<CR>", "[G]oto [D]efinition")
     nmap(
         "gr",
         "<cmd>FzfLua lsp_references jump_to_single_result=true ignore_current_line=true<CR>",
