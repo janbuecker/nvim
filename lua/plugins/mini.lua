@@ -1,7 +1,7 @@
 return {
     "echasnovski/mini.nvim",
     version = false,
-    lazy = false,
+    event = "VeryLazy",
     init = function()
         vim.api.nvim_create_autocmd("FileType", {
             pattern = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason" },
@@ -59,15 +59,6 @@ return {
             },
         })
 
-        local MiniPick = require("mini.pick")
-        MiniPick.setup()
-        vim.ui.select = MiniPick.ui_select
-
-        MiniPick.registry.files_all = function()
-            local command = { "fd", "--type=f", "--no-follow", "--color=never", "--hidden" }
-            return MiniPick.builtin.cli({ command = command })
-        end
-
         local MiniFiles = require("mini.files")
         MiniFiles.setup({
             mappings = {
@@ -105,7 +96,7 @@ return {
                     local cur_entry_path = MiniFiles.get_fs_entry().path
                     local basedir = vim.fs.dirname(cur_entry_path)
                     MiniFiles.close()
-                    MiniPick.builtin.grep_live({}, { source = { cwd = basedir } })
+                    require("fzf-lua").live_grep({ cwd = basedir })
                 end, { buffer = buf_id, desc = "Grep in directory" })
 
                 -- Find in folder
@@ -113,13 +104,13 @@ return {
                     local cur_entry_path = MiniFiles.get_fs_entry().path
                     local basedir = vim.fs.dirname(cur_entry_path)
                     MiniFiles.close()
-                    MiniPick.builtin.files({}, { source = { cwd = basedir } })
+                    require("fzf-lua").files({ cwd = basedir })
                 end, { buffer = buf_id, desc = "Grep in directory" })
 
                 -- Find in project
                 vim.keymap.set("n", "gf", function()
                     MiniFiles.close()
-                    MiniPick.builtin.files()
+                    require("fzf-lua").files()
                 end, { buffer = buf_id, desc = "Grep in directory" })
 
                 -- Diff with buffer

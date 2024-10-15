@@ -71,42 +71,28 @@ end
 
 M.fzf = function()
     return {
-        -- {
-        --     "<C-e>",
-        --     "<cmd>FzfLua oldfiles cwd_only=true include_current_session=true<CR>",
-        --     desc = "[?] Find recently opened files",
-        -- },
-        -- { "<leader><space>", "<cmd>FzfLua buffers<CR>", desc = "[ ] Find existing buffers" },
-
         {
             "<C-e>",
-            "<cmd>Pick oldfiles current_dir=true<CR>",
+            "<cmd>FzfLua oldfiles cwd_only=true include_current_session=true<CR>",
             desc = "[?] Find recently opened files",
         },
-        { "<leader><space>", "<cmd>Pick buffers<CR>", desc = "[ ] Find existing buffers" },
-        { "<leader>gf", "<cmd>Pick git_commits path='%'<cr>", desc = "[G]it [F]iles history" },
-        { "<leader>hk", "<cmd>Pick keymaps<CR>", desc = "[S]earch [F]iles" },
-        { "<leader>f", "<cmd>Pick files<CR>", desc = "[S]earch [F]iles" },
-        { "<leader>sf", "<cmd>Pick files<CR>", desc = "[S]earch [F]iles" },
-        { "<leader>sh", "<cmd>Pick help<CR>", desc = "[S]earch [H]elp" },
-        { "<leader>sg", "<cmd>Pick grep_live<CR>", desc = "[S]earch by [G]rep" },
-        { "<leader>/", "<cmd>Pick grep_live<CR>", desc = "[S]earch by [G]rep (/)" },
-        { "<leader>sd", "<cmd>Pick scope='document_symbol'<CR>", desc = "[S]earch [D]iagnostics" },
-        { "<leader>sl", "<cmd>Pick resume<CR>", desc = "[S]earch [L]ast (resume)" },
+        { "<leader><space>", "<cmd>FzfLua buffers<CR>", desc = "[ ] Find existing buffers" },
 
-        -- { "<leader>gf", "<cmd>FzfLua git_bcommits<cr>", desc = "[G]it [F]iles history" },
-        -- { "<leader>hk", "<cmd>FzfLua keymaps<CR>", desc = "[S]earch [F]iles" },
-        -- { "<leader>f", "<cmd>FzfLua files<CR>", desc = "[S]earch [F]iles" },
-        -- { "<leader>sf", "<cmd>FzfLua files<CR>", desc = "[S]earch [F]iles" },
-        -- { "<leader>sh", "<cmd>FzfLua help_tags<CR>", desc = "[S]earch [H]elp" },
-        -- { "<leader>sg", "<cmd>FzfLua live_grep<CR>", desc = "[S]earch by [G]rep" },
-        -- { "<leader>/", "<cmd>FzfLua live_grep<CR>", desc = "[S]earch by [G]rep (/)" },
-        -- { "<leader>sd", "<cmd>FzfLua diagnostics_document<CR>", desc = "[S]earch [D]iagnostics" },
-        -- { "<leader>sl", "<cmd>FzfLua resume<CR>", desc = "[S]earch [L]ast (resume)" },
+        { "<leader>gf", "<cmd>FzfLua git_bcommits<cr>", desc = "[G]it [F]iles history" },
+        { "<leader>hk", "<cmd>FzfLua keymaps<CR>", desc = "[S]earch [F]iles" },
+        { "<leader>f", "<cmd>FzfLua files<CR>", desc = "[S]earch [F]iles" },
+        { "<leader>sf", "<cmd>FzfLua files<CR>", desc = "[S]earch [F]iles" },
+        { "<leader>sh", "<cmd>FzfLua help_tags<CR>", desc = "[S]earch [H]elp" },
+        { "<leader>sg", "<cmd>FzfLua live_grep<CR>", desc = "[S]earch by [G]rep" },
+        { "<leader>/", "<cmd>FzfLua live_grep<CR>", desc = "[S]earch by [G]rep (/)" },
+        { "<leader>sd", "<cmd>FzfLua diagnostics_document<CR>", desc = "[S]earch [D]iagnostics" },
+        { "<leader>sl", "<cmd>FzfLua resume<CR>", desc = "[S]earch [L]ast (resume)" },
         {
             "<leader>P",
             function()
-                require("fzf-lua").live({
+                local fzf_lua = require("fzf-lua")
+
+                fzf_lua.fzf_exec(require("project_nvim").get_recent_projects(), {
                     prompt = "Projects> ",
                     exec_empty_query = true,
                     fn_transform = function(x)
@@ -142,18 +128,25 @@ M.lsp_attach = function(_, bufnr)
     nmap("<leader>lr", vim.lsp.buf.rename, "[LSP] Rename")
     nmap("<leader>la", vim.lsp.buf.code_action, "[LSP] Code Action")
 
-    nmap("gd", "<cmd>Pick lsp scope='definition'<CR>", "[G]oto [D]efinition")
-    nmap("gr", "<cmd>Pick lsp scope='references'<CR>", "[G]oto [R]eferences")
-    nmap("gI", "<cmd>Pick lsp scope='implementation'<CR>", "[G]oto [I]mplementation")
-    nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-    nmap("<leader>D", "<cmd>Pick lsp scope='type_definition'<CR>", "Type [D]efinition")
-    nmap("<leader>ds", "<cmd>Pick lsp scope='document_symbol'<CR>", "[D]ocument [S]ymbols")
-    nmap("<leader>dd", "<cmd>Pick diagnostic scope='current'<CR>", "[D]ocument [D]iagnostics")
-    nmap("<leader>ws", "<cmd>Pick lsp scope='workspace_symbol'<CR>", "[W]orkspace [S]ymbols")
-    nmap("<leader>wd", "<cmd>Pick diagnostic scope='all'<CR>", "[W]orkspace [D]iagnostics")
+    nmap("gd", "<cmd>FzfLua lsp_defintions jump_to_single_result=true<CR>", "[G]oto [D]efinition")
+    nmap(
+        "gr",
+        "<cmd>FzfLua lsp_references jump_to_single_result=true ignore_current_line=true<CR>",
+        "[G]oto [R]eferences"
+    )
+    nmap("gI", "<cmd>FzfLua lsp_implementations jump_to_single_result=true<CR>", "[G]oto [I]mplementation")
+    nmap("<leader>D", "<cmd>FzfLua lsp_type_definitions jump_to_single_result=true<CR>", "Type [D]efinition")
+    nmap("<leader>ds", "<cmd>FzfLua lsp_document_symbols<CR>", "[D]ocument [S]ymbols")
+    nmap("<leader>dd", "<cmd>FzfLua lsp_document_diagnostics<CR>", "[D]ocument [D]iagnostics")
+    nmap("<leader>ws", "<cmd>FzfLua lsp_workspace_symbols<CR>", "[W]orkspace [S]ymbols")
+    nmap("<leader>wd", "<cmd>FzfLua lsp_workspace_diagnostics<CR>", "[W]orkspace [D]iagnostics")
 
+    -- See `:help K` for why this keymap
     nmap("K", vim.lsp.buf.hover, "Hover Documentation")
     nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
+
+    -- Lesser used LSP functionality
+    nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 
     -- Create a command `:Format` local to the LSP buffer
     vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
@@ -187,84 +180,6 @@ M.mini = function()
             end,
             desc = "Open file explorer",
         },
-        {
-            "<C-e>",
-            "<cmd>Pick oldfiles current_dir=true<CR>",
-            desc = "[?] Find recently opened files",
-        },
-        { "<leader>gf", "<cmd>Pick git_commits path='%'<cr>", desc = "[G]it [F]iles history" },
-        { "<leader>hk", "<cmd>Pick keymaps<CR>", desc = "[S]earch [F]iles" },
-        { "<leader>f", "<cmd>Pick files<CR>", desc = "[S]earch [F]iles" },
-        { "<leader>sf", "<cmd>Pick files<CR>", desc = "[S]earch [F]iles" },
-        { "<leader>sh", "<cmd>Pick help<CR>", desc = "[S]earch [H]elp" },
-        { "<leader>sg", "<cmd>Pick grep_live<CR>", desc = "[S]earch by [G]rep" },
-        { "<leader>/", "<cmd>Pick grep_live<CR>", desc = "[S]earch by [G]rep (/)" },
-        { "<leader>sd", "<cmd>Pick scope='document_symbol'<CR>", desc = "[S]earch [D]iagnostics" },
-        { "<leader>sl", "<cmd>Pick resume<CR>", desc = "[S]earch [L]ast (resume)" },
-        {
-            "<leader><space>",
-            function()
-                local MiniPick = require("mini.pick")
-                local buffers_output = vim.api.nvim_exec("buffers", true)
-                local cur_buf_id = vim.api.nvim_get_current_buf()
-                local items = {}
-                for _, l in ipairs(vim.split(buffers_output, "\n")) do
-                    local buf_str, name = l:match("^%s*%d+"), l:match('"(.*)"')
-                    local buf_id = tonumber(buf_str)
-                    local flag = (buf_id == cur_buf_id and "%") or (buf_id == vim.fn.bufnr("#") and "#") or " "
-                    local info = vim.fn.getbufinfo(buf_id)
-                    local item = {
-                        text = name,
-                        bufnr = buf_id,
-                        flag = flag,
-                        info = info[1] or info,
-                    }
-                    if buf_id ~= cur_buf_id then
-                        table.insert(items, item)
-                    end
-                end
-
-                -- sort by last used (from fzf-lua)
-                local future = os.time({ year = 2100, month = 1, day = 1, hour = 0, minute = 00 })
-                local get_unixtime = function(buf)
-                    if buf.flag == "%" then
-                        return future
-                    elseif buf.flag == "#" then
-                        return future - 1
-                    else
-                        return buf.info.lastused
-                    end
-                end
-                table.sort(items, function(a, b)
-                    return get_unixtime(a) > get_unixtime(b)
-                end)
-
-                MiniPick.start({
-                    source = {
-                        name = "Buffers",
-                        items = items,
-                    },
-                })
-            end,
-            desc = "[ ] Find existing buffers",
-        },
-        {
-            "<leader>P",
-            function()
-                local MiniPick = require("mini.pick")
-
-                MiniPick.start({
-                    source = {
-                        items = require("project_nvim").get_recent_projects(),
-                        name = "Projects",
-                        choose = function(selected)
-                            MiniPick.builtin.files({}, { source = { cwd = selected } })
-                        end,
-                    },
-                })
-            end,
-            desc = "[S]earch [P]rojects",
-        },
     }
 end
 
@@ -295,6 +210,12 @@ end
 M.mason = function()
     return {
         { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" },
+    }
+end
+
+M.todo = function()
+    return {
+        { "<leader>st", "<cmd>TodoFzfLua<cr>", desc = "[S]earch [T]ODO" },
     }
 end
 
