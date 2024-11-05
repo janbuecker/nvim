@@ -25,7 +25,12 @@ return {
         "neovim/nvim-lspconfig",
         opts = {
             servers = {
-                intelephense = {},
+                intelephense = {
+                    init_options = {
+                        globalStoragePath = os.getenv("XDG_DATA_HOME") .. "/intelephense",
+                        licenceKey = os.getenv("XDG_CONFIG_HOME") .. "/intelephense/licence.txt",
+                    },
+                },
                 -- phpactor = {},
                 twiggy_language_server = {},
             },
