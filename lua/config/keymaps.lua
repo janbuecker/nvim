@@ -53,6 +53,8 @@ end
 M.ripsubstitue = function()
     return {
         { "<leader>sr", "<cmd>RipSubstitute<CR>", mode = { "n", "x" }, desc = " rip substitute" },
+        { "<C-r>", "<cmd>RipSubstitute<CR>", mode = { "v" }, desc = " rip substitute" },
+        { "<A-r>", "<cmd>RipSubstitute<CR>", mode = { "n", "x" }, desc = " rip substitute" },
     }
 end
 

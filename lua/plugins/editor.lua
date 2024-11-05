@@ -59,8 +59,4 @@ return {
         },
         version = "^1.0.0",
     },
-    {
-        "kevinhwang91/nvim-bqf",
-        ft = "qf",
-    },
 }

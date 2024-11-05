@@ -1,7 +1,7 @@
 return {
     "echasnovski/mini.nvim",
     version = false,
-    event = "VeryLazy",
+    lazy = false,
     init = function()
         vim.api.nvim_create_autocmd("FileType", {
             pattern = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason" },
