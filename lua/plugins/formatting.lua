@@ -15,7 +15,13 @@ return {
                 quiet = false,
             },
             formatters_by_ft = {},
-            format_on_save = { timeout_ms = 3000, lsp_format = "fallback" },
+            format_on_save = function(bufnr)
+                -- Disable with a global or buffer-local variable
+                if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+                    return
+                end
+                return { timeout_ms = 3000, lsp_format = "fallback" }
+            end,
             formatters = {
                 shfmt = {
                     prepend_args = { "-i", "2" },
