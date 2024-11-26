@@ -156,7 +156,6 @@ return {
                 "gofumpt",
                 "golines",
                 "goimports",
-                "golangci-lint",
             })
         end,
     },

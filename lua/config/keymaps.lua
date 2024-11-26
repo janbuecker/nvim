@@ -6,7 +6,9 @@ vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 vim.keymap.set("n", ";", ":", { noremap = true })
 
 -- QuickFix
-vim.keymap.set("n", "<C-q>", ":call QuickFixToggle()<CR>")
+vim.keymap.set("n", "<C-q>", function()
+    require("quicker").toggle()
+end)
 
 -- Remap for dealing with word wrap
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
@@ -47,6 +49,12 @@ vim.keymap.set("n", "<leader>ww", "<cmd>set wrap!<CR>", { desc = "Toggle wrap" }
 M.undotree = function()
     return {
         { "<leader>u", "<cmd>UndotreeToggle<cr>", desc = "Toggle undo tree" },
+    }
+end
+
+M.blame = function()
+    return {
+        { "<leader>gb", "<cmd>BlameToggle<CR>", mode = { "n", "x" }, desc = "Git Blame" },
     }
 end
 

@@ -25,7 +25,7 @@ return {
         require("mini.git").setup()
         require("mini.comment").setup()
         require("mini.statusline").setup()
-        require("mini.pairs").setup()
+        -- require("mini.pairs").setup()
         require("mini.extra").setup()
         require("mini.tabline").setup({
             show_icons = false,

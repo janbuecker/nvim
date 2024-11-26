@@ -14,10 +14,6 @@ return {
             vim.list_extend(opts.ensure_installed, {
                 "intelephense",
                 -- "phpactor",
-                "phpstan",
-                "php-cs-fixer",
-                "easy-coding-standard",
-                "twiggy-language-server",
             })
         end,
     },
@@ -27,12 +23,11 @@ return {
             servers = {
                 intelephense = {
                     init_options = {
-                        globalStoragePath = os.getenv("XDG_DATA_HOME") .. "/intelephense",
-                        licenceKey = os.getenv("XDG_CONFIG_HOME") .. "/intelephense/licence.txt",
+                        globalStoragePath = (os.getenv("XDG_DATA_HOME") or "") .. "/intelephense",
+                        licenceKey = (os.getenv("XDG_CONFIG_HOME") or "") .. "/intelephense/licence.txt",
                     },
                 },
                 -- phpactor = {},
-                twiggy_language_server = {},
             },
         },
     },
@@ -40,7 +35,7 @@ return {
         "stevearc/conform.nvim",
         opts = function(_, opts)
             opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft, {
-                php = { "easy-coding-standard" },
+                php = { "php_cs_fixer" },
             })
         end,
     },

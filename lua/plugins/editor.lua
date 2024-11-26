@@ -59,4 +59,42 @@ return {
         },
         version = "^1.0.0",
     },
+    {
+        "FabijanZulj/blame.nvim",
+        event = "VeryLazy",
+        config = function()
+            require("blame").setup({
+                format_fn = require("blame.formats.default_formats").date_message,
+            })
+        end,
+        keys = require("config.keymaps").blame(),
+    },
+    {
+        "stevearc/quicker.nvim",
+        event = "FileType qf",
+        opts = {
+            keys = {
+                {
+                    ">",
+                    function()
+                        require("quicker").expand({ before = 2, after = 2, add_to_existing = true })
+                    end,
+                    desc = "Expand quickfix context",
+                },
+                {
+                    "<",
+                    function()
+                        require("quicker").collapse()
+                    end,
+                    desc = "Collapse quickfix context",
+                },
+            },
+        },
+    },
+    {
+        "altermo/ultimate-autopair.nvim",
+        event = { "InsertEnter", "CmdlineEnter" },
+        branch = "v0.6",
+        opts = {},
+    },
 }
