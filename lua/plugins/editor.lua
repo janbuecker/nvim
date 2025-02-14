@@ -1,12 +1,17 @@
 return {
     {
-        "github/copilot.vim",
+        "zbirenbaum/copilot.lua",
+        cmd = "Copilot",
         event = "InsertEnter",
-        init = function()
-            vim.g.copilot_assume_mapped = true
-            vim.g.copilot_no_tab_map = true
-            vim.g.copilot_tab_fallback = ""
-        end,
+        opts = {
+            panel = { enabled = false },
+            suggestion = {
+                auto_trigger = true,
+            },
+            filetypes = {
+                ["rip-substitude"] = false,
+            },
+        },
     },
     {
         "tpope/vim-abolish",
@@ -34,39 +39,19 @@ return {
         event = "BufReadPost",
     },
     {
-        "folke/todo-comments.nvim",
-        dependencies = { "nvim-lua/plenary.nvim" },
-        event = "VeryLazy",
-        config = true,
-    },
-    {
         "chrisgrieser/nvim-rip-substitute",
         cmd = "RipSubstitute",
-        keys = require("config.keymaps").ripsubstitue(),
-    },
-    {
-        "romgrk/barbar.nvim",
-        enabled = false,
-        init = function()
-            vim.g.barbar_auto_setup = false
-        end,
         opts = {
-            icons = {
-                filetype = {
-                    enabled = false,
-                },
+            prefill = {
+                normal = false,
             },
         },
-        version = "^1.0.0",
+        keys = require("config.keymaps").ripsubstitue(),
     },
     {
         "FabijanZulj/blame.nvim",
         event = "VeryLazy",
-        config = function()
-            require("blame").setup({
-                format_fn = require("blame.formats.default_formats").date_message,
-            })
-        end,
+        opts = {},
         keys = require("config.keymaps").blame(),
     },
     {
@@ -95,6 +80,30 @@ return {
         "altermo/ultimate-autopair.nvim",
         event = { "InsertEnter", "CmdlineEnter" },
         branch = "v0.6",
+    },
+    {
+        "stevearc/dressing.nvim",
+        opts = {
+            select = { enabled = false },
+            input = {
+                win_options = {
+                    winhighlight = "NormalFloat:DiagnosticError",
+                },
+            },
+        },
+    },
+    {
+        "folke/flash.nvim",
+        event = "VeryLazy",
+        ---@type Flash.Config
         opts = {},
+        -- stylua: ignore
+        keys = {
+          { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+          { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+          { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+          { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+          { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+        },
     },
 }

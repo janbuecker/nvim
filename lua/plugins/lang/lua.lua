@@ -27,7 +27,7 @@ return {
                             workspace = { checkThirdParty = false },
                             telemetry = { enable = false },
                             diagnostics = {
-                                globals = { "vim" },
+                                globals = { "vim", "Snacks" },
                             },
                         },
                     },

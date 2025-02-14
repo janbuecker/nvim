@@ -1,32 +1,13 @@
 return {
-    "hrsh7th/nvim-cmp",
+    "iguanacucumber/magazine.nvim",
+    name = "nvim-cmp",
     event = "InsertEnter",
     dependencies = {
-        "hrsh7th/cmp-nvim-lsp",
-        "hrsh7th/cmp-buffer",
+        { "iguanacucumber/mag-nvim-lsp", name = "cmp-nvim-lsp", opts = {} },
+        { "iguanacucumber/mag-nvim-lua", name = "cmp-nvim-lua" },
+        { "iguanacucumber/mag-buffer", name = "cmp-buffer" },
+        { "iguanacucumber/mag-cmdline", name = "cmp-cmdline" },
         "https://codeberg.org/FelipeLema/cmp-async-path",
-        {
-            "hrsh7th/cmp-cmdline",
-            keys = { ":" },
-            config = function()
-                local cmp = require("cmp")
-
-                -- `:` cmdline setup.
-                cmp.setup.cmdline(":", {
-                    mapping = cmp.mapping.preset.cmdline(),
-                    sources = cmp.config.sources({
-                        { name = "async_path" },
-                    }, {
-                        {
-                            name = "cmdline",
-                            option = {
-                                ignore_cmds = { "Man", "!" },
-                            },
-                        },
-                    }),
-                })
-            end,
-        },
     },
     config = function()
         -- nvim-cmp setup
@@ -37,7 +18,12 @@ return {
             return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
         end
 
+        local hasCopilot, copilot = pcall(require, "copilot.suggestion")
+
         cmp.setup({
+            performance = {
+                debounce = 0,
+            },
             completion = {
                 keyword_length = 1,
             },
@@ -82,10 +68,8 @@ return {
                 end),
 
                 ["<Tab>"] = cmp.mapping(function(fallback)
-                    local copilot_keys = vim.fn["copilot#Accept"]()
-
-                    if copilot_keys ~= "" and type(copilot_keys) == "string" then
-                        vim.api.nvim_feedkeys(copilot_keys, "i", true)
+                    if hasCopilot and copilot.is_visible() then
+                        copilot.accept()
                     elseif cmp.visible() then
                         cmp.select_next_item()
                     elseif has_words_before() then
@@ -112,6 +96,16 @@ return {
                 },
                 { name = "async_path" },
             },
+        })
+
+        cmp.setup.cmdline(":", {
+            mapping = cmp.mapping.preset.cmdline(),
+            sources = cmp.config.sources({
+                { name = "path" },
+            }, {
+                { name = "cmdline" },
+            }),
+            matching = { disallow_symbol_nonprefix_matching = false },
         })
     end,
 }

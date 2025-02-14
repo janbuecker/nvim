@@ -17,7 +17,6 @@ return {
 
         require("mini.move").setup()
         require("mini.bracketed").setup()
-        require("mini.surround").setup()
         require("mini.trailspace").setup()
         require("mini.bufremove").setup()
         require("mini.cursorword").setup()
@@ -25,7 +24,6 @@ return {
         require("mini.git").setup()
         require("mini.comment").setup()
         require("mini.statusline").setup()
-        -- require("mini.pairs").setup()
         require("mini.extra").setup()
         require("mini.tabline").setup({
             show_icons = false,
@@ -124,11 +122,47 @@ return {
             end,
         })
 
+        vim.api.nvim_create_autocmd("User", {
+            pattern = "MiniFilesActionRename",
+            callback = function(event)
+                Snacks.rename.on_rename_file(event.data.from, event.data.to)
+            end,
+        })
+
         -- local win_config = function()
         --     local row = vim.o.lines - vim.o.cmdheight - (vim.o.laststatus >= 2 and 1 or 0)
         --     return { border = "solid", anchor = "SE", row = row }
         -- end
         -- require("mini.notify").setup({ window = { config = win_config } })
         -- vim.notify = require("mini.notify").make_notify()
+
+        local miniclue = require("mini.clue")
+        miniclue.setup({ -- cute prompts about bindings
+            triggers = {
+                { mode = "n", keys = "<Leader>" },
+                { mode = "x", keys = "<Leader>" },
+                { mode = "n", keys = "<space>" },
+                { mode = "x", keys = "<space>" },
+
+                -- Built-in completion
+                { mode = "i", keys = "<C-x>" },
+
+                -- `g` key
+                { mode = "n", keys = "g" },
+                { mode = "x", keys = "g" },
+
+                -- Window commands
+                { mode = "n", keys = "<C-w>" },
+
+                -- Bracketed
+                { mode = "n", keys = "[" },
+                { mode = "n", keys = "]" },
+            },
+            clues = {
+                miniclue.gen_clues.builtin_completion(),
+                miniclue.gen_clues.g(),
+                miniclue.gen_clues.windows(),
+            },
+        })
     end,
 }
