@@ -1,17 +1,22 @@
 return {
     {
-        "EdenEast/nightfox.nvim",
+        "catppuccin/nvim",
+        name = "catppuccin",
         lazy = false,
         enabled = true,
-        priority = 999,
+        priority = 1000,
         opts = {
-            options = {
-                transparent = true,
+            transparent_background = true,
+            integrations = {
+                diffview = true,
+                fidget = true,
+                neotest = true,
+                snacks = true,
             },
         },
         config = function(_, opts)
-            require("nightfox").setup(opts)
-            vim.cmd("colorscheme nightfox")
+            require("catppuccin").setup(opts)
+            vim.cmd.colorscheme("catppuccin-macchiato")
         end,
     },
 }
