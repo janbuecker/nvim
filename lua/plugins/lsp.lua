@@ -14,7 +14,6 @@ return {
         dependencies = {
             "mason.nvim",
             "williamboman/mason-lspconfig.nvim",
-            "hrsh7th/cmp-nvim-lsp",
             { "j-hui/fidget.nvim", opts = {} },
         },
 
@@ -57,11 +56,15 @@ return {
                 require("config.keymaps").lsp_attach(client, bufnr)
             end)
 
+            local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+            local has_blink, blink = pcall(require, "blink.cmp")
+
             local capabilities = vim.tbl_deep_extend(
                 "force",
                 {},
                 vim.lsp.protocol.make_client_capabilities(),
-                require("cmp_nvim_lsp").default_capabilities(),
+                has_cmp and cmp_nvim_lsp.default_capabilities() or {},
+                has_blink and blink.get_lsp_capabilities() or {},
                 opts.capabilities or {}
             )
 
@@ -122,5 +125,12 @@ return {
                 ensure_installed()
             end
         end,
+    },
+    {
+        "ray-x/lsp_signature.nvim",
+        event = "InsertEnter",
+        opts = {
+            hint_enable = false,
+        },
     },
 }
