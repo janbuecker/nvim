@@ -19,7 +19,7 @@ require("lazy").setup({
         { import = "plugins" },
         { import = "plugins/lang" },
     },
-    install = { colorscheme = { "nightfox" } },
+    install = { colorscheme = { "catppuccin-macchiato" } },
     change_detection = {
         notify = false,
     },
@@ -39,4 +39,4 @@ require("lazy").setup({
     },
 })
 
-vim.keymap.set("n", "<leader>l", "<cmd>:Lazy<cr>")
+vim.keymap.set("n", "<leader>L", "<cmd>:Lazy<cr>")

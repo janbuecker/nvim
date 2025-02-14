@@ -138,17 +138,17 @@ M.lsp_attach = function(_, bufnr)
     nmap("<leader>lr", vim.lsp.buf.rename, "[LSP] Rename")
     nmap("<leader>la", vim.lsp.buf.code_action, "[LSP] Code Action")
 
-    nmap("gd", "<cmd>FzfLua lsp_definitions jump_to_single_result=true<CR>", "[G]oto [D]efinition")
+    nmap("gd", "<cmd>FzfLua lsp_definitions jump1=true<CR>", "[G]oto [D]efinition")
     nmap(
         "gr",
-        "<cmd>FzfLua lsp_references jump_to_single_result=true ignore_current_line=true<CR>",
+        "<cmd>FzfLua lsp_references jump1=true ignore_current_line=true<CR>",
         "[G]oto [R]eferences"
     )
-    nmap("gI", "<cmd>FzfLua lsp_implementations jump_to_single_result=true<CR>", "[G]oto [I]mplementation")
-    nmap("<leader>D", "<cmd>FzfLua lsp_type_definitions jump_to_single_result=true<CR>", "Type [D]efinition")
-    nmap("<leader>ds", "<cmd>FzfLua lsp_document_symbols<CR>", "[D]ocument [S]ymbols")
-    nmap("<leader>dd", "<cmd>FzfLua lsp_document_diagnostics<CR>", "[D]ocument [D]iagnostics")
-    nmap("<leader>ws", "<cmd>FzfLua lsp_workspace_symbols<CR>", "[W]orkspace [S]ymbols")
+    nmap("gI", "<cmd>FzfLua lsp_implementations jump1=true<CR>", "[G]oto [I]mplementation")
+    nmap("<leader>D", "<cmd>FzfLua lsp_type_definitions jump1=true<CR>", "Type [D]efinition")
+    nmap("<leader>ss", "<cmd>FzfLua lsp_document_symbols<CR>", "[D]ocument [S]ymbols")
+    nmap("<leader>sd", "<cmd>FzfLua lsp_document_diagnostics<CR>", "[D]ocument [D]iagnostics")
+    nmap("<leader>ws", "<cmd>FzfLua lsp_live_workspace_symbols<CR>", "[W]orkspace [S]ymbols")
     nmap("<leader>wd", "<cmd>FzfLua lsp_workspace_diagnostics<CR>", "[W]orkspace [D]iagnostics")
 
     -- See `:help K` for why this keymap
