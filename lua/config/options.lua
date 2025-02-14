@@ -30,6 +30,7 @@ vim.opt.swapfile = false -- disable swap files
 vim.opt.showmode = false -- we don't need to see things like -- INSERT -- anymore
 vim.opt.laststatus = 3
 vim.opt.wrap = false -- Disable line wrap
+vim.opt.diffopt = "internal,filler,closeoff,linematch:60"
 
 vim.opt.spelllang:append("cjk") -- disable spellchecking for asian characters (VIM algorithm does not support it)
 vim.opt.whichwrap:append("<,>,[,],h,l")
