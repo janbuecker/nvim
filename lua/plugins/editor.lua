@@ -10,6 +10,7 @@ return {
             },
             filetypes = {
                 ["rip-substitude"] = false,
+                ["yaml"] = true,
             },
         },
     },
