@@ -99,7 +99,7 @@ return {
                         "-s",
                         "Default",
                         "-s",
-                        "Prefix(gitlab.shopware.com)",
+                        "Prefix(github.com/shopware-saas)",
                         "--skip-vendor",
                         "$FILENAME",
                     },
