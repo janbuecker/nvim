@@ -7,10 +7,14 @@ return {
             panel = { enabled = false },
             suggestion = {
                 auto_trigger = true,
+                keymap = {
+                    accept = "<C-y>",
+                },
             },
             filetypes = {
                 ["rip-substitude"] = false,
                 ["yaml"] = true,
+                ["terraform"] = true,
             },
         },
     },
@@ -26,18 +30,9 @@ return {
         keys = require("config.keymaps").undotree(),
     },
     {
-        "sindrets/diffview.nvim",
-        cmd = {
-            "DiffviewOpen",
-            "DiffviewClose",
-            "DiffviewToggle",
-            "DiffviewFileHistory",
-        },
-    },
-    {
         "mcauley-penney/visual-whitespace.nvim",
         config = true,
-        event = "BufReadPost",
+        keys = { "v", "V", "<C-v>" },
     },
     {
         "chrisgrieser/nvim-rip-substitute",
@@ -79,32 +74,27 @@ return {
     },
     {
         "altermo/ultimate-autopair.nvim",
+        enabled = false,
         event = { "InsertEnter", "CmdlineEnter" },
         branch = "v0.6",
-    },
-    {
-        "stevearc/dressing.nvim",
-        opts = {
-            select = { enabled = false },
-            input = {
-                win_options = {
-                    winhighlight = "NormalFloat:DiagnosticError",
-                },
-            },
-        },
     },
     {
         "folke/flash.nvim",
         event = "VeryLazy",
         ---@type Flash.Config
-        opts = {},
+        opts = {
+            modes = {
+                char = {
+                    jump_labels = true,
+                },
+            },
+        },
         -- stylua: ignore
         keys = {
           { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
           { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
           { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
           { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-          { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
         },
     },
 }

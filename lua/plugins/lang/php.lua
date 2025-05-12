@@ -5,38 +5,23 @@ return {
             vim.list_extend(opts.ensure_installed, {
                 "php",
                 "phpdoc",
+                "twig",
             })
         end,
-    },
-    {
-        "williamboman/mason.nvim",
-        opts = function(_, opts)
-            vim.list_extend(opts.ensure_installed, {
-                "intelephense",
-                -- "phpactor",
-            })
-        end,
-    },
-    {
-        "neovim/nvim-lspconfig",
-        opts = {
-            servers = {
-                intelephense = {
-                    init_options = {
-                        globalStoragePath = (os.getenv("XDG_DATA_HOME") or "") .. "/intelephense",
-                        licenceKey = (os.getenv("XDG_CONFIG_HOME") or "") .. "/intelephense/licence.txt",
-                    },
-                },
-                -- phpactor = {},
-            },
-        },
     },
     {
         "stevearc/conform.nvim",
         opts = function(_, opts)
             opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft, {
                 php = { "php_cs_fixer" },
+                twig = { "twig-cs-fixer", "ludtwig" },
             })
+
+            opts.formatters.ludtwig = {
+                command = "ludtwig",
+                args = { "-f", "$FILENAME" },
+                stdin = false,
+            }
         end,
     },
     {
@@ -44,6 +29,7 @@ return {
         opts = function(_, opts)
             opts.linters_by_ft = vim.tbl_deep_extend("force", opts.linters_by_ft, {
                 php = { "php", "phpstan" },
+                twig = { "twig-cs-fixer" },
             })
         end,
     },

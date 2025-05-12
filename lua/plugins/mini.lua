@@ -16,7 +16,6 @@ return {
         require("mini.icons").mock_nvim_web_devicons()
 
         require("mini.move").setup()
-        require("mini.bracketed").setup()
         require("mini.trailspace").setup()
         require("mini.bufremove").setup()
         require("mini.cursorword").setup()

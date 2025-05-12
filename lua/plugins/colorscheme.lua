@@ -9,7 +9,6 @@ return {
             transparent_background = true,
             integrations = {
                 diffview = true,
-                fidget = true,
                 neotest = true,
                 snacks = true,
             },

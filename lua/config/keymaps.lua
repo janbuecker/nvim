@@ -135,25 +135,14 @@ M.lsp_attach = function(_, bufnr)
         vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
     end
 
-    nmap("<leader>lr", vim.lsp.buf.rename, "[LSP] Rename")
-    nmap("<leader>la", vim.lsp.buf.code_action, "[LSP] Code Action")
-
     nmap("gd", "<cmd>FzfLua lsp_definitions jump1=true<CR>", "[G]oto [D]efinition")
-    nmap(
-        "gr",
-        "<cmd>FzfLua lsp_references jump1=true ignore_current_line=true<CR>",
-        "[G]oto [R]eferences"
-    )
-    nmap("gI", "<cmd>FzfLua lsp_implementations jump1=true<CR>", "[G]oto [I]mplementation")
+    nmap("grr", "<cmd>FzfLua lsp_references jump1=true ignore_current_line=true<CR>", "[G]oto [R]eferences")
+    nmap("gri", "<cmd>FzfLua lsp_implementations jump1=true<CR>", "[G]oto [I]mplementation")
     nmap("<leader>D", "<cmd>FzfLua lsp_type_definitions jump1=true<CR>", "Type [D]efinition")
-    nmap("<leader>ss", "<cmd>FzfLua lsp_document_symbols<CR>", "[D]ocument [S]ymbols")
+    nmap("gO", "<cmd>FzfLua lsp_document_symbols<CR>", "[D]ocument [S]ymbols")
     nmap("<leader>sd", "<cmd>FzfLua lsp_document_diagnostics<CR>", "[D]ocument [D]iagnostics")
     nmap("<leader>ws", "<cmd>FzfLua lsp_live_workspace_symbols<CR>", "[W]orkspace [S]ymbols")
     nmap("<leader>wd", "<cmd>FzfLua lsp_workspace_diagnostics<CR>", "[W]orkspace [D]iagnostics")
-
-    -- See `:help K` for why this keymap
-    nmap("K", vim.lsp.buf.hover, "Hover Documentation")
-    nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
 
     -- Lesser used LSP functionality
     nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
@@ -214,12 +203,6 @@ M.coverage = function()
         { "<leader>tcc", ":CoverageClear<CR>", desc = "[T]est [C]overage [C]lear" },
         { "<leader>tct", ":CoverageToggle<CR>", desc = "[T]est [C]overage [T]oggle" },
         { "<leader>tcs", ":CoverageSummary<CR>", desc = "[T]est [C]overage [S]ummary" },
-    }
-end
-
-M.mason = function()
-    return {
-        { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" },
     }
 end
 
