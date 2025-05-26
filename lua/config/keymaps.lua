@@ -194,6 +194,8 @@ M.neotest = function()
         { "<leader>tO", function() require("neotest").output_panel.toggle() end, desc = "Toggle Output Panel" },
         { "<leader>tS", function() require("neotest").run.stop() end, desc = "Stop" },
         { "<leader>tw", function() require("neotest").watch.toggle(vim.fn.expand("%")) end, desc = "Toggle Watch" },
+        { "<leader>td", function() require("neotest").run.run({ suite = false, strategy = "dap" }) end, desc = "Debug nearest test" },
+        { "<leader>tD", function() require("neotest").run.run({ vim.fn.expand("%"), strategy = "dap" }) end, desc = "Debug current file" },
     }
 end
 

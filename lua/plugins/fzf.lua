@@ -107,6 +107,7 @@ return {
             { "<leader>sk", "<cmd>FzfLua keymaps<CR>", desc = "Keymaps" },
             { "<leader>sl", "<cmd>FzfLua resume<CR>", desc = "Resume" },
             { "<leader>sm", "<cmd>FzfLua marks<CR>", desc = "Marks" },
+            { "<leader>sb", "<cmd>FzfLua dap_breakpoints<CR>", desc = "DAP breakpoints" },
             { "<leader>sR", "<cmd>FzfLua resume<CR>", desc = "Resume" },
             -- stylua: ignore end
             {
