@@ -1,6 +1,7 @@
 return {
     {
         "mason-org/mason-lspconfig.nvim",
+        event = { "BufReadPre", "BufNewFile" },
         dependencies = {
             "mason-org/mason.nvim",
             "neovim/nvim-lspconfig",
@@ -11,6 +12,7 @@ return {
     {
         "mason-org/mason.nvim",
         event = { "BufReadPre", "BufNewFile" },
+        cmd = { "Mason" },
         opts = {
             packages = {
                 -- dockerfile
@@ -23,6 +25,7 @@ return {
                 "gofumpt",
                 "golines",
                 "goimports",
+                "delve",
 
                 -- htmx/html
                 "htmx-lsp",

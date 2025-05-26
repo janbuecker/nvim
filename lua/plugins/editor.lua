@@ -46,7 +46,7 @@ return {
     },
     {
         "FabijanZulj/blame.nvim",
-        event = "VeryLazy",
+        event = { "BufReadPost" },
         opts = {},
         keys = require("config.keymaps").blame(),
     },
@@ -81,6 +81,7 @@ return {
     {
         "folke/flash.nvim",
         event = "VeryLazy",
+        enabled = false,
         ---@type Flash.Config
         opts = {
             modes = {

@@ -1,4 +1,4 @@
-local M = {
+return {
     "nvim-treesitter/nvim-treesitter",
     event = { "BufReadPost", "BufNewFile" },
     version = false,
@@ -6,31 +6,38 @@ local M = {
     cmd = { "TSUpdateSync" },
     dependencies = {
         { "nvim-treesitter/nvim-treesitter-textobjects" },
-        {
-            "folke/ts-comments.nvim",
-            opts = {},
-        },
+        { "folke/ts-comments.nvim", opts = {} },
     },
     opts = {
-        ensure_installed = {},
+        ensure_installed = {
+            "bash",
+            "dockerfile",
+            "go",
+            "gomod",
+            "gosum",
+            "gotmpl",
+            "gowork",
+            "hcl",
+            "html",
+            "json",
+            "lua",
+            "luadoc",
+            "php",
+            "phpdoc",
+            "proto",
+            "templ",
+            "terraform",
+            "twig",
+            "yaml",
+        },
         highlight = { enable = true },
         indent = { enable = true },
     },
     config = function(_, opts)
-        if type(opts.ensure_installed) == "table" then
-            ---@type table<string, boolean>
-            local added = {}
-            opts.ensure_installed = vim.tbl_filter(function(lang)
-                if added[lang] then
-                    return false
-                end
-                added[lang] = true
-                return true
-            end, opts.ensure_installed)
-        end
+        vim.filetype.add({ extension = { templ = "templ" } })
+        vim.filetype.add({ extension = { tf = "terraform" } })
+        vim.filetype.add({ extension = { gotmpl = "gotmpl" } })
 
         require("nvim-treesitter.configs").setup(opts)
     end,
 }
-
-return M

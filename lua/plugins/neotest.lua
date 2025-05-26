@@ -5,16 +5,17 @@ return {
         dependencies = {
             "nvim-neotest/nvim-nio",
             "nvim-lua/plenary.nvim",
-            "nvim-treesitter/nvim-treesitter",
             "antoinemadec/FixCursorHold.nvim",
+            "nvim-treesitter/nvim-treesitter",
+            {
+                "fredrikaverpil/neotest-golang",
+                version = "*",
+                dependencies = {
+                    "leoluz/nvim-dap-go",
+                },
+            },
         },
-        opts = {
-            status = { virtual_text = true },
-            output = { open_on_run = true },
-            quickfix = { enabled = true },
-            adapters = {},
-        },
-        config = function(_, opts)
+        config = function()
             local neotest_ns = vim.api.nvim_create_namespace("neotest")
             vim.diagnostic.config({
                 virtual_text = {
@@ -27,33 +28,23 @@ return {
                 },
             }, neotest_ns)
 
-            if opts.adapters then
-                local adapters = {}
-                for name, config in pairs(opts.adapters or {}) do
-                    if type(name) == "number" then
-                        if type(config) == "string" then
-                            config = require(config)
-                        end
-                        adapters[#adapters + 1] = config
-                    elseif config ~= false then
-                        local adapter = require(name)
-                        if type(config) == "table" and not vim.tbl_isempty(config) then
-                            local meta = getmetatable(adapter)
-                            if adapter.setup then
-                                adapter.setup(config)
-                            elseif meta and meta.__call then
-                                adapter(config)
-                            else
-                                error("Adapter " .. name .. " does not support setup")
-                            end
-                        end
-                        adapters[#adapters + 1] = adapter
-                    end
-                end
-                opts.adapters = adapters
-            end
+            local neotest_golang_opts = { -- Specify configuration
+                dap_go_enabled = true,
+                go_test_args = {
+                    "-v",
+                    "-count=1",
+                    "-coverprofile=" .. vim.fn.getcwd() .. "/coverage.out",
+                },
+            }
 
-            require("neotest").setup(opts)
+            require("neotest").setup({
+                status = { virtual_text = true },
+                output = { open_on_run = true },
+                quickfix = { enabled = true },
+                adapters = {
+                    require("neotest-golang")(neotest_golang_opts),
+                },
+            })
         end,
         keys = require("config.keymaps").neotest(),
     },
