@@ -11,6 +11,9 @@ return {
             },
         },
     },
+    before_init = function(_, client_config)
+        client_config.settings.yaml.schemas = require("schemastore").yaml.schemas()
+    end,
     settings = {
         redhat = { telemetry = { enabled = false } },
         yaml = {
@@ -26,7 +29,6 @@ return {
                 -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
                 url = "",
             },
-            schemas = require("schemastore").yaml.schemas(),
         },
     },
 }
