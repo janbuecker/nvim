@@ -1,22 +1,21 @@
-return {
-    "saghen/blink.cmp",
-    enabled = true,
-    version = "1.*",
-    -- event = "VeryLazy",
-    event = { "InsertEnter" },
-    opts = {
+MiniDeps.add({ source = "saghen/blink.cmp", checkout = "v1.3.1" })
+MiniDeps.later(function()
+    require("blink.cmp").setup({
         keymap = { preset = "enter" },
         completion = {
+            accept = {
+                auto_brackets = { enabled = false },
+            },
             ghost_text = { enabled = false },
-            -- menu = {
-            --     draw = {
-            --         columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind", gap = 1 } },
-            --     },
-            -- },
+            menu = {
+                draw = {
+                    treesitter = { "lsp" },
+                },
+            },
         },
         cmdline = {
             keymap = {
-                ["<Tab>"] = { "show", "accept" },
+                ["<Tab>"] = { "show_and_insert", "select_next" },
             },
             completion = {
                 menu = {
@@ -26,6 +25,5 @@ return {
                 },
             },
         },
-    },
-    opts_extend = { "sources.default" },
-}
+    })
+end)

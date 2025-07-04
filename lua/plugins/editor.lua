@@ -1,101 +1,78 @@
-return {
-    {
-        "zbirenbaum/copilot.lua",
-        cmd = "Copilot",
-        event = "InsertEnter",
-        opts = {
-            panel = { enabled = false },
-            suggestion = {
-                auto_trigger = true,
-                keymap = {
-                    accept = "<C-y>",
-                },
-            },
-            filetypes = {
-                ["rip-substitude"] = false,
-                ["yaml"] = true,
-                ["terraform"] = true,
+MiniDeps.add({ source = "zbirenbaum/copilot.lua" })
+MiniDeps.later(function()
+    require("copilot").setup({
+        panel = { enabled = false },
+        suggestion = {
+            auto_trigger = true,
+            keymap = {
+                accept = "<C-y>",
             },
         },
-    },
-    {
-        "tpope/vim-abolish",
-        event = "BufReadPost",
-    },
-    {
-        "mbbill/undotree",
-        cmd = {
-            "UndotreeToggle",
+        filetypes = {
+            ["rip-substitude"] = false,
+            ["yaml"] = true,
+            ["terraform"] = true,
         },
-        keys = require("config.keymaps").undotree(),
-    },
-    {
-        "mcauley-penney/visual-whitespace.nvim",
-        config = true,
-        keys = { "v", "V", "<C-v>" },
-    },
-    {
-        "chrisgrieser/nvim-rip-substitute",
-        cmd = "RipSubstitute",
-        opts = {
-            prefill = {
-                normal = false,
-            },
+    })
+end)
+
+MiniDeps.add({ source = "tpope/vim-abolish" })
+MiniDeps.add({ source = "mbbill/undotree" })
+MiniDeps.add({ source = "mcauley-penney/visual-whitespace.nvim" })
+MiniDeps.later(function()
+    require("visual-whitespace").setup()
+end)
+
+MiniDeps.add({ source = "chrisgrieser/nvim-rip-substitute" })
+MiniDeps.later(function()
+    require("rip-substitute").setup({
+        prefill = {
+            normal = false,
         },
-        keys = require("config.keymaps").ripsubstitue(),
-    },
-    {
-        "FabijanZulj/blame.nvim",
-        event = { "BufReadPost" },
-        opts = {},
-        keys = require("config.keymaps").blame(),
-    },
-    {
-        "stevearc/quicker.nvim",
-        event = "FileType qf",
-        opts = {
-            keys = {
-                {
-                    ">",
-                    function()
-                        require("quicker").expand({ before = 2, after = 2, add_to_existing = true })
-                    end,
-                    desc = "Expand quickfix context",
-                },
-                {
-                    "<",
-                    function()
-                        require("quicker").collapse()
-                    end,
-                    desc = "Collapse quickfix context",
-                },
-            },
-        },
-    },
-    {
-        "altermo/ultimate-autopair.nvim",
-        enabled = false,
-        event = { "InsertEnter", "CmdlineEnter" },
-        branch = "v0.6",
-    },
-    {
-        "folke/flash.nvim",
-        event = "VeryLazy",
-        enabled = false,
-        ---@type Flash.Config
-        opts = {
-            modes = {
-                char = {
-                    jump_labels = true,
-                },
-            },
-        },
-        -- stylua: ignore
+    })
+end)
+
+MiniDeps.add({ source = "FabijanZulj/blame.nvim" })
+MiniDeps.later(function()
+    require("blame").setup()
+end)
+
+MiniDeps.add({ source = "stevearc/quicker.nvim" })
+MiniDeps.later(function()
+    require("quicker").setup({
         keys = {
-          { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-          { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-          { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-          { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+            {
+                ">",
+                function()
+                    require("quicker").expand({ before = 2, after = 2, add_to_existing = true })
+                end,
+                desc = "Expand quickfix context",
+            },
+            {
+                "<",
+                function()
+                    require("quicker").collapse()
+                end,
+                desc = "Collapse quickfix context",
+            },
         },
-    },
-}
+    })
+end)
+
+-- quicker
+vim.keymap.set("n", "<C-q>", function()
+    require("quicker").toggle()
+end, { desc = "Toggle quickfix" })
+
+-- undotree
+vim.keymap.set("n", "<leader>u", "<cmd>UndotreeToggle<cr>", { desc = "Toggle undo tree" })
+
+-- rip substitute
+vim.keymap.set({ "n", "x" }, "<leader>sr", "<cmd>RipSubstitute<CR>", { desc = " rip substitute" })
+vim.keymap.set({ "n", "x" }, "<A-r>", "<cmd>RipSubstitute<CR>", { desc = " rip substitute" })
+vim.keymap.set("v", "<C-r>", "<cmd>RipSubstitute<CR>", { desc = " rip substitute" })
+
+-- git blame
+vim.keymap.set({ "n", "x" }, "<leader>gb", "<cmd>BlameToggle<CR>", { desc = "Git Blame" })
+
+-- keys = require("config.keymaps").blame(),

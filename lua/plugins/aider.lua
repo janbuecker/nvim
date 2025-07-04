@@ -1,17 +1,12 @@
-return {
-    "GeorgesAlkhouri/nvim-aider",
-    cmd = "Aider",
-    keys = {
-        { "<leader>aa", "<cmd>Aider toggle<cr>", desc = "Toggle Aider" },
-        { "<leader>as", "<cmd>Aider send<cr>", desc = "Send to Aider", mode = { "n", "v" } },
-        { "<leader>ac", "<cmd>Aider command<cr>", desc = "Aider Commands" },
-        { "<leader>ab", "<cmd>Aider buffer<cr>", desc = "Send Buffer" },
-        { "<leader>a+", "<cmd>Aider add<cr>", desc = "Add File" },
-        { "<leader>a-", "<cmd>Aider drop<cr>", desc = "Drop File" },
-        { "<leader>ar", "<cmd>Aider add readonly<cr>", desc = "Add Read-Only" },
-    },
-    dependencies = {
-        "folke/snacks.nvim",
-    },
-    config = true,
-}
+MiniDeps.add({ source = "GeorgesAlkhouri/nvim-aider" })
+MiniDeps.later(function()
+    require("nvim_aider").setup()
+end)
+
+vim.keymap.set("n", "<leader>aa", "<cmd>Aider toggle<cr>", { desc = "Toggle Aider" })
+vim.keymap.set({ "n", "v" }, "<leader>as", "<cmd>Aider send<cr>", { desc = "Send to Aider" })
+vim.keymap.set("n", "<leader>ac", "<cmd>Aider command<cr>", { desc = "Aider Commands" })
+vim.keymap.set("n", "<leader>ab", "<cmd>Aider buffer<cr>", { desc = "Send Buffer" })
+vim.keymap.set("n", "<leader>a+", "<cmd>Aider add<cr>", { desc = "Add File" })
+vim.keymap.set("n", "<leader>a-", "<cmd>Aider drop<cr>", { desc = "Drop File" })
+vim.keymap.set("n", "<leader>ar", "<cmd>Aider add readonly<cr>", { desc = "Add Read-Only" })

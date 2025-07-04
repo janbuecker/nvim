@@ -4,7 +4,7 @@ return {
             workspace = { checkThirdParty = false },
             telemetry = { enable = false },
             diagnostics = {
-                globals = { "vim", "Snacks" },
+                globals = { "vim", "Snacks", "MiniDeps" },
             },
         },
     },

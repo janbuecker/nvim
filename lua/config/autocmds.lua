@@ -1,8 +1,31 @@
 -- LSP
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
-        local client = vim.lsp.get_client_by_id(args.data.client_id)
-        require("config.keymaps").lsp_attach(client, args.buf)
+        local nmap = function(keys, func, desc)
+            if desc then
+                desc = "LSP: " .. desc
+            end
+
+            vim.keymap.set("n", keys, func, { buffer = args.buf, desc = desc })
+        end
+
+        -- stylua: ignore start
+        nmap("gd", function() Snacks.picker.lsp_definitions() end, "[G]oto [D]efinition")
+        nmap("grr", function() Snacks.picker.lsp_references() end, "[G]oto [R]eferences")
+        nmap("gri", function() Snacks.picker.lsp_implementations() end, "[G]oto [I]mplementation")
+        nmap("gO", function() Snacks.picker.lsp_symbols() end, "[D]ocument [S]ymbols")
+        nmap("<leader>sd", function() Snacks.picker.diagnostics_buffer() end, "[D]ocument [D]iagnostics")
+        nmap("<leader>ws", function() Snacks.picker.lsp_workspace_symbols() end, "[W]orkspace [S]ymbols")
+        nmap("<leader>wd", function() Snacks.picker.diagnostics() end, "[W]orkspace [D]iagnostics")
+        -- stylua: ignore end
+
+        -- Lesser used LSP functionality
+        nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+
+        -- Create a command `:Format` local to the LSP buffer
+        vim.api.nvim_buf_create_user_command(args.buf, "Format", function(_)
+            vim.lsp.buf.format()
+        end, { desc = "Format current buffer with LSP" })
     end,
 })
 
