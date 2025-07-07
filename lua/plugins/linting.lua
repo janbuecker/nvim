@@ -1,5 +1,6 @@
-MiniDeps.add({ source = "mfussenegger/nvim-lint" })
 MiniDeps.later(function()
+    MiniDeps.add({ source = "mfussenegger/nvim-lint" })
+
     require("lint").linters_by_ft = {
         dockerfile = { "hadolint" },
         go = { "golangcilint" },

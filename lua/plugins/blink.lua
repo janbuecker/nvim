@@ -1,5 +1,6 @@
-MiniDeps.add({ source = "saghen/blink.cmp", checkout = "v1.3.1" })
 MiniDeps.later(function()
+    MiniDeps.add({ source = "saghen/blink.cmp", checkout = "v1.3.1" })
+
     require("blink.cmp").setup({
         keymap = { preset = "enter" },
         completion = {

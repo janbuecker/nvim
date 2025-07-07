@@ -1,16 +1,16 @@
-MiniDeps.add({
-    source = "nvim-neotest/neotest",
-    depends = {
-        "nvim-neotest/nvim-nio",
-        "nvim-lua/plenary.nvim",
-        "antoinemadec/FixCursorHold.nvim",
-        "nvim-treesitter/nvim-treesitter",
-        "leoluz/nvim-dap-go",
-        "fredrikaverpil/neotest-golang",
-    },
-})
-
 MiniDeps.later(function()
+    MiniDeps.add({
+        source = "nvim-neotest/neotest",
+        depends = {
+            "nvim-neotest/nvim-nio",
+            "nvim-lua/plenary.nvim",
+            "antoinemadec/FixCursorHold.nvim",
+            "nvim-treesitter/nvim-treesitter",
+            "leoluz/nvim-dap-go",
+            "fredrikaverpil/neotest-golang",
+        },
+    })
+
     local neotest_ns = vim.api.nvim_create_namespace("neotest")
     vim.diagnostic.config({
         virtual_text = {
@@ -41,8 +41,9 @@ MiniDeps.later(function()
     })
 end)
 
-MiniDeps.add({ source = "andythigpen/nvim-coverage" })
 MiniDeps.later(function()
+    MiniDeps.add({ source = "andythigpen/nvim-coverage" })
+
     require("coverage").setup({
         auto_reload = true,
         lang = {

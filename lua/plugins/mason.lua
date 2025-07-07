@@ -1,13 +1,13 @@
-MiniDeps.add({
-    source = "mason-org/mason.nvim",
-    depends = {
-        "mason-org/mason-lspconfig.nvim",
-        "neovim/nvim-lspconfig",
-        "b0o/schemastore.nvim",
-    },
-})
-
 MiniDeps.later(function()
+    MiniDeps.add({
+        source = "mason-org/mason.nvim",
+        depends = {
+            "mason-org/mason-lspconfig.nvim",
+            "neovim/nvim-lspconfig",
+            "b0o/schemastore.nvim",
+        },
+    })
+
     require("mason").setup()
     require("mason-lspconfig").setup()
 

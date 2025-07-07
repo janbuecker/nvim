@@ -1,16 +1,21 @@
-MiniDeps.now(function()
-    require("mini.icons").setup()
-    require("mini.icons").mock_nvim_web_devicons()
+local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 
-    require("mini.move").setup()
-    require("mini.trailspace").setup()
-    require("mini.bufremove").setup()
-    require("mini.cursorword").setup()
-    require("mini.splitjoin").setup()
+now(function()
+    require("mini.icons").setup()
+    later(require("mini.icons").mock_nvim_web_devicons)
+
+    later(function()
+        require("mini.move").setup()
+        require("mini.trailspace").setup()
+        require("mini.bufremove").setup()
+        require("mini.cursorword").setup()
+        require("mini.splitjoin").setup()
+        require("mini.comment").setup()
+        require("mini.extra").setup()
+    end)
+
     require("mini.git").setup()
-    require("mini.comment").setup()
     require("mini.statusline").setup()
-    require("mini.extra").setup()
     require("mini.tabline").setup({
         show_icons = false,
     })

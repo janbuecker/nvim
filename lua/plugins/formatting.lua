@@ -1,7 +1,7 @@
-MiniDeps.add({ source = "varnishcache-friends/vim-varnish" })
-MiniDeps.add({ source = "stevearc/conform.nvim" })
-
 MiniDeps.later(function()
+    MiniDeps.add({ source = "varnishcache-friends/vim-varnish" })
+    MiniDeps.add({ source = "stevearc/conform.nvim" })
+
     vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
     require("conform").setup({
         format = {

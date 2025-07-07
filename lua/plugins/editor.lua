@@ -1,5 +1,5 @@
-MiniDeps.add({ source = "zbirenbaum/copilot.lua" })
 MiniDeps.later(function()
+    MiniDeps.add({ source = "zbirenbaum/copilot.lua" })
     require("copilot").setup({
         panel = { enabled = false },
         suggestion = {
@@ -17,14 +17,19 @@ MiniDeps.later(function()
 end)
 
 MiniDeps.add({ source = "tpope/vim-abolish" })
-MiniDeps.add({ source = "mbbill/undotree" })
-MiniDeps.add({ source = "mcauley-penney/visual-whitespace.nvim" })
+
 MiniDeps.later(function()
+    MiniDeps.add({ source = "mbbill/undotree" })
+end)
+
+MiniDeps.later(function()
+    MiniDeps.add({ source = "mcauley-penney/visual-whitespace.nvim" })
     require("visual-whitespace").setup()
 end)
 
-MiniDeps.add({ source = "chrisgrieser/nvim-rip-substitute" })
 MiniDeps.later(function()
+    MiniDeps.add({ source = "chrisgrieser/nvim-rip-substitute" })
+
     require("rip-substitute").setup({
         prefill = {
             normal = false,
@@ -32,13 +37,15 @@ MiniDeps.later(function()
     })
 end)
 
-MiniDeps.add({ source = "FabijanZulj/blame.nvim" })
 MiniDeps.later(function()
+    MiniDeps.add({ source = "FabijanZulj/blame.nvim" })
+
     require("blame").setup()
 end)
 
-MiniDeps.add({ source = "stevearc/quicker.nvim" })
 MiniDeps.later(function()
+    MiniDeps.add({ source = "stevearc/quicker.nvim" })
+
     require("quicker").setup({
         keys = {
             {

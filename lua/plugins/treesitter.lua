@@ -1,18 +1,18 @@
-MiniDeps.add({
-    source = "nvim-treesitter/nvim-treesitter",
-    checkout = "master",
-    monitor = "main",
-    depends = {
-        "folke/ts-comments.nvim",
-    },
-    hooks = {
-        post_checkout = function()
-            vim.cmd("TSUpdate")
-        end,
-    },
-})
-
 MiniDeps.later(function()
+    MiniDeps.add({
+        source = "nvim-treesitter/nvim-treesitter",
+        checkout = "master",
+        monitor = "main",
+        depends = {
+            "folke/ts-comments.nvim",
+        },
+        hooks = {
+            post_checkout = function()
+                vim.cmd("TSUpdate")
+            end,
+        },
+    })
+
     vim.filetype.add({ extension = { templ = "templ" } })
     vim.filetype.add({ extension = { tf = "terraform" } })
     vim.filetype.add({ extension = { gotmpl = "gotmpl" } })

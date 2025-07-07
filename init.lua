@@ -1,4 +1,6 @@
 require("config.options")
+require("config.autocmds")
+require("config.keymaps")
 
 -- Clone 'mini.nvim' manually in a way that it gets managed by 'mini.deps'
 local path_package = vim.fn.stdpath("data") .. "/site/"
@@ -17,6 +19,8 @@ if not vim.loop.fs_stat(mini_path) then
     vim.cmd('echo "Installed `mini.nvim`" | redraw')
 end
 require("mini.deps").setup({ path = { package = path_package } })
+
+MiniDeps.add({ source = "dstein64/vim-startuptime" })
 
 -- colorscheme
 MiniDeps.add({ source = "catppuccin/nvim" })
@@ -44,6 +48,3 @@ require("plugins.linting")
 require("plugins.terragrunt")
 require("plugins.neotest")
 require("plugins.editor")
-
-require("config.autocmds")
-require("config.keymaps")
