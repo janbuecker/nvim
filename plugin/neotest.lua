@@ -1,58 +1,54 @@
-MiniDeps.later(function()
-    MiniDeps.add({
-        source = "nvim-neotest/neotest",
-        depends = {
-            "nvim-neotest/nvim-nio",
-            "nvim-lua/plenary.nvim",
-            "antoinemadec/FixCursorHold.nvim",
-            "nvim-treesitter/nvim-treesitter",
-            "leoluz/nvim-dap-go",
-            "fredrikaverpil/neotest-golang",
-        },
-    })
+vim.pack.add({
+    { src = "https://github.com/nvim-neotest/neotest" },
+    { src = "https://github.com/nvim-neotest/nvim-nio" },
+    { src = "https://github.com/nvim-lua/plenary.nvim" },
+    { src = "https://github.com/antoinemadec/FixCursorHold.nvim" },
+    { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+    { src = "https://github.com/leoluz/nvim-dap-go" },
+    { src = "https://github.com/fredrikaverpil/neotest-golang" },
+}, { load = true })
 
-    local neotest_ns = vim.api.nvim_create_namespace("neotest")
-    vim.diagnostic.config({
-        virtual_text = {
-            format = function(diagnostic)
-                -- Replace newline and tab characters with space for more compact diagnostics
-                local message = diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
-                return message
-            end,
-        },
-    }, neotest_ns)
+local neotest_ns = vim.api.nvim_create_namespace("neotest")
+vim.diagnostic.config({
+    virtual_text = {
+        format = function(diagnostic)
+            -- Replace newline and tab characters with space for more compact diagnostics
+            local message = diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
+            return message
+        end,
+    },
+}, neotest_ns)
 
-    local neotest_golang_opts = { -- Specify configuration
-        dap_go_enabled = true,
-        go_test_args = {
-            "-v",
-            "-count=1",
-            "-coverprofile=" .. vim.fn.getcwd() .. "/coverage.out",
-        },
-    }
+local neotest_golang_opts = { -- Specify configuration
+    dap_go_enabled = true,
+    go_test_args = {
+        "-v",
+        "-count=1",
+        "-coverprofile=" .. vim.fn.getcwd() .. "/coverage.out",
+    },
+}
 
-    require("neotest").setup({
-        status = { virtual_text = true },
-        output = { open_on_run = true },
-        quickfix = { enabled = true },
-        adapters = {
-            require("neotest-golang")(neotest_golang_opts),
-        },
-    })
-end)
+require("neotest").setup({
+    status = { virtual_text = true },
+    output = { open_on_run = true },
+    quickfix = { enabled = true },
+    adapters = {
+        require("neotest-golang")(neotest_golang_opts),
+    },
+})
 
-MiniDeps.later(function()
-    MiniDeps.add({ source = "andythigpen/nvim-coverage" })
+vim.pack.add({
+    { src = "https://github.com/andythigpen/nvim-coverage" },
+}, { load = true })
 
-    require("coverage").setup({
-        auto_reload = true,
-        lang = {
-            go = {
-                coverage_file = vim.fn.getcwd() .. "/coverage.out",
-            },
+require("coverage").setup({
+    auto_reload = true,
+    lang = {
+        go = {
+            coverage_file = vim.fn.getcwd() .. "/coverage.out",
         },
-    })
-end)
+    },
+})
 
 
 -- stylua: ignore start

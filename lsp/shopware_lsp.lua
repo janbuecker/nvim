@@ -1,5 +1,3 @@
-vim.lsp.enable("shopware_lsp")
-
 return {
     cmd = { "shopware-lsp" },
     root_markers = { "composer.json", ".git" },

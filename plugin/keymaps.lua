@@ -1,5 +1,7 @@
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
+vim.keymap.set("n", "<leader>ps", "<cmd>lua vim.pack.update()<CR>")
+
 -- : to ;
 vim.keymap.set("n", ";", ":", { noremap = true })
 
@@ -40,3 +42,31 @@ vim.keymap.set("n", "gl", vim.diagnostic.open_float, { desc = "Open diagnostic i
 vim.api.nvim_create_user_command("CopyRelativeFilename", function()
     vim.fn.setreg("+", vim.fn.expand("%"))
 end, {})
+
+-- delete unsued plugins
+local function pack_clean()
+    local active_plugins = {}
+    local unused_plugins = {}
+
+    for _, plugin in ipairs(vim.pack.get()) do
+        active_plugins[plugin.spec.name] = plugin.active
+    end
+
+    for _, plugin in ipairs(vim.pack.get()) do
+        if not active_plugins[plugin.spec.name] then
+            table.insert(unused_plugins, plugin.spec.name)
+        end
+    end
+
+    if #unused_plugins == 0 then
+        print("No unused plugins.")
+        return
+    end
+
+    local choice = vim.fn.confirm("Remove unused plugins?", "&Yes\n&No", 2)
+    if choice == 1 then
+        vim.pack.del(unused_plugins)
+    end
+end
+
+vim.keymap.set("n", "<leader>pc", pack_clean)
