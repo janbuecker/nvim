@@ -7,6 +7,7 @@ require("snacks").setup({
     input = { enabled = true },
     rename = { enabled = true },
     lazygit = { enabled = true },
+    words = { enabled = true },
     picker = {
         enabled = true,
         layout = "vertical",
@@ -45,4 +46,5 @@ vim.keymap.set("n", "<leader>sh", function() Snacks.picker.help() end, {desc = "
 vim.keymap.set("n", "<leader>sk", function() Snacks.picker.keymaps() end, {desc = "Keymaps" } )
 vim.keymap.set("n", "<leader>sl", function() Snacks.picker.resume() end, {desc = "Resume" } )
 vim.keymap.set("n", "<leader>sR", function() Snacks.picker.resume() end, {desc = "Resume" } )
+vim.keymap.set("n", "<leader>s/", function() Snacks.picker.lines() end, {desc = "Lines" } )
 -- stylua: ignore end

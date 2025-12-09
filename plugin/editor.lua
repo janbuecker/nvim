@@ -6,7 +6,17 @@ vim.pack.add({
     { src = "https://github.com/mcauley-penney/visual-whitespace.nvim" },
     { src = "https://github.com/chrisgrieser/nvim-rip-substitute" },
     { src = "https://github.com/stevearc/quicker.nvim" },
+    { src = "https://github.com/folke/flash.nvim" },
 }, { load = true })
+
+require("flash").setup()
+
+vim.keymap.set({ "n", "x", "o" }, "s", function()
+    require("flash").jump()
+end)
+vim.keymap.set({ "n", "x", "o" }, "S", function()
+    require("flash").treesitter()
+end)
 
 require("visual-whitespace").setup()
 
