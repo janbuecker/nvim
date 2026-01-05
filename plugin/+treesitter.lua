@@ -48,11 +48,12 @@ vim.api.nvim_create_autocmd("FileType", {
     group = vim.api.nvim_create_augroup("treesitter", { clear = true }),
     callback = function(ev)
         local lang = vim.treesitter.language.get_lang(ev.match)
-
         if not vim.tbl_contains(parsers, lang) then
             return
         end
 
         pcall(vim.treesitter.start, ev.buf)
+
+        vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
     end,
 })
