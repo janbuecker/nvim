@@ -1,11 +1,11 @@
 {
   "plugins": {
     "catppuccin": {
-      "rev": "6efc53e42cfc97700f19043105bf73ba83c4ae7d",
+      "rev": "beaf41a30c26fd7d6c386d383155cbd65dd554cd",
       "src": "https://github.com/catppuccin/nvim"
     },
     "cmp-async-path": {
-      "rev": "b8aade3",
+      "rev": "9c2374deb32c2bec8b27e928c6f57090e9a875d2",
       "src": "https://codeberg.org/FelipeLema/cmp-async-path"
     },
     "cmp-buffer": {
@@ -21,11 +21,11 @@
       "src": "https://github.com/hrsh7th/cmp-nvim-lsp"
     },
     "conform.nvim": {
-      "rev": "8314f4c9e205e7f30b62147069729f9a1227d8bf",
+      "rev": "c2526f1cde528a66e086ab1668e996d162c75f4f",
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "copilot.lua": {
-      "rev": "e78d1ffebdf6ccb6fd8be4e6898030c1cf5f9b64",
+      "rev": "2d7511494245129aa6c2176f9c71cc2bc1360ed9",
       "src": "https://github.com/zbirenbaum/copilot.lua"
     },
     "flash.nvim": {
@@ -33,7 +33,7 @@
       "src": "https://github.com/folke/flash.nvim"
     },
     "mini.nvim": {
-      "rev": "02fc1af931cb6e7bb475e4977f530073cfdcc20d",
+      "rev": "4f53281c51ad9384ef790178b9643740fa763979",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "nvim-cmp": {
@@ -41,7 +41,7 @@
       "src": "https://github.com/hrsh7th/nvim-cmp"
     },
     "nvim-dap": {
-      "rev": "a151766c37307f2ec61cc30c8c82f9642b5758a0",
+      "rev": "cdfd55a133f63228c55f91378f12908cb2a78ded",
       "src": "https://github.com/mfussenegger/nvim-dap"
     },
     "nvim-dap-go": {
@@ -57,11 +57,11 @@
       "src": "https://github.com/theHamsta/nvim-dap-virtual-text"
     },
     "nvim-lint": {
-      "rev": "1e6b2ac034d1a7588d11b0b8e862a7ad89368376",
+      "rev": "ca6ea12daf0a4d92dc24c5c9ae22a1f0418ade37",
       "src": "https://github.com/mfussenegger/nvim-lint"
     },
     "nvim-lspconfig": {
-      "rev": "0b38bc74487e73489624d61396af7805af9cc75f",
+      "rev": "92ee7d42320edfbb81f3cad851314ab197fa324a",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-nio": {
@@ -69,16 +69,16 @@
       "src": "https://github.com/nvim-neotest/nvim-nio"
     },
     "nvim-rip-substitute": {
-      "rev": "58de82d542153809bbf2fe317b60f981818291df",
+      "rev": "af69702b1e6881b0330d22d3a62989e320d4d6d1",
       "src": "https://github.com/chrisgrieser/nvim-rip-substitute"
     },
     "nvim-treesitter": {
-      "rev": "99dfc5acefd7728cec4ad0d0a6a9720f2c2896ff",
+      "rev": "e75c007f2747050c2c620dc862c77b8f242551a8",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter",
       "version": "'main'"
     },
     "nvim-treesitter-textobjects": {
-      "rev": "28a3494c075ef0f353314f627546537e43c09592",
+      "rev": "4d55f63252e04c5212daed958e4e940915ff16ce",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
       "version": "'main'"
     },
@@ -87,11 +87,11 @@
       "src": "https://github.com/nvim-lua/plenary.nvim"
     },
     "quicker.nvim": {
-      "rev": "771437c3e3672dba9233156e1c2e2fc1888a5fff",
+      "rev": "fc041830fa7cf093786b0d5990d99cf3c7b0c129",
       "src": "https://github.com/stevearc/quicker.nvim"
     },
     "schemastore.nvim": {
-      "rev": "b0ed552048541cf1452c7ca08b1d372768f059b9",
+      "rev": "fb7b9034285a5658c746faa12eff8c1c9d9b11b1",
       "src": "https://github.com/b0o/schemastore.nvim"
     },
     "snacks.nvim": {

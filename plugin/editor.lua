@@ -1,6 +1,5 @@
 vim.pack.add({
     { src = "https://github.com/dstein64/vim-startuptime" },
-    { src = "https://github.com/zbirenbaum/copilot.lua" },
     { src = "https://github.com/tpope/vim-abolish" },
     { src = "https://github.com/mbbill/undotree" },
     { src = "https://github.com/mcauley-penney/visual-whitespace.nvim" },
@@ -19,23 +18,6 @@ vim.keymap.set({ "n", "x", "o" }, "S", function()
 end)
 
 require("visual-whitespace").setup()
-
--- copilot
-
-require("copilot").setup({
-    panel = { enabled = false },
-    suggestion = {
-        auto_trigger = true,
-        keymap = {
-            accept = "<C-y>",
-        },
-    },
-    filetypes = {
-        ["rip-substitude"] = false,
-        ["yaml"] = true,
-        ["terraform"] = true,
-    },
-})
 
 -- rip substitute
 
