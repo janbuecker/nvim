@@ -10,23 +10,19 @@ This config uses Neovim's built-in package manager (`vim.pack`) instead of exter
 
 ```
 ~/.config/nvim/
+├── init.lua             # Main configuration: options, colorscheme, lualine, copilot, keymaps
 ├── plugin/              # Plugin configurations
-│   ├── +options.lua     # Editor options and settings
 │   ├── +treesitter.lua  # TreeSitter configuration and parsers
 │   ├── autocmds.lua     # Autocommands and hooks
-│   ├── catppuccin.lua   # Color scheme setup
 │   ├── cmp.lua          # Completion (nvim-cmp) setup
-│   ├── copilot.lua      # GitHub Copilot setup
 │   ├── dap.lua          # Debugging (DAP) setup
-│   ├── editor.lua       # Core editor utilities
 │   ├── formatting.lua   # Code formatting (conform.nvim)
 │   ├── keymaps.lua      # Global keybindings
 │   ├── linting.lua      # Linting configuration
 │   ├── lsp.lua          # LSP configuration
 │   ├── mini.lua         # Mini.nvim modules setup
 │   ├── neotest.lua      # Testing framework (currently disabled)
-│   ├── snacks.lua       # Snacks.nvim picker and utilities
-│   └── terragrunt.lua   # Terragrunt LSP setup
+│   └── snacks.lua       # Snacks.nvim picker and utilities
 ├── lsp/                 # LSP server configurations
 │   ├── gopls.lua
 │   ├── intelephense.lua (PHP)
@@ -45,7 +41,8 @@ This config uses Neovim's built-in package manager (`vim.pack`) instead of exter
 
 | Package | Description |
 |---------|-------------|
-| **catppuccin** | Beautiful pastel color scheme with macchiato variant (transparent background) |
+| **catppuccin** | Beautiful pastel color scheme with mocha variant (transparent background) |
+| **lualine.nvim** | Fast and easy to configure statusline |
 | **nvim-pack** | Neovim's built-in package manager |
 
 ### Picking & Navigation
@@ -60,7 +57,7 @@ This config uses Neovim's built-in package manager (`vim.pack`) instead of exter
 
 | Package | Description |
 |---------|-------------|
-| **mini.nvim** (collection) | Mini plugins including: comment, move, trailspace, bufremove, splitjoin, indentscope, diff, git, statusline, tabline, ai (textobjects), clue (keymap hints) |
+| **mini.nvim** (collection) | Mini plugins including: comment, move, trailspace, bufremove, splitjoin, indentscope, diff, git, tabline, ai (textobjects), clue (keymap hints) |
 | **vim-abolish** | Smart case-aware substitution and abbreviations |
 | **vim-rip-substitute** | Interactive find & replace with live preview |
 | **quicker.nvim** | Enhanced quickfix/location list with context expansion |
@@ -289,8 +286,8 @@ Show hint when pressing:
 - Cursor line highlighted
 - Color column at 120 characters
 - Window border: single line
-- Transparent background enabled (catppuccin)
-- Statusline: single global line
+- Transparent background enabled (catppuccin mocha)
+- Statusline: lualine with single global line
 - Mouse support enabled
 
 ### Navigation
