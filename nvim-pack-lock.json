@@ -25,7 +25,7 @@
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "copilot.lua": {
-      "rev": "2d7511494245129aa6c2176f9c71cc2bc1360ed9",
+      "rev": "2ede0808fa8dace39ea2a0f09b7bc6583655b730",
       "src": "https://github.com/zbirenbaum/copilot.lua"
     },
     "flash.nvim": {
@@ -33,15 +33,15 @@
       "src": "https://github.com/folke/flash.nvim"
     },
     "mini.nvim": {
-      "rev": "4f53281c51ad9384ef790178b9643740fa763979",
+      "rev": "9b935c218ddba02e5dc75c94f90143bce1f7c646",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "nvim-cmp": {
-      "rev": "85bbfad83f804f11688d1ab9486b459e699292d6",
+      "rev": "da88697d7f45d16852c6b2769dc52387d1ddc45f",
       "src": "https://github.com/hrsh7th/nvim-cmp"
     },
     "nvim-dap": {
-      "rev": "cdfd55a133f63228c55f91378f12908cb2a78ded",
+      "rev": "085386b9359ddf8d76ad89b98973b8e332dc5ba3",
       "src": "https://github.com/mfussenegger/nvim-dap"
     },
     "nvim-dap-go": {
@@ -61,7 +61,7 @@
       "src": "https://github.com/mfussenegger/nvim-lint"
     },
     "nvim-lspconfig": {
-      "rev": "92ee7d42320edfbb81f3cad851314ab197fa324a",
+      "rev": "54baa4beeeabed24be24379d5b3ce402fe7b5208",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-nio": {
@@ -73,12 +73,12 @@
       "src": "https://github.com/chrisgrieser/nvim-rip-substitute"
     },
     "nvim-treesitter": {
-      "rev": "e75c007f2747050c2c620dc862c77b8f242551a8",
+      "rev": "568ede7e79172a0fe7c9d631454a97ad968deaf2",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter",
       "version": "'main'"
     },
     "nvim-treesitter-textobjects": {
-      "rev": "4d55f63252e04c5212daed958e4e940915ff16ce",
+      "rev": "52bda74e087034408e2d563cb4499c1601038f9d",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
       "version": "'main'"
     },
@@ -91,12 +91,16 @@
       "src": "https://github.com/stevearc/quicker.nvim"
     },
     "schemastore.nvim": {
-      "rev": "fb7b9034285a5658c746faa12eff8c1c9d9b11b1",
+      "rev": "55874e697fd70ce1064eb96ff5c53c9bd6172324",
       "src": "https://github.com/b0o/schemastore.nvim"
     },
     "snacks.nvim": {
       "rev": "fe7cfe9800a182274d0f868a74b7263b8c0c020b",
       "src": "https://github.com/folke/snacks.nvim"
+    },
+    "techbase.nvim": {
+      "rev": "25f814c3eba43f13d8f62d526434d7ba125e6add",
+      "src": "https://github.com/mcauley-penney/techbase.nvim"
     },
     "terragrunt-ls": {
       "rev": "a82e243",
@@ -123,7 +127,7 @@
       "src": "https://github.com/varnishcache-friends/vim-varnish"
     },
     "visual-whitespace.nvim": {
-      "rev": "2c2de32bb97620bcf4b3b78879c185315ee971dc",
+      "rev": "2eefcbcbe294ea6610868755db7ddb8f92f68a1c",
       "src": "https://github.com/mcauley-penney/visual-whitespace.nvim"
     }
   }

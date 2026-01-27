@@ -1,7 +1,3 @@
-vim.pack.add({
-    { src = "https://github.com/folke/snacks.nvim" },
-}, { load = true })
-
 require("snacks").setup({
     notifier = { enabled = true },
     input = { enabled = true },

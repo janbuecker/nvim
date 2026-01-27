@@ -39,9 +39,7 @@ vim.keymap.set("i", "<C-c>", "<Esc>")
 vim.keymap.set("n", "gl", vim.diagnostic.open_float, { desc = "Open diagnostic in float" })
 
 -- Copy relative filename to clipboard
-vim.api.nvim_create_user_command("CopyRelativeFilename", function()
-    vim.fn.setreg("+", vim.fn.expand("%"))
-end, {})
+vim.api.nvim_create_user_command("CopyRelativeFilename", function() vim.fn.setreg("+", vim.fn.expand("%")) end, {})
 
 -- delete unsued plugins
 local function pack_clean()

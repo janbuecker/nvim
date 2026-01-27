@@ -1,8 +1,3 @@
-vim.pack.add({
-    { src = "https://github.com/varnishcache-friends/vim-varnish" },
-    { src = "https://github.com/stevearc/conform.nvim" },
-}, { load = true })
-
 vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 
 require("conform").setup({

@@ -1,11 +1,3 @@
-vim.pack.add({
-    { src = "https://github.com/mfussenegger/nvim-dap" },
-    { src = "https://github.com/nvim-lua/plenary.nvim" },
-    { src = "https://github.com/rcarriga/nvim-dap-ui" },
-    { src = "https://github.com/theHamsta/nvim-dap-virtual-text" },
-    { src = "https://github.com/leoluz/nvim-dap-go" },
-    { src = "https://github.com/nvim-neotest/nvim-nio" },
-}, { load = true })
 vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
 
 local icons = {
@@ -27,9 +19,7 @@ end
 -- setup dap config by VsCode launch.json file
 local vscode = require("dap.ext.vscode")
 local json = require("plenary.json")
-vscode.json_decode = function(str)
-    return vim.json.decode(json.json_strip_comments(str))
-end
+vscode.json_decode = function(str) return vim.json.decode(json.json_strip_comments(str)) end
 
 require("nvim-dap-virtual-text").setup()
 require("dap-go").setup()
@@ -39,15 +29,9 @@ local dapui = require("dapui")
 
 dapui.setup()
 
-dap.listeners.after.event_initialized["dapui_config"] = function()
-    dapui.open({})
-end
-dap.listeners.before.event_terminated["dapui_config"] = function()
-    dapui.close({})
-end
-dap.listeners.before.event_exited["dapui_config"] = function()
-    dapui.close({})
-end
+dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open({}) end
+dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close({}) end
+dap.listeners.before.event_exited["dapui_config"] = function() dapui.close({}) end
 
 -- stylua: ignore start
 vim.keymap.set("n", "<leader>dB", function() require("dap").set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, {desc = "Breakpoint Condition" } )

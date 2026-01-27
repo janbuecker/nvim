@@ -1,7 +1,3 @@
-vim.pack.add({
-    { src = "https://github.com/nvim-mini/mini.nvim" },
-}, { load = true })
-
 require("mini.icons").setup()
 require("mini.icons").mock_nvim_web_devicons()
 
@@ -104,9 +100,10 @@ vim.api.nvim_create_autocmd("User", {
         -- Diff with buffer
         vim.keymap.set("n", "dv", function()
             local cur_entry_path = MiniFiles.get_fs_entry().path
-            vim.api.nvim_win_call(MiniFiles.get_explorer_state().target_window, function()
-                vim.cmd("vertical diffsplit " .. cur_entry_path)
-            end)
+            vim.api.nvim_win_call(
+                MiniFiles.get_explorer_state().target_window,
+                function() vim.cmd("vertical diffsplit " .. cur_entry_path) end
+            )
             MiniFiles.close()
         end, { buffer = buf_id, desc = "Diff with buffer" })
     end,
@@ -114,9 +111,7 @@ vim.api.nvim_create_autocmd("User", {
 
 vim.api.nvim_create_autocmd("User", {
     pattern = "MiniFilesActionRename",
-    callback = function(event)
-        require("snacks").rename.on_rename_file(event.data.from, event.data.to)
-    end,
+    callback = function(event) require("snacks").rename.on_rename_file(event.data.from, event.data.to) end,
 })
 
 local miniclue = require("mini.clue")

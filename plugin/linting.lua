@@ -1,7 +1,3 @@
-vim.pack.add({
-    { src = "https://github.com/mfussenegger/nvim-lint" },
-}, { load = true })
-
 require("lint").linters_by_ft = {
     dockerfile = { "hadolint" },
     go = { "golangcilint" },
@@ -18,9 +14,7 @@ vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
         local timer = vim.uv.new_timer()
         timer:start(100, 0, function()
             timer:stop()
-            vim.schedule_wrap(function()
-                require("lint").try_lint()
-            end)
+            vim.schedule_wrap(function() require("lint").try_lint() end)
         end)
     end,
 })
