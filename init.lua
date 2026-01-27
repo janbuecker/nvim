@@ -53,6 +53,7 @@ vim.pack.add({
     { src = "https://github.com/neovim/nvim-lspconfig" },
     { src = "https://github.com/b0o/schemastore.nvim" },
     { src = "https://github.com/gruntwork-io/terragrunt-ls" },
+    { src = "https://github.com/zbirenbaum/copilot.lua" },
 
     -- DAP
     { src = "https://github.com/mfussenegger/nvim-dap" },
@@ -81,20 +82,31 @@ vim.pack.add({
     { src = "https://github.com/chrisgrieser/nvim-rip-substitute" },
     { src = "https://github.com/stevearc/quicker.nvim" },
     { src = "https://github.com/folke/flash.nvim" },
-    { src = "https://github.com/zbirenbaum/copilot.lua" },
 
     -- Lint / Formatting
     { src = "https://github.com/mfussenegger/nvim-lint" },
     { src = "https://github.com/varnishcache-friends/vim-varnish" },
     { src = "https://github.com/stevearc/conform.nvim" },
 
-    -- Colorscheme
+    -- Colorscheme and UI
     { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
+    { src = "https://github.com/nvim-lualine/lualine.nvim" },
 }, { load = true })
 
--- Colorscheme =======================================================
+-- Colorscheme and UI =================================================
 require("catppuccin").setup({ integrations = { snacks = true } })
 vim.cmd.colorscheme("catppuccin-mocha")
+
+require("lualine").setup({
+    sections = {
+        lualine_a = { "mode" },
+        lualine_b = { "branch", "diff", "diagnostics" },
+        lualine_c = { { "filename", path = 1 } },
+        lualine_x = { "filetype" },
+        lualine_y = {},
+        lualine_z = { "location" },
+    },
+})
 
 -- Copilot Setup =====================================================
 require("copilot").setup({

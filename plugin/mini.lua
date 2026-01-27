@@ -7,13 +7,10 @@ require("mini.misc").setup_auto_root()
 require("mini.move").setup()
 require("mini.trailspace").setup()
 require("mini.bufremove").setup()
--- require("mini.cursorword").setup()
 require("mini.splitjoin").setup()
 require("mini.comment").setup()
 require("mini.extra").setup()
-
 require("mini.git").setup()
-require("mini.statusline").setup()
 require("mini.tabline").setup({
     show_icons = false,
 })
