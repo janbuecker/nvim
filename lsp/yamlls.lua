@@ -20,6 +20,7 @@ return {
             keyOrdering = false,
             format = {
                 enable = true,
+                printWidth = 500,
             },
             validate = true,
             schemaStore = {
