@@ -1,12 +1,14 @@
 vim.lsp.enable({
     "gopls",
+    "golangci_lint_ls",
     "dockerls",
     "buf_ls",
     "lua_ls",
     "yamlls",
     "jsonls",
     "html",
-    -- "terraformls",
+    "templ",
+    "terraformls",
     -- "phptools",
     "intelephense",
 })
@@ -74,6 +76,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
             function(_) vim.lsp.buf.format() end,
             { desc = "Format current buffer with LSP" }
         )
+
+        local id = vim.tbl_get(args, "data", "client_id")
+        local client = id and vim.lsp.get_client_by_id(id)
+        if client and client.name == "terraformls" then
+            client.server_capabilities.semanticTokensProvider = nil
+        end
     end,
 })
 
