@@ -38,7 +38,7 @@ cmp.setup({
                 return require("cmp.types").lsp.CompletionItemKind[entry:get_kind()] ~= "Text"
             end,
         },
-        { name = "async_path" },
+        { name = "path" },
     },
 })
 

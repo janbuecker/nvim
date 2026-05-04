@@ -42,6 +42,17 @@ vim.o.shortmess = "filnxtToOFWIcC"
 
 vim.o.winborder = "single"
 
+-- Plugin hooks =======================================================
+vim.api.nvim_create_autocmd("PackChanged", {
+    pattern = "*",
+    callback = function(ev)
+        if ev.data.spec.name == "nvim-treesitter" and ev.data.spec.kind ~= "deleted" then
+            vim.notify(ev.data.spec.name .. " has been updated. Running TSUpdate...")
+            vim.cmd([[ TSUpdate ]])
+        end
+    end,
+})
+
 -- Plugins ============================================================
 vim.pack.add({
     -- Treesitter
@@ -68,7 +79,7 @@ vim.pack.add({
     { src = "https://github.com/hrsh7th/cmp-nvim-lsp" },
     { src = "https://github.com/hrsh7th/cmp-buffer" },
     { src = "https://github.com/hrsh7th/cmp-cmdline" },
-    { src = "https://codeberg.org/FelipeLema/cmp-async-path" },
+    { src = "https://github.com/hrsh7th/cmp-path" },
 
     -- Collections
     { src = "https://github.com/nvim-mini/mini.nvim" },

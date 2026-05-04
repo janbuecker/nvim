@@ -1,13 +1,3 @@
-vim.api.nvim_create_autocmd("PackChanged", {
-    pattern = "*",
-    callback = function(ev)
-        if ev.data.spec.name == "nvim-treesitter" and ev.data.spec.kind ~= "deleted" then
-            vim.notify(ev.data.spec.name .. " has been updated. Running TSUpdate...")
-            vim.cmd([[ TSUpdate ]])
-        end
-    end,
-})
-
 vim.filetype.add({ extension = { templ = "templ" } })
 vim.filetype.add({ extension = { tf = "terraform" } })
 vim.filetype.add({ extension = { gotmpl = "gotmpl" } })
