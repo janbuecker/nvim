@@ -10,7 +10,8 @@ require("snacks").setup({
         formatters = {
             file = {
                 -- filename_first = true,
-                truncate = 80,
+                truncate = "left",
+                min_width = 80,
             },
         },
     },
