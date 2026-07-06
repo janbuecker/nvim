@@ -1,6 +1,7 @@
 vim.filetype.add({ extension = { templ = "templ" } })
 vim.filetype.add({ extension = { tf = "terraform" } })
 vim.filetype.add({ extension = { gotmpl = "gotmpl" } })
+vim.filetype.add({ extension = { html = "html" } })
 
 local parsers = {
     "bash",
@@ -12,6 +13,7 @@ local parsers = {
     "gowork",
     "hcl",
     "html",
+    "http",
     "json",
     "lua",
     "luadoc",
