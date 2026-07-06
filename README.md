@@ -1,169 +1,175 @@
 # Neovim Configuration
 
-A minimal, fast neovim configuration built for Neovim ≥0.12 (currently nightly) using `vim.pack` for plugin management.
+A minimal, fast Neovim configuration built for Neovim ≥0.12 using `vim.pack` for plugin management.
 
 ## Overview
 
-This config uses Neovim's built-in package manager (`vim.pack`) instead of external plugin managers. It provides a complete development environment with LSP support, fuzzy finding, terminal integration, testing/debugging, and formatting capabilities.
+This config uses Neovim's built-in package manager (`vim.pack`) instead of an external plugin manager, and the
+native `lsp/` config layout (`vim.lsp.enable` / `vim.lsp.config`), native treesitter (`main` branch), and native
+diagnostics. It provides a complete development environment with LSP, fuzzy finding, testing/debugging,
+formatting and linting.
 
 ## Repository Structure
 
 ```
 ~/.config/nvim/
-├── init.lua             # Main configuration: options, colorscheme, lualine, copilot, keymaps
-├── plugin/              # Plugin configurations
-│   ├── +treesitter.lua  # TreeSitter configuration and parsers
-│   ├── autocmds.lua     # Autocommands and hooks
+├── init.lua             # Options, plugin list (vim.pack), colorscheme, lualine, copilot, flash, keymaps
+├── plugin/              # Auto-loaded plugin configurations
+│   ├── +treesitter.lua  # Treesitter parsers + highlighting (main branch API)
+│   ├── autocmds.lua     # Autocommands, format-on-save toggle commands
 │   ├── cmp.lua          # Completion (nvim-cmp) setup
 │   ├── dap.lua          # Debugging (DAP) setup
 │   ├── formatting.lua   # Code formatting (conform.nvim)
-│   ├── keymaps.lua      # Global keybindings
-│   ├── linting.lua      # Linting configuration
-│   ├── lsp.lua          # LSP configuration
-│   ├── mini.lua         # Mini.nvim modules setup
-│   ├── neotest.lua      # Testing framework (currently disabled)
-│   └── snacks.lua       # Snacks.nvim picker and utilities
-├── lsp/                 # LSP server configurations
+│   ├── keymaps.lua      # Global keybindings + pack_clean helper
+│   ├── linting.lua      # Linting (nvim-lint, debounced)
+│   ├── lsp.lua          # LSP enable list, diagnostics, LspAttach keymaps, terragrunt-ls
+│   ├── mini.lua         # mini.nvim modules setup
+│   ├── snacks.lua       # snacks.nvim picker + utilities
+│   └── test.lua         # Testing (vim-test + vim-dispatch)
+├── lsp/                 # Per-server LSP configs (others come from nvim-lspconfig)
 │   ├── gopls.lua
-│   ├── intelephense.lua (PHP)
+│   ├── intelephense.lua # PHP (enabled)
 │   ├── jsonls.lua
 │   ├── lua_ls.lua
-│   ├── phptools.lua
-│   ├── shopware_lsp.lua
-│   ├── terraformls.lua
+│   ├── phptools.lua     # devsense-php-ls (reference, not enabled)
+│   ├── shopware_lsp.lua # (reference, not enabled)
 │   └── yamlls.lua
-└── nvim-pack-lock.json  # Package lock file
+└── nvim-pack-lock.json  # vim.pack lock file
 ```
 
 ## Packages
 
-### Core & Utilities
+### Core & UI
 
 | Package | Description |
 |---------|-------------|
-| **catppuccin** | Beautiful pastel color scheme with mocha variant (transparent background) |
-| **lualine.nvim** | Fast and easy to configure statusline |
-| **nvim-pack** | Neovim's built-in package manager |
+| **catppuccin** | Color scheme (`catppuccin-mocha`) with snacks integration |
+| **lualine.nvim** | Statusline |
 
-### Picking & Navigation
+### Picking, Navigation & Files
 
 | Package | Description |
 |---------|-------------|
-| **snacks.nvim** | Feature-rich picker with file search, grep, git integration, and LSP symbol lookup |
-| **mini.files** | Lightweight file explorer with split/diff integration |
-| **flash.nvim** | Smart motion/search plugin (`s` for jump, `S` for treesitter search) |
+| **snacks.nvim** | Picker (files, grep, LSP symbols, diagnostics), lazygit, notifier, input, rename, words |
+| **mini.files** | File explorer with split/grep/find/diff integration |
+| **neotrees.nvim** | Git worktree picker (`<leader>gw`) |
+| **flash.nvim** | Motion plugin (`s` jump, `S` treesitter) |
 
 ### Editing & Code Manipulation
 
 | Package | Description |
 |---------|-------------|
-| **mini.nvim** (collection) | Mini plugins including: comment, move, trailspace, bufremove, splitjoin, indentscope, diff, git, tabline, ai (textobjects), clue (keymap hints) |
-| **vim-abolish** | Smart case-aware substitution and abbreviations |
-| **vim-rip-substitute** | Interactive find & replace with live preview |
-| **quicker.nvim** | Enhanced quickfix/location list with context expansion |
+| **mini.nvim** | comment, move, trailspace, bufremove, splitjoin, indentscope, diff, git, tabline, icons, ai (textobjects), clue (keymap hints), extra, misc (auto-root) |
+| **vim-abolish** | Case-aware substitution and abbreviations |
+| **nvim-rip-substitute** | Interactive find & replace with live preview |
+| **quicker.nvim** | Enhanced quickfix/location list |
 | **undotree** | Visual undo history browser |
-| **ts-comments.nvim** | Treesitter-aware comment syntax detection |
+| **ts-comments.nvim** | Treesitter-aware comment strings |
+| **visual-whitespace.nvim** | Show whitespace in visual selections |
 
 ### LSP & Completion
 
 | Package | Description |
 |---------|-------------|
-| **nvim-lspconfig** | Preconfigured LSP server configurations |
-| **nvim-cmp** | Completion engine with floating windows |
+| **nvim-lspconfig** | Bundled `lsp/` configs for servers not configured locally |
+| **nvim-cmp** | Completion engine |
 | **cmp-nvim-lsp** | LSP completion source |
-| **cmp-buffer** | Buffer word completion source |
-| **cmp-cmdline** | Command line completion source |
-| **cmp-async-path** | Async file path completion |
-| **schemastore.nvim** | JSON/YAML schema store for validation |
+| **cmp-cmdline** | Command-line completion source |
+| **cmp-path** | Path completion source (`path`) |
+| **schemastore.nvim** | JSON/YAML schemas |
+| **terragrunt-ls** | Terragrunt language server wrapper (LSP started natively via `vim.lsp.start`) |
+| **copilot.lua** | GitHub Copilot (auto-trigger, `<C-y>` accept) |
 
 ### Formatting & Linting
 
 | Package | Description |
 |---------|-------------|
-| **conform.nvim** | Formatter with format-on-save support |
-| **nvim-lint** | Linter runner with async execution |
+| **conform.nvim** | Formatter with format-on-save |
+| **nvim-lint** | Async linter runner (debounced) |
+| **vim-varnish** | Varnish VCL syntax |
 
 ### Debugging
 
 | Package | Description |
 |---------|-------------|
 | **nvim-dap** | Debug Adapter Protocol client |
-| **nvim-dap-ui** | DAP UI with variable inspection |
-| **nvim-dap-virtual-text** | Virtual text display of variables |
-| **nvim-dap-go** | Go-specific DAP adapter |
+| **nvim-dap-ui** | DAP UI |
+| **nvim-dap-virtual-text** | Inline variable values |
+| **nvim-dap-go** | Go DAP adapter |
+| **nvim-nio**, **plenary.nvim** | Async / utility libraries |
+
+### Testing
+
+| Package | Description |
+|---------|-------------|
+| **vim-test** | Run tests (`TestNearest`/`TestFile`/`TestSuite`/`TestLast`/`TestVisit`) |
+| **vim-dispatch** | Async test strategy backend |
 
 ### Syntax & Parsing
 
 | Package | Description |
 |---------|-------------|
-| **nvim-treesitter** | Incremental parser for syntax highlighting and textobjects |
-| **nvim-treesitter-textobjects** | Treesitter-aware text motions/selections |
+| **nvim-treesitter** (`main`) | Parsers + highlighting |
+| **nvim-treesitter-textobjects** | Treesitter-aware textobjects (via mini.ai) |
 
-### Utilities & Tools
+### Tooling
 
 | Package | Description |
 |---------|-------------|
-| **copilot.lua** | GitHub Copilot integration (auto-trigger with `<C-y>` accept) |
-| **vim-startuptime** | Startup time profiling utility |
-| **vim-varnish** | Varnish VCL syntax support |
-| **visual-whitespace.nvim** | Visual whitespace highlighting |
-| **plenary.nvim** | Common utility library for lua |
-| **nvim-nio** | Async I/O library |
+| **vim-startuptime** | Startup profiling (`:StartupTime`) |
 
-### LSP Servers
+### LSP Servers (`vim.lsp.enable`)
 
-| Server | Language | Status |
-|--------|----------|--------|
-| `gopls` | Go | Enabled |
-| `dockerls` | Docker | Enabled |
-| `buf_ls` | Protocol Buffers | Enabled |
-| `lua_ls` | Lua | Enabled |
-| `yamlls` | YAML | Enabled |
-| `jsonls` | JSON | Enabled |
-| `html` | HTML | Enabled |
-| `terraformls` | Terraform | Enabled |
-| `intelephense` | PHP | Enabled |
-| `phptools` | PHP | Disabled (use intelephense) |
+| Server | Language | Config source |
+|--------|----------|---------------|
+| `gopls` | Go | `lsp/gopls.lua` |
+| `golangci_lint_ls` | Go | lspconfig |
+| `dockerls` | Docker | lspconfig |
+| `buf_ls` | Protocol Buffers | lspconfig |
+| `lua_ls` | Lua | `lsp/lua_ls.lua` |
+| `yamlls` | YAML | `lsp/yamlls.lua` |
+| `jsonls` | JSON | `lsp/jsonls.lua` |
+| `html` | HTML | lspconfig |
+| `templ` | Templ | lspconfig |
+| `terraformls` | Terraform | lspconfig |
+| `intelephense` | PHP | `lsp/intelephense.lua` |
+| `terragrunt-ls` | Terragrunt (HCL) | started in `plugin/lsp.lua` on `FileType hcl` |
+
+`lsp/phptools.lua` (devsense) and `lsp/shopware_lsp.lua` are present as reference but not enabled.
 
 ## Keybindings
 
-Leader key: **Space** (`<Space>`)
+Leader key: **Space**.
 
-### Navigation & Picker (snacks.nvim)
+### Picker / Search (snacks.nvim)
 
 | Keybind | Action |
 |---------|--------|
-| `<leader>f` | Find files (including hidden) |
-| `<leader>/` | Grep in project |
-| `<leader>:` | Command history |
+| `<leader>f` | Find files (incl. hidden) |
+| `<leader>/`, `<leader>sg` | Grep project |
+| `<leader>:`, `<leader>sc` | Command history |
+| `<leader>sC` | Commands |
 | `<leader><space>` | Switch buffers (exclude current) |
 | `<leader>qc` | Find config file |
 | `<leader>qp` | Project picker |
-
-### Search & Diagnostics
-
-| Keybind | Action |
-|---------|--------|
-| `<leader>sg` | Grep workspace |
-| `<leader>sc` | Command history |
-| `<leader>sC` | Commands |
-| `<leader>sd` | Document diagnostics |
+| `<leader>sd` | Buffer diagnostics |
 | `<leader>sh` | Help pages |
 | `<leader>sk` | Keymaps |
-| `<leader>sl` / `<leader>sR` | Resume last picker |
-| `<leader>s/` | Search lines in current buffer |
+| `<leader>sl`, `<leader>sR` | Resume last picker |
+| `<leader>s/` | Search lines in buffer |
 
-### Git Integration (snacks + mini.git)
+### Git
 
 | Keybind | Action |
 |---------|--------|
-| `<leader>gg` | Open lazygit |
-| `<leader>gl` | Git log (cwd) |
-| `<leader>gf` | Git file history |
-| `<leader>gc` | Git commit log |
-| `<leader>gO` | Toggle git diff overlay |
+| `<leader>gg` | Lazygit |
+| `<leader>gl` | Lazygit log (cwd) |
+| `<leader>gf` | Lazygit current file history |
+| `<leader>gc` | Git log picker |
+| `<leader>gO` | Toggle mini.diff overlay |
+| `<leader>gw` | Worktree picker (neotrees) |
 
-### LSP (Language Server Protocol)
+### LSP
 
 | Keybind | Action |
 |---------|--------|
@@ -172,256 +178,112 @@ Leader key: **Space** (`<Space>`)
 | `gri` | Goto implementation |
 | `gO` | Document symbols |
 | `gD` | Goto declaration |
-| `gl` | Open diagnostic in float |
-| `<leader>sd` | Buffer diagnostics |
+| `gl` | Diagnostic float |
 | `<leader>ws` | Workspace symbols |
 | `<leader>wd` | Workspace diagnostics |
+| `:Format` | Format buffer with LSP |
 
 ### Motion & Editing
 
 | Keybind | Action |
 |---------|--------|
-| `s` | Flash jump (any word) |
-| `S` | Flash treesitter jump |
-| `<leader>sr` / `<A-r>` | Rip substitute (interactive find & replace) |
-| `<C-r>` (visual) | Rip substitute |
-| `;` | Alias for `:` (command mode) |
+| `s` / `S` | Flash jump / treesitter jump |
+| `<leader>sr`, `<A-r>`, `<C-r>` (visual) | Rip substitute |
+| `;` | Alias for `:` |
 | `<C-c>` (insert) | Exit insert mode |
-| `k` / `j` | Smart line navigation (respects wrapped lines) |
-| `n` / `N` | Center search result |
-| `<C-d>` / `<C-u>` | Center page on scroll |
-| `<` / `>` (visual) | Indent with selection retained |
-| `<leader>p` (visual) | Paste without overwriting clipboard |
+| `k` / `j` | Smart wrapped-line navigation |
+| `n` / `N`, `<C-d>` / `<C-u>` | Center on scroll/search |
+| `<` / `>` (visual) | Indent keeping selection |
+| `<leader>p` (visual) | Paste without overwriting register |
 
 ### Files & Buffers
 
 | Keybind | Action |
 |---------|--------|
-| `<leader>e` | Toggle file explorer (mini.files) |
+| `<leader>e` | Toggle mini.files explorer |
 | `<leader>bd` | Delete buffer |
-| `<leader>u` | Toggle undo tree |
-| `<C-q>` | Toggle quickfix |
-| `>` (quickfix) | Expand context (quicker.nvim) |
-| `<` (quickfix) | Collapse context (quicker.nvim) |
-| `q` (quickfix, help, etc) | Close window |
+| `<leader>u` | Toggle undotree |
+| `<C-q>` | Toggle quickfix (quicker.nvim) |
+| `q` (qf/help/man/…) | Close window |
+
+Inside mini.files: `gs`/`gv` split, `gg` grep dir, `f` find in dir, `gf` find in project, `dv` diff with buffer,
+`l`/`h` go in/out.
 
 ### Debugging (DAP)
 
-| Keybind | Action |
-|---------|--------|
-| `<leader>db` | Toggle breakpoint |
-| `<leader>dB` | Conditional breakpoint |
-| `<leader>dc` | Run/continue |
-| `<leader>dC` | Run to cursor |
-| `<leader>dg` | Go to line (no execute) |
-| `<leader>di` | Step into |
-| `<leader>do` | Step out |
-| `<leader>dO` | Step over |
-| `<leader>dj` | Down (stack) |
-| `<leader>dk` | Up (stack) |
-| `<leader>dl` | Run last |
-| `<leader>dP` | Pause |
-| `<leader>dr` | Toggle REPL |
-| `<leader>ds` | View session |
-| `<leader>dt` | Terminate |
-| `<leader>dw` | Variables hover |
-| `<leader>du` | Toggle DAP UI |
-| `<leader>de` (normal/visual) | Evaluate expression |
+`<leader>d` prefix — `db` toggle breakpoint, `dB` conditional, `dc` continue, `dC` run-to-cursor, `di`/`do`/`dO`
+step into/out/over, `dj`/`dk` stack down/up, `dl` run last, `dP` pause, `dr` REPL, `ds` session, `dt` terminate,
+`dw` hover, `du` toggle UI, `de` eval (normal/visual).
+
+### Testing
+
+`<leader>tt` nearest, `<leader>tl` last, `<leader>tf` file, `<leader>ta` suite, `gt` visit last test.
+Strategy: `dispatch`; Go runs with `-v`.
 
 ### Plugin Management
 
 | Keybind | Action |
 |---------|--------|
-| `<leader>ps` | Update plugins |
-| `<leader>pc` | Clean unused plugins |
+| `<leader>ps` | `vim.pack.update()` |
+| `<leader>pc` | Remove unused plugins (prompts) |
 
-### Mini.clue (Keymap Hints)
+### mini.clue triggers
 
-Show hint when pressing:
-- `<Space>` (leader in normal/visual mode)
-- `g` (goto prefix)
-- `<C-w>` (window commands)
-- `[` / `]` (bracketed movements)
+`<Space>` (leader), `g`, `<C-w>`, `[` / `]`, and `<C-x>` (insert completion).
 
 ## Autocommands
 
-### LSP Features
+- **LspAttach**: LSP keymaps + buffer-local `:Format`; strips terraformls semantic tokens.
+- **LspProgress**: spinner notifications during indexing.
+- **TextYankPost**: highlight on yank.
+- **BufReadPost**: restore last cursor position.
+- **BufEnter**: disable auto-commenting continuation.
+- **FocusGained/TermClose/TermLeave**: `checktime` for external changes.
+- **FileType** (qf/help/man/…): close with `q`; **qf**: detach LSP clients (avoids a copilot/quickfix crash).
+- **BufWritePre** (`*.go`): gopls `organizeImports`, then `conform.format` (golangci-lint) — single pass.
+- **PackChanged**: run `TSUpdate` when treesitter updates.
+- **FileType** (treesitter langs): enable highlighting + treesitter indent.
+- `:FormatDisable` / `:FormatDisable!` / `:FormatEnable`: toggle format-on-save (global / buffer).
 
-- **LspAttach**: Enables LSP keybindings and `:Format` command when LSP attaches
-- **LspProgress**: Shows spinner notifications during LSP indexing
-- **TextYankPost**: Highlights text on yank for visual feedback
+## Formatting (conform.nvim)
 
-### File Handling
-
-- **BufReadPost**: Returns to last cursor position when reopening files
-- **BufEnter**: Disables auto-commenting on new lines
-- **FocusGained/TermClose/TermLeave**: Auto-checks if file changed externally
-- **FileType**: Closes certain windows (qf, help, man, etc) with `q` key
-
-### Formatting
-
-- **BufWritePre** (Go): Auto-organizes imports and formats on save
-- `:FormatDisable` / `:FormatEnable`: Toggle format-on-save globally or per-buffer
-
-### Tree-sitter
-
-- **PackChanged**: Auto-runs `TSUpdate` when treesitter is updated
-- **FileType**: Enables treesitter highlighting for supported languages
-
-### Mini.files
-
-- **MiniFilesBufferCreate**: Sets up extra keybinds in file explorer
-  - `gs` / `gv`: Open in horizontal/vertical split
-  - `gg`: Grep in directory
-  - `f`: Find files in directory
-  - `gf`: Find files in project
-  - `dv`: Diff with buffer
-- **MiniFilesActionRename**: Syncs file renames with snacks picker
-
-## Editor Settings
-
-### Visual
-
-- Line numbers enabled
-- Cursor line highlighted
-- Color column at 120 characters
-- Window border: single line
-- Transparent background enabled (catppuccin mocha)
-- Statusline: lualine with single global line
-- Mouse support enabled
-
-### Navigation
-
-- Smooth scrolling: 8 lines above/below cursor
-- Sidescroll margin: 8 columns
-- Smart case-sensitive search
-- Search highlighting enabled
-- Center splits on cursor position
-
-### Editing
-
-- Expand tabs to spaces (4 spaces)
-- Auto-save enabled
-- Undo history persisted to disk
-- No swap files
-- Soft wrap disabled
-
-### Performance
-
-- Update time: 100ms (for plugin feedback)
-- Timeout: 300ms (for key sequences)
-- Completion triggers at 1 character
-
-## Formatters
-
-| Language | Formatters |
+| Language | Formatter |
 |----------|-----------|
-| Go | gci, golines (with gofumpt base) |
-| Terraform / HCL | terraform_fmt, terragrunt_hclfmt |
-| JSON | jq |
-| Lua | stylua |
-| PHP | php_cs_fixer |
-| Protocol Buffers | buf |
-| Bash/Shell | shfmt (2-space indent) |
-| SQL | sqlfmt |
-| Twig | ludtwig |
+| Go | `golangci-lint` (after gopls organizeImports) |
+| Terraform / HCL | `terraform_fmt`, `terragrunt_hclfmt` |
+| JSON | `jq` |
+| Lua | `stylua` |
+| PHP | `php_cs_fixer` |
+| Protocol Buffers | `buf` |
+| SQL | `sqlfmt` |
+| Bash/Shell | `shfmt` (2-space) |
+| Twig | `ludtwig` |
+| Templ | `templ` |
 
-**Format-on-save**: Enabled (disable with `:FormatDisable` or `:FormatDisable!` for current buffer)
+Format-on-save is enabled (disable with `:FormatDisable` / `:FormatDisable!`).
 
-## Linters
+## Linting (nvim-lint)
+
+Debounced on `BufWritePost`, `BufReadPost`, `InsertLeave`.
 
 | Language | Linters |
 |----------|---------|
-| Go | golangcilint |
-| Docker | hadolint |
-| JSON | jsonlint |
-| PHP | php, phpstan |
-| Protocol Buffers | buf_lint |
-| Bash/Shell | shellcheck |
-| Twig | twig-cs-fixer |
+| Docker | `hadolint` |
+| Go | `golangcilint` |
+| JSON | `jsonlint` |
+| PHP | `php`, `phpstan` |
+| Protocol Buffers | `buf_lint` |
+| Bash/Shell | `shellcheck` |
+| Twig | `twig-cs-fixer` |
 
-**Lint triggers**: On save, on read, after insert mode exit
+## Completion (nvim-cmp)
 
-## Special Tweaks & Features
-
-### Smart Navigation
-
-- **Line wrapping**: `j`/`k` navigate wrapped lines naturally (with count they jump lines)
-- **Search centering**: `n`/`N` and page scroll (`<C-d>`/`<C-u>`) center the screen
-- **Indentation memory**: `<`/`>` in visual mode retain selection after indent
-
-### Completion
-
-- LSP priority: LSP suggestions exclude plain "Text" entries
-- Path completion: Async path completion in all modes
-- Keyword length: Completion triggers at 1 character
-- Window style: Bordered floating windows for completion and docs
-
-### Git Integration
-
-- **Mini.git**: Status display and file operations
-- **Mini.diff**: Sign-based diff view with overlay toggle
-- **Snacks integration**: Lazygit, log, and file history pickers
-
-### File Management
-
-- **Mini.files explorer**: Tree-based navigation with split/diff capabilities
-- **Auto-root detection**: Automatically finds project root (via mini.misc)
-- **Buffer management**: Easy delete with `<leader>bd`
-
-### Diagnostic Display
-
-- Custom icons for Error/Warn/Hint/Info
-- Virtual text with source info (shown when multiple diagnostics)
-- Severity-sorted display
-- Underline on hover
-
-### Helper Commands
-
-- **:CopyRelativeFilename**: Copy current file path to clipboard
-- **:Format**: Format buffer with LSP
-- **:FormatDisable** / **:FormatEnable**: Toggle auto-format
-
-### Copilot Integration
-
-- Auto-trigger suggestions (can be toggled per filetype)
-- Suggestion accept: `<C-y>`
-- Enabled for: YAML, Terraform
-- Disabled for: Rip-substitute buffers
-
-### Syntax & Parsing
-
-Treesitter parsers installed for:
-- Go (go, gomod, gosum, gowork, gotmpl)
-- Terraform (terraform, hcl)
-- Languages: Lua, PHP, HTML, JSON, YAML, Bash, Docker, Protocol Buffers
-- Templating: Templ, Twig, GoTmpl
-- Utilities: Regex, LuaDoc, PhpDoc
-
-Custom filetype detection:
-- `.tf` → terraform
-- `.templ` → templ
-- `.gotmpl` → gotmpl
-
-### Testing (Disabled)
-
-Neotest configuration exists but is commented out. Can be enabled for Go testing with gotestsum runner and coverage tracking.
-
-## Updating Plugins
-
-```vim
-:PackUpdate          " Update all plugins
-```
-
-Or via keybind: `<leader>ps`
-
-## Plugin Management
-
-Clean unused plugins: `<leader>pc` (prompts for confirmation)
+- Sources: `nvim_lsp` (excludes plain `Text` items) + `path`; `:` cmdline uses `path` + `cmdline`.
+- `<C-Space>` complete, `<CR>` confirm (selects first item if none selected). `<C-y>` is left to Copilot.
+- Bordered windows; `completeopt` includes `fuzzy,nosort`.
 
 ## Notes
 
-- Uses Neovim's native LSP client (no packer/lazy.nvim)
-- Minimal dependencies (plenary.nvim for JSON handling)
-- Fast startup time (built-in plugins only)
-- Modular configuration (separate files per feature)
+- Native LSP client, no external plugin manager.
+- `:PackUpdate` / `<leader>ps` to update; `<leader>pc` to prune unused plugins.
+- `:StartupTime` to profile startup.
