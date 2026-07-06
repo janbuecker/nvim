@@ -25,16 +25,6 @@ require("conform").setup({
         shfmt = {
             prepend_args = { "-i", "2" },
         },
-        golines = {
-            -- golines will use goimports as base formatter by default which is slow.
-            -- see https://github.com/segmentio/golines/issues/33
-            prepend_args = {
-                "--base-formatter=gofumpt",
-                "--ignore-generated",
-                -- "--tab-len=1",
-                -- "--max-len=120",
-            },
-        },
         ludtwig = {
             command = "ludtwig",
             args = { "-f", "$FILENAME" },
@@ -49,6 +39,11 @@ require("conform").setup({
     format_on_save = function(bufnr)
         -- Disable with a global or buffer-local variable
         if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+            return
+        end
+        -- go is handled by the *.go BufWritePre autocmd in lsp.lua, which runs
+        -- organizeImports before invoking conform, so skip it here.
+        if vim.bo[bufnr].filetype == "go" then
             return
         end
         return { timeout_ms = 3000, lsp_format = "fallback" }

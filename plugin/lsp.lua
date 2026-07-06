@@ -99,7 +99,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
                 end
             end
         end
-        vim.lsp.buf.format({ async = false })
+        require("conform").format({ bufnr = 0, timeout_ms = 3000 })
     end,
 })
 
