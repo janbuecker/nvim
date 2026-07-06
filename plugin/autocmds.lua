@@ -109,3 +109,16 @@ vim.api.nvim_create_user_command("FormatEnable", function()
 end, {
     desc = "Re-enable autoformat-on-save",
 })
+
+-- Copilot's should_attach runs before Neovim sets buftype on the quickfix
+-- buffer, so it can't distinguish qf from a normal buffer and attaches anyway.
+-- This causes E5108 in lsp/sync.lua when snacks.picker calls setqflist to
+-- replace the list. Detach copilot once the qf FileType fires.
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "qf",
+    callback = function(args)
+        for _, client in ipairs(vim.lsp.get_clients({ bufnr = args.buf })) do
+            vim.lsp.buf_detach_client(args.buf, client.id)
+        end
+    end,
+})
