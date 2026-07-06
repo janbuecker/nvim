@@ -106,11 +106,6 @@ vim.api.nvim_create_autocmd("User", {
     end,
 })
 
-vim.api.nvim_create_autocmd("User", {
-    pattern = "MiniFilesActionRename",
-    callback = function(event) require("snacks").rename.on_rename_file(event.data.from, event.data.to) end,
-})
-
 local miniclue = require("mini.clue")
 miniclue.setup({
     triggers = {

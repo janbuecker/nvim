@@ -32,9 +32,6 @@ vim.keymap.set("v", ">", ">gv")
 -- Paste without copying the selected content
 vim.keymap.set("x", "<leader>p", [["_dP]], { desc = "Paste without copying the selected content" })
 
--- Treat ctrl-c as ESC for visual block mode
-vim.keymap.set("i", "<C-c>", "<Esc>")
-
 -- Diagnostic keymaps
 vim.keymap.set("n", "gl", vim.diagnostic.open_float, { desc = "Open diagnostic in float" })
 
