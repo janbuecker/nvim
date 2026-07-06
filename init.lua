@@ -84,6 +84,7 @@ vim.pack.add({
     -- Collections
     { src = "https://github.com/nvim-mini/mini.nvim" },
     { src = "https://github.com/folke/snacks.nvim" },
+    { src = "https://github.com/gsilvapt/neotrees.nvim" },
 
     -- Editor
     { src = "https://github.com/dstein64/vim-startuptime" },
@@ -144,6 +145,7 @@ require("rip-substitute").setup({
         normal = false,
     },
 })
+require("neotrees").setup()
 
 -- Keymaps ===========================================================
 vim.keymap.set({ "n", "x", "o" }, "s", function() require("flash").jump() end)
@@ -159,3 +161,6 @@ vim.keymap.set("n", "<C-q>", function() require("quicker").toggle() end, { desc 
 
 -- undotree
 vim.keymap.set("n", "<leader>u", "<cmd>UndotreeToggle<cr>", { desc = "Toggle undo tree" })
+
+-- worktrees
+vim.keymap.set("n", "<leader>gw", function() require("neotrees").open() end)

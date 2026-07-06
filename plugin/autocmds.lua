@@ -3,6 +3,33 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     callback = function() vim.hl.on_yank() end,
 })
 
+-- Report cwd to the terminal via OSC 7 so Ghostty (and other terminals) know
+-- the current directory. This lets new tabs/splits configured to inherit the
+-- working directory open in the current worktree even after :cd inside nvim
+-- (e.g. switching workspaces with neotrees).
+vim.api.nvim_create_autocmd({ "VimEnter", "DirChanged" }, {
+    group = vim.api.nvim_create_augroup("user_osc7_cwd", { clear = true }),
+    callback = function()
+        local host = vim.uv.os_gethostname()
+        local path = vim.fn.getcwd()
+        -- percent-encode everything outside the unreserved URI set
+        local encoded = path:gsub("[^%w/._~-]", function(c)
+            return string.format("%%%02X", string.byte(c))
+        end)
+        local seq = string.format("\027]7;file://%s%s\027\\", host, encoded)
+        -- pass the sequence through tmux/screen if we're nested inside one
+        if vim.env.TMUX then
+            seq = "\027Ptmux;" .. seq:gsub("\027", "\027\027") .. "\027\\"
+        elseif (vim.env.TERM or ""):match("^screen") then
+            seq = "\027P" .. seq:gsub("\027", "\027\027") .. "\027\\"
+        end
+        -- route through Neovim's own terminal output (same mechanism the
+        -- built-in OSC 52 clipboard provider uses); a raw /dev/tty write races
+        -- the TUI renderer and often never reaches the terminal.
+        vim.api.nvim_ui_send(seq)
+    end,
+})
+
 -- go to last loc when opening a buffer
 vim.api.nvim_create_autocmd("BufReadPost", {
     group = vim.api.nvim_create_augroup("user_lastloc", { clear = true }),
