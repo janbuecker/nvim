@@ -61,7 +61,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
         nmap("grr", function() Snacks.picker.lsp_references() end, "[G]oto [R]eferences")
         nmap("gri", function() Snacks.picker.lsp_implementations() end, "[G]oto [I]mplementation")
         nmap("gO", function() Snacks.picker.lsp_symbols() end, "[D]ocument [S]ymbols")
-        nmap("<leader>sd", function() Snacks.picker.diagnostics_buffer() end, "[D]ocument [D]iagnostics")
         nmap("<leader>ws", function() Snacks.picker.lsp_workspace_symbols() end, "[W]orkspace [S]ymbols")
         nmap("<leader>wd", function() Snacks.picker.diagnostics() end, "[W]orkspace [D]iagnostics")
         -- stylua: ignore end
@@ -147,17 +146,16 @@ vim.api.nvim_create_autocmd("LspProgress", {
     end,
 })
 
--- Terragrunt LSP
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-    pattern = "*.hcl",
-    callback = function()
-        local terragrunt_ls = require("terragrunt-ls")
-        terragrunt_ls.setup({})
-        if terragrunt_ls.client then
-            vim.api.nvim_create_autocmd("FileType", {
-                pattern = "hcl",
-                callback = function() vim.lsp.buf_attach_client(0, terragrunt_ls.client) end,
-            })
-        end
+-- Terragrunt LSP. vim.lsp.start dedups by config + root_dir and attaches the
+-- current buffer, so this is safe to call on every hcl buffer.
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "hcl",
+    group = vim.api.nvim_create_augroup("terragrunt_ls", { clear = true }),
+    callback = function(args)
+        vim.lsp.start({
+            name = "terragrunt-ls",
+            cmd = { "terragrunt-ls" },
+            root_dir = vim.fs.root(args.buf, { "terragrunt.hcl", "root.hcl", ".git" }),
+        }, { bufnr = args.buf })
     end,
 })

@@ -1,9 +1,6 @@
 -- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/yamlls.lua
 return {
     capabilities = {
-        server_compatibilities = {
-            documentFormattingProvider = true,
-        },
         textDocument = {
             foldingRange = {
                 dynamicRegistration = false,
