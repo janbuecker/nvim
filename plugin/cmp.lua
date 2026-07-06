@@ -48,7 +48,7 @@ cmp.setup.cmdline(":", {
         ["<CR>"] = { c = cmp.mapping.confirm({ select = false }) },
     }),
     sources = cmp.config.sources({
-        { name = "async_path" },
+        { name = "path" },
     }, {
         {
             name = "cmdline",
